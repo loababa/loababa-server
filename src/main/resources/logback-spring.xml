@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- LOG_PATH 변수 정의 -->
+    <property name="FILE_LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%thread] %-5level %logger{36} - %msg%n"/>
+
+    <!-- 기본 설정 파일 포함 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!-- 기본 로거 설정 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- prod 프로파일 설정 -->
+    <springProfile name="prod">
+        <property name="LOG_PATH" value="/app/loababa/logs"/>
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${LOG_PATH}/loababa.log</file>
+            <encoder>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!-- 파일 패턴 설정: 날짜와 시퀀스 번호 포함 -->
+                <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <!-- 최대 파일 크기 설정: 50MB -->
+                <maxFileSize>50MB</maxFileSize>
+                <!-- 최대 보관 기간 설정: 30일 -->
+                <maxHistory>30</maxHistory>
+                <!-- 총 로그 파일 크기 제한: 1GB -->
+                <totalSizeCap>1GB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+</configuration>
