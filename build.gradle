@@ -28,7 +28,12 @@ sonar {
         property "sonar.projectKey", "Team-Loababa_loababa-server"
         property "sonar.organization", "team-loababa"
         property "sonar.host.url", "https://sonarcloud.io"
+        property("sonar.coverage.jacoco.xmlReportPaths", "${project.rootDir}/build/reports/jacoco/test/jacocoTestReport.xml")
     }
+}
+
+jacoco {
+    toolVersion = "0.8.12"
 }
 
 def isProdEnv = project.hasProperty('prod')
@@ -62,4 +67,12 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+    }
 }
