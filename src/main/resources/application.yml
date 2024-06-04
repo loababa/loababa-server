@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: loababa
+
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    driver-class-name: ${DATASOURCE_DRIVER_CLASS_NAME}
+
+  jpa:
+    open-in-view: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+
+oauth:
+  kakao:
+    client-id: ${OAUTH_KAKAO_CLIENT_ID}
+    redirect-uri: ${OAUTH_KAKAO_REDIRECT_URI}
+    client-secret: ${OAUTH_KAKAO_SECRET}
+    response-type: ${OAUTH_KAKAO_RESPONSE_TYPE}
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  access-token-expiration-time-in-sec: ${JWT_ACCESS_TOKEN_EXPIRATION_TIME_IN_SEC}
+  refresh-token-expiration-time-in-sec: ${JWT_REFRESH_TOKEN_EXPIRATION_TIME_IN_SEC}
+
+logging:
+  level:
+    org.hibernate.jdbc.bind: trace
