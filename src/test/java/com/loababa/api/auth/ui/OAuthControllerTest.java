@@ -19,7 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,7 +49,6 @@ class OAuthControllerTest extends ControllerTestBase {
             // when
             ResultActions resultActions = mvc.perform(
                     get("/api/v1/oauth/{platform}", platform)
-                            .contentType(APPLICATION_JSON)
                             .queryParam("code", code)
             );
 
@@ -76,7 +74,6 @@ class OAuthControllerTest extends ControllerTestBase {
             // when
             ResultActions resultActions = mvc.perform(
                     get("/api/v1/oauth/{platform}", platform)
-                            .contentType(APPLICATION_JSON)
                             .queryParam("code", code)
             );
 

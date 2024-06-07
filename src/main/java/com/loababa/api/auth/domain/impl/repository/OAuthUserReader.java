@@ -5,6 +5,6 @@ import com.loababa.api.auth.domain.impl.model.OAuthUser;
 
 public interface OAuthUserReader {
 
-    boolean exists(OAuthUser oAuthUser);
+    boolean isRegisteredAuthUser(OAuthUser oAuthUser);
 
 }
