@@ -14,7 +14,7 @@ public class OAuthUserManager {
     private final OAuthUserReader oAuthUserReader;
 
     public void saveOAuthUserIfNotExists(OAuthUser oAuthUser) {
-        if (!oAuthUserReader.exists(oAuthUser)) {
+        if (!oAuthUserReader.isRegisteredAuthUser(oAuthUser)) {
             oAuthUserWriter.save(oAuthUser);
         }
     }

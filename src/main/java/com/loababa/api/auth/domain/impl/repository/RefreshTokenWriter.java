@@ -8,4 +8,7 @@ public interface RefreshTokenWriter {
     @Transactional
     void save(RefreshToken refreshToken);
 
+    @Transactional
+    void invalidateRefreshToken(RefreshToken refreshToken);
+
 }

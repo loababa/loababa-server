@@ -12,6 +12,10 @@ public final class OAuthUserFixtures {
     private OAuthUserFixtures() {
     }
 
+    public static OAuthUser newOAuthUser() {
+        return Instancio.create(OAuthUser.class);
+    }
+
     public static List<OAuthUser> newOAuthUsers() {
         return Stream.of(OAuthPlatform.values())
                 .map(oAuthPlatform -> Instancio.of(OAuthUser.class)

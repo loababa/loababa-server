@@ -20,7 +20,7 @@ public class OAuthUserJpaRepositoryAdapter implements OAuthUserReader, OAuthUser
     }
 
     @Override
-    public boolean exists(OAuthUser oAuth) {
-        return oAuthUserJpaRepository.existsByOAuthUser(oAuth.oAuthPlatform(), oAuth.oAuthUserId());
+    public boolean isRegisteredAuthUser(OAuthUser oAuthUser) {
+        return oAuthUserJpaRepository.existsByOAuthUser(oAuthUser.oAuthPlatform(), oAuthUser.oAuthUserId());
     }
 }

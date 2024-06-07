@@ -38,7 +38,7 @@ class OAuthUserManagerTest extends MockTestBase {
             Long id = 1L;
 
             OAuthUser oAuthUser = new OAuthUser(oAuthplatform, id);
-            given(oAuthUserReader.exists(oAuthUser)).willReturn(false);
+            given(oAuthUserReader.isRegisteredAuthUser(oAuthUser)).willReturn(false);
 
             // when
             oAuthUserManager.saveOAuthUserIfNotExists(oAuthUser);
@@ -54,7 +54,7 @@ class OAuthUserManagerTest extends MockTestBase {
             Long id = 1L;
 
             OAuthUser oAuthUser = new OAuthUser(oAuthplatform, id);
-            given(oAuthUserReader.exists(oAuthUser)).willReturn(true);
+            given(oAuthUserReader.isRegisteredAuthUser(oAuthUser)).willReturn(true);
 
             // when
             oAuthUserManager.saveOAuthUserIfNotExists(oAuthUser);
