@@ -4,15 +4,14 @@ import com.loababa.api.auth.domain.impl.OAuthClient;
 import com.loababa.api.auth.domain.impl.model.OAuthPlatform;
 import com.loababa.api.auth.domain.impl.model.OAuthToken;
 import com.loababa.api.auth.domain.impl.model.OAuthUserInfo;
-import com.loababa.api.auth.exception.ExternalCommunicationException;
-import com.loababa.api.common.exception.ServerErrorInfo;
+import com.loababa.api.common.config.WebConfig;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-import java.text.MessageFormat;
-
+import static com.loababa.api.auth.domain.impl.model.JWTProperties.BEARER_PREFIX;
 import static com.loababa.api.auth.exception.AuthClientErrorInfo.KAKAO_COMMUNICATION_FAIL;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -21,14 +20,6 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 @Component
 @RequiredArgsConstructor
 public class KakaoOAuthClient implements OAuthClient {
-
-    private static final String BEARER_PREFIX = "Bearer ";
-    public static final String COMMUNICATION_ERROR_SERVER_MESSAGE = """
-            request header: {0}
-            request body: {1}
-            response header: {2}
-            response body: {3}
-            """;
 
     private final RestClient restClient;
     private final KakaoProperties kakaoProperties;
@@ -44,18 +35,11 @@ public class KakaoOAuthClient implements OAuthClient {
                 .body(kakaoTokenRequestBody)
                 .retrieve()
                 .onStatus(
-                        httpStatusCode -> httpStatusCode.is4xxClientError() && httpStatusCode.is5xxServerError(),
-                        getErrorHandler(kakaoTokenRequestBody)
+                        HttpStatusCode::isError,
+                        WebConfig.getCommonExternalCommunicationExceptionHandler(KAKAO_COMMUNICATION_FAIL, String.valueOf(kakaoTokenRequestBody))
                 )
                 .body(KakaoOAuthToken.class);
-
-        if (kakaoOAuthToken == null) {
-            throw new ExternalCommunicationException(
-                    KAKAO_COMMUNICATION_FAIL,
-                    new ServerErrorInfo(null, "카카오의 response body가 null 입니다.")
-            );
-        }
-
+        assert kakaoOAuthToken != null;
         return new OAuthToken(kakaoOAuthToken.accessToken());
     }
 
@@ -67,18 +51,12 @@ public class KakaoOAuthClient implements OAuthClient {
                 .header(AUTHORIZATION, BEARER_PREFIX + accessToken)
                 .retrieve()
                 .onStatus(
-                        httpStatusCode -> httpStatusCode.is4xxClientError() && httpStatusCode.is5xxServerError(),
-                        getErrorHandler(null)
+                        HttpStatusCode::isError,
+                        WebConfig.getCommonExternalCommunicationExceptionHandler(KAKAO_COMMUNICATION_FAIL, null)
                 )
                 .body(KakaoOAuthAccessTokenInfo.class);
 
-        if (kakaoOAuthAccessTokenInfo == null) {
-            throw new ExternalCommunicationException(
-                    KAKAO_COMMUNICATION_FAIL,
-                    new ServerErrorInfo(null, "카카오의 response body가 null 입니다.")
-            );
-        }
-
+        assert kakaoOAuthAccessTokenInfo != null;
         return new OAuthUserInfo(kakaoOAuthAccessTokenInfo.id());
     }
 
@@ -91,9 +69,10 @@ public class KakaoOAuthClient implements OAuthClient {
                 .header(AUTHORIZATION, BEARER_PREFIX + accessToken)
                 .retrieve()
                 .onStatus(
-                        httpStatusCode -> httpStatusCode.is4xxClientError() && httpStatusCode.is5xxServerError(),
-                        getErrorHandler(null)
-                );
+                        HttpStatusCode::isError,
+                        WebConfig.getCommonExternalCommunicationExceptionHandler(KAKAO_COMMUNICATION_FAIL, null)
+                )
+                .toBodilessEntity();
     }
 
     @Override
@@ -101,19 +80,4 @@ public class KakaoOAuthClient implements OAuthClient {
         return OAuthPlatform.KAKAO;
     }
 
-    private RestClient.ResponseSpec.ErrorHandler getErrorHandler(MultiValueMap<String, String> requestBody) {
-        return (request, response) -> {
-            throw new ExternalCommunicationException(
-                    KAKAO_COMMUNICATION_FAIL,
-                    new ServerErrorInfo(
-                            null,
-                            MessageFormat.format(
-                                    COMMUNICATION_ERROR_SERVER_MESSAGE,
-                                    request.getHeaders(), requestBody,
-                                    response.getHeaders(), response.getBody()
-                            )
-                    )
-            );
-        };
-    }
 }
