@@ -5,8 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.loababa.api.auth.domain.impl.model.AccessToken;
 import com.loababa.api.auth.domain.impl.model.AuthToken;
-import com.loababa.api.auth.domain.impl.model.RefreshToken;
 import com.loababa.api.auth.domain.impl.model.JWTProperties;
+import com.loababa.api.auth.domain.impl.model.RefreshToken;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
