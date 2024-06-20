@@ -15,11 +15,12 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfig {
 
     @Bean
-    public Cache tokenCache(
-            @Value("${jwt.refresh-token-expiration-time-in-sec}") int refreshTokenExpirationTimeInSec
+    public Cache refreshTokenCache(
+            @Value("${jwt.refresh-token-expiration-time-in-sec}")
+            int refreshTokenExpirationTimeInSec
     ) {
         return new CaffeineCache(
-                "tokenCache",
+                "refreshTokenCache",
                 Caffeine.newBuilder()
                         .expireAfterWrite(refreshTokenExpirationTimeInSec, TimeUnit.SECONDS)
                         .initialCapacity(256)

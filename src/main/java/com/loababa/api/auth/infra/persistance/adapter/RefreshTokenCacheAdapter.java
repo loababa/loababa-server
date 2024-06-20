@@ -13,7 +13,7 @@ public class RefreshTokenCacheAdapter implements RefreshTokenWriter, RefreshToke
     private final Cache tokenCache;
 
     public RefreshTokenCacheAdapter(
-            @Qualifier("tokenCache") Cache tokenCache
+            @Qualifier("refreshTokenCache") Cache tokenCache
     ) {
         this.tokenCache = tokenCache;
     }

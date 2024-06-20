@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum AuthClientErrorInfo implements ClientErrorInfo {
+    // TOKEN
     INVALID_CREDENTIALS("잘못된 토큰 값입니다."),
 
     // KAKAO_OAUTH
