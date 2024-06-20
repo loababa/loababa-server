@@ -29,6 +29,11 @@ jwt:
   access-token-expiration-time-in-sec: ${JWT_ACCESS_TOKEN_EXPIRATION_TIME_IN_SEC}
   refresh-token-expiration-time-in-sec: ${JWT_REFRESH_TOKEN_EXPIRATION_TIME_IN_SEC}
 
+discord:
+  lossam-signup-webhook-url: ${DISCORD_LOSSAM_SIGNUP_WEBHOOK_URL}
+  error-notification-webhook-url: ${DISCORD_ERROR_NOTIFICATION_WEBHOOK_URL}
+
 logging:
   level:
     org.hibernate.jdbc.bind: trace
+    root: debug
