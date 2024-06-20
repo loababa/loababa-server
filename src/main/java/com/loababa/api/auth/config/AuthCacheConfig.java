@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableCaching
-public class CacheConfig {
+public class AuthCacheConfig {
 
     @Bean
     public Cache refreshTokenCache(
