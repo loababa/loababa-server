@@ -1,10 +1,12 @@
 package com.loababa.api.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.loababa.api.common.service.impl.MessageSender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -19,6 +21,8 @@ public abstract class ControllerTestBase {
     protected MockMvc mvc;
     @Autowired
     protected ObjectMapper om;
+    @MockBean
+    private MessageSender messageSender;
 
     @BeforeEach
     void setUp(WebApplicationContext context) {
