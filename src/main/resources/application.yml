@@ -37,3 +37,6 @@ logging:
   level:
     org.hibernate.jdbc.bind: trace
     root: debug
+
+url:
+  lossam-sign-up: ${URL_LOSSAM_SIGN_UP}
