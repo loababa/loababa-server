@@ -1,4 +1,4 @@
-package com.loababa.api.member.exception;
+package com.loababa.api.auth.exception;
 
 import com.loababa.api.common.exception.ClientErrorInfo;
 import lombok.RequiredArgsConstructor;

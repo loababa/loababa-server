@@ -1,4 +1,4 @@
-package com.loababa.api.member.config;
+package com.loababa.api.auth.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.beans.factory.annotation.Value;
