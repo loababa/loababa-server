@@ -5,4 +5,7 @@ public record ServerErrorInfo(
         String message
 ) {
 
+    public ServerErrorInfo(String message) {
+        this(null, message);
+    }
 }

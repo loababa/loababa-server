@@ -4,9 +4,9 @@ import com.loababa.api.auth.domain.impl.JWTManager;
 import com.loababa.api.auth.domain.impl.RefreshTokenValidator;
 import com.loababa.api.auth.domain.impl.model.AuthToken;
 import com.loababa.api.auth.domain.impl.model.AuthTokenFixtures;
-import com.loababa.api.auth.domain.impl.model.RefreshToken;
 import com.loababa.api.auth.domain.impl.model.RefreshTokenFixtures;
 import com.loababa.api.auth.domain.impl.repository.RefreshTokenWriter;
+import com.loababa.api.auth.ui.AuthCredential;
 import com.loababa.api.common.MockTestBase;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -31,19 +31,19 @@ class AuthServiceTest extends MockTestBase {
     @Test
     void 토큰을_재발급할_수_있다() {
         // given
-        RefreshToken refreshToken = RefreshTokenFixtures.newRefreshToken();
+        var refreshToken = RefreshTokenFixtures.newRefreshToken();
 
-        AuthToken expectedAuthToken = AuthTokenFixtures.newAuthToken();
-        given(jwtManager.generate()).willReturn(expectedAuthToken);
+        var authCredential = new AuthCredential(1L, 1L);
+        var expectedAuthToken = AuthTokenFixtures.newAuthToken();
+
+        given(jwtManager.extractClaims(refreshToken.value())).willReturn(authCredential);
+        given(jwtManager.generate(authCredential)).willReturn(expectedAuthToken);
 
         // when
         AuthToken authToken = authService.refreshAuthToken(refreshToken);
 
         // then
         then(refreshTokenValidator).should(times(1)).validate(refreshToken);
-        then(refreshTokenWriter).should(times(1)).invalidateRefreshToken(refreshToken);
-        then(refreshTokenWriter).should(times(1)).save(refreshToken);
-
         assertThat(authToken).isEqualTo(expectedAuthToken);
     }
 }

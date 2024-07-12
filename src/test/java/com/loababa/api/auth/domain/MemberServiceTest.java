@@ -1,11 +1,12 @@
 package com.loababa.api.auth.domain;
 
+import com.loababa.api.auth.domain.impl.model.LossamSignUpKey;
+import com.loababa.api.auth.domain.impl.model.LossamSignUpKeyGenerator;
 import com.loababa.api.auth.domain.impl.model.LossamSignUpURLGenerator;
-import com.loababa.api.auth.domain.impl.repository.NanoIdGenerator;
+import com.loababa.api.auth.domain.impl.repository.MemberReader;
 import com.loababa.api.auth.exception.DuplicatedNicknameException;
 import com.loababa.api.common.MockTestBase;
 import com.loababa.api.common.service.impl.MessageSender;
-import com.loababa.api.auth.domain.impl.repository.MemberReader;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,7 +26,7 @@ class MemberServiceTest extends MockTestBase {
     private MemberReader memberReader;
 
     @Mock
-    private NanoIdGenerator nanoIdGenerator;
+    private LossamSignUpKeyGenerator lossamSignUpKeyGenerator;
 
     @Mock
     private LossamSignUpURLGenerator lossamSignUpUrlGenerator;
@@ -36,11 +37,11 @@ class MemberServiceTest extends MockTestBase {
     @Test
     void 로쌤_회원가입_URL을_생성하고_URL을_전송할_수_있다() {
         // given
-        String nanoId = "nanoId";
-        given(nanoIdGenerator.generate()).willReturn(nanoId);
+        var lossamSignUpKey = new LossamSignUpKey("key");
+        given(lossamSignUpKeyGenerator.generate()).willReturn(lossamSignUpKey);
 
         String lossamSignUpUrl = "lossamSignUpUrl";
-        given(lossamSignUpUrlGenerator.generate(nanoId)).willReturn(lossamSignUpUrl);
+        given(lossamSignUpUrlGenerator.generate(lossamSignUpKey)).willReturn(lossamSignUpUrl);
 
         // when
         memberService.generateLossamSignupURL();

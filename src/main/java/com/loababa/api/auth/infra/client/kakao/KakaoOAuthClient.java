@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-import static com.loababa.api.auth.domain.impl.model.JWTProperties.BEARER_PREFIX;
+import static com.loababa.api.auth.domain.impl.model.JWTProperties.TOKEN_PREFIX;
 import static com.loababa.api.auth.exception.AuthClientErrorInfo.KAKAO_COMMUNICATION_FAIL;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -48,7 +48,7 @@ public class KakaoOAuthClient implements OAuthClient {
         KakaoOAuthAccessTokenInfo kakaoOAuthAccessTokenInfo = restClient
                 .get()
                 .uri("https://kapi.kakao.com/v1/user/access_token_info")
-                .header(AUTHORIZATION, BEARER_PREFIX + accessToken)
+                .header(AUTHORIZATION, TOKEN_PREFIX + accessToken)
                 .retrieve()
                 .onStatus(
                         HttpStatusCode::isError,
@@ -66,7 +66,7 @@ public class KakaoOAuthClient implements OAuthClient {
                 .post()
                 .uri("https://kapi.kakao.com/v1/user/logout")
                 .header(CONTENT_TYPE, APPLICATION_FORM_URLENCODED_VALUE)
-                .header(AUTHORIZATION, BEARER_PREFIX + accessToken)
+                .header(AUTHORIZATION, TOKEN_PREFIX + accessToken)
                 .retrieve()
                 .onStatus(
                         HttpStatusCode::isError,

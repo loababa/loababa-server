@@ -12,8 +12,10 @@ import com.loababa.api.auth.domain.impl.model.OAuthTokenFixtures;
 import com.loababa.api.auth.domain.impl.model.OAuthUser;
 import com.loababa.api.auth.domain.impl.model.OAuthUserInfo;
 import com.loababa.api.auth.domain.impl.model.OAuthUserInfoFixtures;
-import com.loababa.api.auth.domain.impl.repository.RefreshTokenWriter;
+import com.loababa.api.auth.domain.impl.repository.MemberReader;
+import com.loababa.api.auth.ui.AuthCredential;
 import com.loababa.api.common.MockTestBase;
+import org.instancio.Instancio;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
@@ -38,7 +40,7 @@ class OAuthServiceTest extends MockTestBase {
     @Mock
     private JWTManager jwtManager;
     @Mock
-    private RefreshTokenWriter refreshTokenWriter;
+    private MemberReader memberReader;
 
     @ParameterizedTest
     @EnumSource(OAuthPlatform.class)
@@ -59,9 +61,15 @@ class OAuthServiceTest extends MockTestBase {
                 .willReturn(oAuthUserInfo);
 
         OAuthUser oAuthUser = new OAuthUser(oAuthPlatform, oAuthUserInfo.id());
+        Long oAuthUserId = Instancio.create(Long.class);;
+        given(oAuthUserManager.saveOAuthUserIfNotExists(oAuthUser)).willReturn(oAuthUserId);
 
-        AuthToken expectedAuthToken = new AuthToken(newAccessToken(), newRefreshToken());
-        given(jwtManager.generate()).willReturn(expectedAuthToken);
+        Long memberId = Instancio.create(Long.class);
+        given(memberReader.getMemberIdByOAuthUserId(oAuthUserId)).willReturn(memberId);
+
+        var authCredential = new AuthCredential(oAuthUserId, memberId);
+        var expectedAuthToken = new AuthToken(newAccessToken(), newRefreshToken());
+        given(jwtManager.generate(authCredential)).willReturn(expectedAuthToken);
 
 
         // when
@@ -70,7 +78,6 @@ class OAuthServiceTest extends MockTestBase {
         // then
         then(oAuthClient).should(times(1)).invalidateOAuthToken(oAuthToken.accessToken());
         then(oAuthUserManager).should(times(1)).saveOAuthUserIfNotExists(oAuthUser);
-        then(refreshTokenWriter).should(times(1)).save(authToken.refreshToken());
         assertThat(authToken).isEqualTo(expectedAuthToken);
     }
 

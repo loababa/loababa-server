@@ -7,4 +7,6 @@ public interface OAuthUserReader {
 
     boolean isRegisteredAuthUser(OAuthUser oAuthUser);
 
+    Long getId(OAuthUser oAuthUser);
+
 }

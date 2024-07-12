@@ -6,7 +6,8 @@ import com.loababa.api.auth.domain.impl.OAuthUserManager;
 import com.loababa.api.auth.domain.impl.model.AuthToken;
 import com.loababa.api.auth.domain.impl.model.OAuthCredential;
 import com.loababa.api.auth.domain.impl.model.OAuthUser;
-import com.loababa.api.auth.domain.impl.repository.RefreshTokenWriter;
+import com.loababa.api.auth.domain.impl.repository.MemberReader;
+import com.loababa.api.auth.ui.AuthCredential;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class OAuthService {
     private final OAuthClientProvider oAuthClientProvider;
     private final OAuthUserManager oAuthUserManager;
     private final JWTManager jwtManager;
-    private final RefreshTokenWriter refreshTokenWriter;
+    private final MemberReader memberReader;
 
     public AuthToken authenticate(OAuthCredential oAuthCredential) {  // todo: OAuth 표준 학습하고 표준에 맞추기
         var oAuthPlatform = oAuthCredential.platform();
@@ -28,11 +29,12 @@ public class OAuthService {
         oAuthClient.invalidateOAuthToken(oAuthToken.accessToken());
 
         OAuthUser oAuthUser = new OAuthUser(oAuthPlatform, oAuthUserInfo.id());
-        oAuthUserManager.saveOAuthUserIfNotExists(oAuthUser);
+        Long oAuthUserId = oAuthUserManager.saveOAuthUserIfNotExists(oAuthUser);
+        Long memberId = memberReader.getMemberIdByOAuthUserId(oAuthUserId);
 
-        AuthToken authToken = jwtManager.generate();
-        refreshTokenWriter.save(authToken.refreshToken());
-        return authToken;
+        return jwtManager.generate(
+                new AuthCredential(oAuthUserId, memberId)
+        );
     }
 
 }

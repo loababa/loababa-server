@@ -5,6 +5,7 @@ import com.loababa.api.auth.domain.impl.RefreshTokenValidator;
 import com.loababa.api.auth.domain.impl.model.AuthToken;
 import com.loababa.api.auth.domain.impl.model.RefreshToken;
 import com.loababa.api.auth.domain.impl.repository.RefreshTokenWriter;
+import com.loababa.api.auth.ui.AuthCredential;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,8 @@ public class AuthService {
 
     public AuthToken refreshAuthToken(RefreshToken refreshToken) {
         refreshTokenValidator.validate(refreshToken);
-        refreshTokenWriter.invalidateRefreshToken(refreshToken);
-
-        AuthToken authToken = jwtManager.generate();
-        refreshTokenWriter.save(authToken.refreshToken());
-        return authToken;
+        AuthCredential authCredential = jwtManager.extractClaims(refreshToken.value());
+        return jwtManager.generate(authCredential);
     }
 
 }

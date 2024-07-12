@@ -1,11 +1,21 @@
 package com.loababa.api.auth.domain;
 
+import com.loababa.api.auth.domain.impl.JWTManager;
+import com.loababa.api.auth.domain.impl.model.AuthToken;
+import com.loababa.api.auth.domain.impl.model.LossamLostArkCharacterInfo;
+import com.loababa.api.auth.domain.impl.model.LossamSignUpKeyGenerator;
+import com.loababa.api.auth.domain.impl.model.LossamSignUpKeyValidator;
 import com.loababa.api.auth.domain.impl.model.LossamSignUpURLGenerator;
+import com.loababa.api.auth.domain.impl.model.MemberProfile;
+import com.loababa.api.auth.domain.impl.model.MentoringPost;
+import com.loababa.api.auth.domain.impl.repository.LostArkCharacterInfoWriter;
 import com.loababa.api.auth.domain.impl.repository.MemberReader;
-import com.loababa.api.auth.domain.impl.repository.NanoIdGenerator;
+import com.loababa.api.auth.domain.impl.repository.MemberWriter;
 import com.loababa.api.auth.exception.DuplicatedNicknameException;
+import com.loababa.api.auth.ui.AuthCredential;
 import com.loababa.api.common.exception.ServerErrorInfo;
 import com.loababa.api.common.service.impl.MessageSender;
+import com.loababa.api.mentoring.domain.impl.repository.MentoringPostWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +25,21 @@ import static com.loababa.api.auth.exception.MemberClientErrorInfo.DUPLICATE_MEM
 @RequiredArgsConstructor
 public class MemberService {
 
-    private static final String LOSSAM_SIGN_UP_URL = "https://localhost:8080/sign-up?key=%s";
+    private final LossamSignUpURLGenerator lossamSignUpURLGenerator;
+    private final LossamSignUpKeyGenerator lossamSignUpKeyGenerator;
+    private final LossamSignUpKeyValidator lossamSignUpKeyValidator;
+
+    private final MessageSender messageSender;
+    private final JWTManager jwtManager;
 
     private final MemberReader memberReader;
-    private final LossamSignUpURLGenerator lossamSignUpURLGenerator;
-    private final NanoIdGenerator nanoIdGenerator;
-    private final MessageSender messageSender;
+    private final MemberWriter memberWriter;
+    private final MentoringPostWriter mentoringPostWriter;
+    private final LostArkCharacterInfoWriter lostArkCharacterInfoWriter;
 
     public void generateLossamSignupURL() {
-        final String nanoId = nanoIdGenerator.generate();
-        String lossamSignUpURL = lossamSignUpURLGenerator.generate(nanoId);
+        final var lossamSignUpKey = lossamSignUpKeyGenerator.generate();
+        final String lossamSignUpURL = lossamSignUpURLGenerator.generate(lossamSignUpKey);
         messageSender.sendLossamSignupURL(lossamSignUpURL);
     }
 
@@ -35,6 +50,24 @@ public class MemberService {
                     new ServerErrorInfo(null, "중복된 닉네임 입니다: " + nickname)
             );
         }
+    }
+
+    public AuthToken signupLossam(
+            final String key,
+            final Long oauthId,
+            final MemberProfile memberProfile,
+            final LossamLostArkCharacterInfo lossamLostArkCharacterInfo,
+            final MentoringPost mentoringPost
+    ) {
+        lossamSignUpKeyValidator.validate(key);
+
+        final Long memberId = memberWriter.save(memberProfile, oauthId);
+        lostArkCharacterInfoWriter.save(lossamLostArkCharacterInfo, memberId);
+        mentoringPostWriter.save(mentoringPost, memberId);
+
+        return jwtManager.generate(
+                new AuthCredential(oauthId, memberId)
+        );
     }
 
 }

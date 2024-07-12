@@ -7,4 +7,5 @@ public interface MemberJpaRepository extends JpaRepository<MemberEntity, Long> {
 
     boolean existsByNickname(String nickname);
 
+    Long findIdByOAuthUserId(Long oAuthUserId);
 }

@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,14 +31,14 @@ public class MemberEntity {
     @Column(nullable = false)
     private MemberType memberType;
 
-    @Column
+    @Column(nullable = false)
     private String profileImageUrl;
 
     @Column(nullable = false, unique = true)
     private Long oAuthUserId;
 
-    public MemberEntity(Long id, String nickname, MemberType memberType, String profileImageUrl, Long oAuthUserId) {
-        this.id = id;
+    @Builder
+    private MemberEntity(String nickname, MemberType memberType, String profileImageUrl, Long oAuthUserId) {
         this.nickname = nickname;
         this.memberType = memberType;
         this.profileImageUrl = profileImageUrl;

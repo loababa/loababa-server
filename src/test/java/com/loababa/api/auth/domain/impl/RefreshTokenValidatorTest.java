@@ -3,6 +3,7 @@ package com.loababa.api.auth.domain.impl;
 import com.loababa.api.auth.domain.impl.model.RefreshToken;
 import com.loababa.api.auth.domain.impl.model.RefreshTokenFixtures;
 import com.loababa.api.auth.domain.impl.repository.RefreshTokenReader;
+import com.loababa.api.auth.domain.impl.repository.RefreshTokenWriter;
 import com.loababa.api.auth.exception.InvalidTokenException;
 import com.loababa.api.common.MockTestBase;
 import org.junit.jupiter.api.Nested;
@@ -12,6 +13,8 @@ import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 
 class RefreshTokenValidatorTest extends MockTestBase {
 
@@ -19,6 +22,8 @@ class RefreshTokenValidatorTest extends MockTestBase {
     private RefreshTokenValidator refreshTokenValidator;
     @Mock
     private RefreshTokenReader refreshTokenReader;
+    @Mock
+    private RefreshTokenWriter refreshTokenWriter;
 
     @Nested
     class 리프레쉬_토큰을_검증할_수_있다 {
@@ -31,9 +36,10 @@ class RefreshTokenValidatorTest extends MockTestBase {
             given(refreshTokenReader.existRefreshToken(refreshToken)).willReturn(true);
 
             // when
+            refreshTokenValidator.validate(refreshToken);
+
             // then
-            assertThatCode(() -> refreshTokenValidator.validate(refreshToken))
-                    .doesNotThrowAnyException();
+            then(refreshTokenWriter).should(times(1)).invalidateRefreshToken(refreshToken);
         }
 
         @Test

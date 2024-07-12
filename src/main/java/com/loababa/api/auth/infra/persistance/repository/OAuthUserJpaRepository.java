@@ -15,4 +15,12 @@ public interface OAuthUserJpaRepository extends JpaRepository<OAuthUserEntity, L
             """)
     boolean existsByOAuthUser(OAuthPlatform oAuthPlatform, Long oAuthUserId);  // todo: QueryDSL LIMIT 1 사용해서 최적화
 
+
+    @Query("""
+            SELECT e.id
+            FROM OAuthUserEntity e
+            WHERE e.oAuthId = :oAuthId AND e.oAuthPlatform = :oAuthPlatform
+            """)
+    Long findIdByOAuthUser(Long oAuthId, OAuthPlatform oAuthPlatform);
+
 }

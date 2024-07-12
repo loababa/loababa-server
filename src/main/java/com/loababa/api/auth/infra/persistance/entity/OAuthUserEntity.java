@@ -11,12 +11,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "oauth_infos")
+@Table(
+        name = "oauth_users",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"oauth_id", "oauth_platform"})
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OAuthUserEntity {
@@ -32,13 +36,13 @@ public class OAuthUserEntity {
     @Column(nullable = false)
     private OAuthPlatform oAuthPlatform;
 
-    public OAuthUserEntity(Long id, OAuthPlatform oAuthPlatform) {
-        this.oAuthId = id;
+    public OAuthUserEntity(Long oAuthId, OAuthPlatform oAuthPlatform) {
+        this.oAuthId = oAuthId;
         this.oAuthPlatform = oAuthPlatform;
     }
 
     public static OAuthUserEntity from(OAuthUser oAuthUser) {
-        return new OAuthUserEntity(oAuthUser.oAuthUserId(), oAuthUser.oAuthPlatform());
+        return new OAuthUserEntity(oAuthUser.oAuthId(), oAuthUser.oAuthPlatform());
     }
 
 }

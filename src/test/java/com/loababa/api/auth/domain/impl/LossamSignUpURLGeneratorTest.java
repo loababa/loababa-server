@@ -1,5 +1,6 @@
 package com.loababa.api.auth.domain.impl;
 
+import com.loababa.api.auth.domain.impl.model.LossamSignUpKey;
 import com.loababa.api.auth.domain.impl.model.LossamSignUpURLGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,13 +20,14 @@ class LossamSignUpURLGeneratorTest {
     @Test
     void 로쌤_회원가입_URL을_생성할_수_있다() {
         // given
-        String nanoId = "nanoId";
+        var lossamSignUpKey = new LossamSignUpKey("key");
 
         // when
-        String lossamSignupURL = lossamSignUpURLGenerator.generate(nanoId);
+        String lossamSignupURL = lossamSignUpURLGenerator.generate(lossamSignUpKey);
+        System.out.println(lossamSignupURL);
 
         // then
-        assertThat(lossamSignupURL).isEqualTo(lossamSignupURL.formatted(nanoId));
+        assertThat(lossamSignupURL).isEqualTo(lossamSignupURL.formatted(lossamSignUpKey.value()));
     }
 
 }

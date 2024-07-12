@@ -7,6 +7,6 @@ import jakarta.transaction.Transactional;
 public interface OAuthUserWriter {
 
     @Transactional
-    void save(OAuthUser oAuthUser);
+    Long save(OAuthUser oAuthUser);
 
 }

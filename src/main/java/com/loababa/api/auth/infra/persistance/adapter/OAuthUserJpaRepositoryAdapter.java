@@ -15,12 +15,17 @@ public class OAuthUserJpaRepositoryAdapter implements OAuthUserReader, OAuthUser
     private final OAuthUserJpaRepository oAuthUserJpaRepository;
 
     @Override
-    public void save(OAuthUser oAuth) {
-        oAuthUserJpaRepository.save(OAuthUserEntity.from(oAuth));
+    public Long save(OAuthUser oAuthUser) {
+        return oAuthUserJpaRepository.save(OAuthUserEntity.from(oAuthUser)).getId();
     }
 
     @Override
     public boolean isRegisteredAuthUser(OAuthUser oAuthUser) {
-        return oAuthUserJpaRepository.existsByOAuthUser(oAuthUser.oAuthPlatform(), oAuthUser.oAuthUserId());
+        return oAuthUserJpaRepository.existsByOAuthUser(oAuthUser.oAuthPlatform(), oAuthUser.oAuthId());
+    }
+
+    @Override
+    public Long getId(OAuthUser oAuthUser) {
+        return oAuthUserJpaRepository.findIdByOAuthUser(oAuthUser.oAuthId(), oAuthUser.oAuthPlatform());
     }
 }

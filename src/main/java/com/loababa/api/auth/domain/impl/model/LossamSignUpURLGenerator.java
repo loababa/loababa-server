@@ -15,8 +15,8 @@ public class LossamSignUpURLGenerator {
         this.lossamSignUpURL = lossamSignUpURL;
     }
 
-    public String generate(String nanoId) {
-        return lossamSignUpURL.formatted(nanoId);
+    public String generate(final LossamSignUpKey lossamSignUpKey) {
+        return lossamSignUpURL.formatted(lossamSignUpKey.value());
     }
 
 }

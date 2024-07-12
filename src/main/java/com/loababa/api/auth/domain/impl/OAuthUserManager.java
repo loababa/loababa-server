@@ -13,10 +13,11 @@ public class OAuthUserManager {
     private final OAuthUserWriter oAuthUserWriter;
     private final OAuthUserReader oAuthUserReader;
 
-    public void saveOAuthUserIfNotExists(OAuthUser oAuthUser) {
+    public Long saveOAuthUserIfNotExists(OAuthUser oAuthUser) {
         if (!oAuthUserReader.isRegisteredAuthUser(oAuthUser)) {
-            oAuthUserWriter.save(oAuthUser);
+            return oAuthUserWriter.save(oAuthUser);
         }
+        return oAuthUserReader.getId(oAuthUser);
     }
 
 }
