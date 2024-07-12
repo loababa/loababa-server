@@ -13,13 +13,13 @@ import com.loababa.api.auth.domain.impl.repository.MemberReader;
 import com.loababa.api.auth.domain.impl.repository.MemberWriter;
 import com.loababa.api.auth.exception.DuplicatedNicknameException;
 import com.loababa.api.auth.ui.AuthCredential;
-import com.loababa.api.common.exception.ServerErrorInfo;
+import com.loababa.api.common.exception.ServerExceptionInfo;
 import com.loababa.api.common.service.impl.MessageSender;
 import com.loababa.api.mentoring.domain.impl.repository.MentoringPostWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.loababa.api.auth.exception.MemberClientErrorInfo.DUPLICATE_MEMBER_NICKNAME;
+import static com.loababa.api.auth.exception.MemberClientExceptionInfo.DUPLICATE_MEMBER_NICKNAME;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +47,7 @@ public class MemberService {
         if (memberReader.existNickname(nickname)) {
             throw new DuplicatedNicknameException(
                     DUPLICATE_MEMBER_NICKNAME,
-                    new ServerErrorInfo(null, "중복된 닉네임 입니다: " + nickname)
+                    new ServerExceptionInfo("중복된 닉네임 입니다: " + nickname)
             );
         }
     }

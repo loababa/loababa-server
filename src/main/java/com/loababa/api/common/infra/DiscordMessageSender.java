@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import static com.loababa.api.common.exception.CommonClientErrorInfo.DISCORD_COMMUNICATION_FAIL;
+import static com.loababa.api.common.exception.CommonClientExceptionInfo.DISCORD_COMMUNICATION_FAIL;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 

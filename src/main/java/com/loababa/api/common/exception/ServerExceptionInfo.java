@@ -1,11 +1,11 @@
 package com.loababa.api.common.exception;
 
-public record ServerErrorInfo(
+public record ServerExceptionInfo(
         Throwable cause,
         String message
 ) {
 
-    public ServerErrorInfo(String message) {
+    public ServerExceptionInfo(String message) {
         this(null, message);
     }
 }

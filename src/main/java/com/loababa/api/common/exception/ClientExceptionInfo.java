@@ -1,6 +1,6 @@
 package com.loababa.api.common.exception;
 
-public interface ClientErrorInfo {
+public interface ClientExceptionInfo {
 
     String getCode();
 

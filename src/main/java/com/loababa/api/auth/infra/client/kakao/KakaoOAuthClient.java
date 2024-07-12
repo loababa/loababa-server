@@ -12,7 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import static com.loababa.api.auth.domain.impl.model.JWTProperties.TOKEN_PREFIX;
-import static com.loababa.api.auth.exception.AuthClientErrorInfo.KAKAO_COMMUNICATION_FAIL;
+import static com.loababa.api.auth.exception.AuthClientExceptionInfo.KAKAO_COMMUNICATION_FAIL;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;

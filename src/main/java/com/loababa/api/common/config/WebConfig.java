@@ -1,8 +1,8 @@
 package com.loababa.api.common.config;
 
 import com.loababa.api.auth.exception.ExternalCommunicationException;
-import com.loababa.api.common.exception.ClientErrorInfo;
-import com.loababa.api.common.exception.ServerErrorInfo;
+import com.loababa.api.common.exception.ClientExceptionInfo;
+import com.loababa.api.common.exception.ServerExceptionInfo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -33,12 +33,11 @@ public class WebConfig {
         return RestClient.create();
     }
 
-    public static RestClient.ResponseSpec.ErrorHandler getCommonExternalCommunicationExceptionHandler(ClientErrorInfo clientErrorInfo, String requestBody) {
+    public static RestClient.ResponseSpec.ErrorHandler getCommonExternalCommunicationExceptionHandler(ClientExceptionInfo clientExceptionInfo, String requestBody) {
         return (request, response) -> {
             throw new ExternalCommunicationException(
-                    clientErrorInfo,
-                    new ServerErrorInfo(
-                            null,
+                    clientExceptionInfo,
+                    new ServerExceptionInfo(
                             MessageFormat.format(
                                     COMMUNICATION_ERROR_SERVER_MESSAGE,
                                     request.getHeaders(), requestBody,

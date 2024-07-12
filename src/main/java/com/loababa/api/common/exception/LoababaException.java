@@ -2,19 +2,19 @@ package com.loababa.api.common.exception;
 
 public class LoababaException extends RuntimeException {
 
-    private final ClientErrorInfo clientErrorInfo;
+    private final ClientExceptionInfo clientExceptionInfo;
 
-    public LoababaException(ClientErrorInfo clientErrorInfo, ServerErrorInfo serverErrorInfo) {
-        super(serverErrorInfo.message(), serverErrorInfo.cause());
-        this.clientErrorInfo = clientErrorInfo;
+    public LoababaException(ClientExceptionInfo clientExceptionInfo, ServerExceptionInfo serverExceptionInfo) {
+        super(serverExceptionInfo.message(), serverExceptionInfo.cause());
+        this.clientExceptionInfo = clientExceptionInfo;
     }
 
     public String getClientCode() {
-        return clientErrorInfo.getCode();
+        return clientExceptionInfo.getCode();
     }
 
     public String getClientMessage() {
-        return clientErrorInfo.getMessage();
+        return clientExceptionInfo.getMessage();
     }
 
 }

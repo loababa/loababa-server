@@ -11,10 +11,10 @@ import com.loababa.api.auth.domain.impl.model.AuthToken;
 import com.loababa.api.auth.domain.impl.model.JWTProperties;
 import com.loababa.api.auth.domain.impl.model.RefreshToken;
 import com.loababa.api.auth.domain.impl.repository.RefreshTokenWriter;
-import com.loababa.api.auth.exception.AuthClientErrorInfo;
+import com.loababa.api.auth.exception.AuthClientExceptionInfo;
 import com.loababa.api.auth.exception.InvalidTokenException;
 import com.loababa.api.auth.ui.AuthCredential;
-import com.loababa.api.common.exception.ServerErrorInfo;
+import com.loababa.api.common.exception.ServerExceptionInfo;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -89,13 +89,13 @@ public class Auth0JWTManager implements JWTManager {
             return verifier.verify(token);
         } catch (TokenExpiredException e) {
             throw new InvalidTokenException(
-                    AuthClientErrorInfo.EXPIRED_TOKEN,
-                    new ServerErrorInfo(e, "토큰이 만료되었습니다.")
+                    AuthClientExceptionInfo.EXPIRED_TOKEN,
+                    new ServerExceptionInfo(e, "토큰이 만료되었습니다.")
             );
         } catch (JWTVerificationException e) {
             throw new InvalidTokenException(
-                    AuthClientErrorInfo.INVALID_TOKEN,
-                    new ServerErrorInfo(e, "유효하지 않은 토큰입니다.")
+                    AuthClientExceptionInfo.INVALID_TOKEN,
+                    new ServerExceptionInfo(e, "유효하지 않은 토큰입니다.")
             );
         }
     }
