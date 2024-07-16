@@ -1,8 +1,8 @@
 package com.loababa.api.auth.ui;
 
+import com.loababa.api.auth.domain.MemberService;
 import com.loababa.api.common.ControllerTestBase;
 import com.loababa.api.common.model.ApiResponse;
-import com.loababa.api.auth.domain.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

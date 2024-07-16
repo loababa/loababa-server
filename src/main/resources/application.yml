@@ -3,10 +3,10 @@ spring:
     name: loababa
 
   datasource:
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
-    driver-class-name: ${DATASOURCE_DRIVER_CLASS_NAME}
+    url: ${DATASOURCE_URL:jdbc:h2:mem:test}
+    username: ${DATASOURCE_USERNAME:sa}
+    password: ${DATASOURCE_PASSWORD:}
+    driver-class-name: ${DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}
 
   jpa:
     open-in-view: true
@@ -28,6 +28,7 @@ jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-time-in-sec: ${JWT_ACCESS_TOKEN_EXPIRATION_TIME_IN_SEC}
   refresh-token-expiration-time-in-sec: ${JWT_REFRESH_TOKEN_EXPIRATION_TIME_IN_SEC}
+  lossam-sign-up-key-expiration-time-in-sec: ${JWT_LOSSAM_SIGN_UP_KEY_EXPIRATION_TIME_IN_SEC}
 
 discord:
   lossam-signup-webhook-url: ${DISCORD_LOSSAM_SIGNUP_WEBHOOK_URL}

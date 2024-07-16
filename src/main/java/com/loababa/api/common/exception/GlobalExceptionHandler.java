@@ -45,7 +45,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ApiResponse<Void> handleHandlerMethodValidationException(HandlerMethodValidationException e) {
         log.debug(e.getMessage(), e);
-        return ApiResponse.fail("VALIDATION_FAILED", "올바르지 않은 값입니다.");
+        return ApiResponse.fail(
+                "VALIDATION_FAILED",
+                e.getAllValidationResults()
+                        .getFirst()
+                        .getResolvableErrors()
+                        .getFirst()
+                        .getDefaultMessage()
+        );
     }
 
     @ResponseStatus(BAD_REQUEST)

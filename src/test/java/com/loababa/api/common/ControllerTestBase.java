@@ -2,7 +2,6 @@ package com.loababa.api.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loababa.api.auth.domain.impl.JWTManager;
-import com.loababa.api.auth.ui.AuthCredential;
 import com.loababa.api.common.service.impl.MessageSender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -14,8 +13,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -32,8 +29,6 @@ public abstract class ControllerTestBase {
 
     @BeforeEach
     void setUp(WebApplicationContext context) {
-        given(jwtManager.extractClaims(anyString())).willReturn(new AuthCredential(1L, 1L));
-
         mvc = MockMvcBuilders.webAppContextSetup(context)
                 .addFilter(new CharacterEncodingFilter("UTF-8", true))
                 .alwaysDo(print())

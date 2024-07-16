@@ -53,13 +53,14 @@ dependencies {
 
     if (isProdEnv) {
         runtimeOnly 'com.mysql:mysql-connector-j'
-        testRuntimeOnly 'com.h2database:h2' // todo: TestContainer 로 변경
+
     } else {
         runtimeOnly 'com.h2database:h2' // todo: Docker 환경으로 변경
     }
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'com.h2database:h2' // todo: TestContainer 로 변경
     testImplementation 'org.instancio:instancio-junit:4.7.0'
 
     compileOnly 'org.projectlombok:lombok'
