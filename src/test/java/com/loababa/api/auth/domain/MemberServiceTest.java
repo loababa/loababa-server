@@ -1,17 +1,27 @@
 package com.loababa.api.auth.domain;
 
+import com.loababa.api.auth.domain.impl.JWTManager;
 import com.loababa.api.auth.domain.impl.model.LossamSignUpKey;
 import com.loababa.api.auth.domain.impl.model.LossamSignUpKeyGenerator;
+import com.loababa.api.auth.domain.impl.model.LossamSignUpKeyValidator;
 import com.loababa.api.auth.domain.impl.model.LossamSignUpURLGenerator;
+import com.loababa.api.auth.domain.impl.repository.LostArkCharacterInfoWriter;
 import com.loababa.api.auth.domain.impl.repository.MemberReader;
+import com.loababa.api.auth.domain.impl.repository.MemberWriter;
 import com.loababa.api.auth.exception.DuplicatedNicknameException;
+import com.loababa.api.auth.ui.AuthCredential;
 import com.loababa.api.common.MockTestBase;
 import com.loababa.api.common.service.impl.MessageSender;
+import com.loababa.api.mentoring.domain.impl.repository.MentoringPostWriter;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import static com.loababa.api.auth.domain.impl.model.AuthTokenFixtures.newAuthToken;
+import static com.loababa.api.auth.domain.impl.model.LossamLostArkCharacterInfoFixtures.newLossamLostArkCharacterInfo;
+import static com.loababa.api.auth.domain.impl.model.MemberProfileFixtures.newLossamProfile;
+import static com.loababa.api.auth.domain.impl.model.MentoringPostFixtures.newMentoringPost;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -23,16 +33,25 @@ class MemberServiceTest extends MockTestBase {
     private MemberService memberService;
 
     @Mock
-    private MemberReader memberReader;
-
+    private LossamSignUpURLGenerator lossamSignUpURLGenerator;
     @Mock
     private LossamSignUpKeyGenerator lossamSignUpKeyGenerator;
-
     @Mock
-    private LossamSignUpURLGenerator lossamSignUpUrlGenerator;
+    private LossamSignUpKeyValidator lossamSignUpKeyValidator;
 
     @Mock
     private MessageSender messageSender;
+    @Mock
+    private JWTManager jwtManager;
+
+    @Mock
+    private MemberReader memberReader;
+    @Mock
+    private MemberWriter memberWriter;
+    @Mock
+    private MentoringPostWriter mentoringPostWriter;
+    @Mock
+    private LostArkCharacterInfoWriter lostArkCharacterInfoWriter;
 
     @Test
     void 로쌤_회원가입_URL을_생성하고_URL을_전송할_수_있다() {
@@ -41,7 +60,7 @@ class MemberServiceTest extends MockTestBase {
         given(lossamSignUpKeyGenerator.generate()).willReturn(lossamSignUpKey);
 
         String lossamSignUpUrl = "lossamSignUpUrl";
-        given(lossamSignUpUrlGenerator.generate(lossamSignUpKey)).willReturn(lossamSignUpUrl);
+        given(lossamSignUpURLGenerator.generate(lossamSignUpKey)).willReturn(lossamSignUpUrl);
 
         // when
         memberService.generateLossamSignupURL();
@@ -78,6 +97,30 @@ class MemberServiceTest extends MockTestBase {
             assertThatThrownBy(() -> memberService.validateNickName(nickname))
                     .isInstanceOf(DuplicatedNicknameException.class);
         }
+    }
+
+    @Test
+    void 로쌤_회원가입을_할_수_있다() {
+        // given
+        String key = "key";
+        Long oauthId = 1L;
+        var lossamProfile = newLossamProfile();
+        var lossamLostArkCharacterInfo = newLossamLostArkCharacterInfo();
+        var mentoringPost = newMentoringPost();
+
+        Long memberId = 1L;
+        given(memberWriter.save(lossamProfile, oauthId)).willReturn(memberId);
+
+        AuthCredential authCredential = new AuthCredential(oauthId, memberId);
+        given(jwtManager.generate(authCredential)).willReturn(newAuthToken());
+
+        // when
+        memberService.signupLossam(key, oauthId, lossamProfile, lossamLostArkCharacterInfo, mentoringPost);
+
+        // then
+        then(lossamSignUpKeyValidator).should(times(1)).validate(key);
+        then(lostArkCharacterInfoWriter).should(times(1)).save(lossamLostArkCharacterInfo, memberId);
+        then(mentoringPostWriter).should(times(1)).save(mentoringPost, memberId);
     }
 
 }
