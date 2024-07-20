@@ -3,10 +3,10 @@ spring:
     name: loababa
 
   datasource:
-    url: ${DATASOURCE_URL:jdbc:h2:mem:test}
-    username: ${DATASOURCE_USERNAME:sa}
-    password: ${DATASOURCE_PASSWORD:}
-    driver-class-name: ${DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    driver-class-name: ${DATASOURCE_DRIVER_CLASS_NAME}
 
   jpa:
     open-in-view: true
