@@ -3,11 +3,14 @@ package com.loababa.api.mentoring.ui;
 import com.loababa.api.auth.ui.AuthCredential;
 import com.loababa.api.common.model.ApiResponse;
 import com.loababa.api.mentoring.domain.MentoringService;
+import com.loababa.api.mentoring.domain.impl.model.MentoringDetailForm;
 import com.loababa.api.mentoring.domain.impl.model.MentoringListForms;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Mentoring", description = "상담 관련 API")
@@ -24,6 +27,16 @@ public class MentoringController {
     ) {
         MentoringListForms allMentoringListForms = mentoringService.getAllMentoringListForms();
         return ApiResponse.success(allMentoringListForms);
+    }
+
+    @Operation(description = "멘토링 상세 불러오기")
+    @GetMapping("/api/mentorings/{mentoringPostId}")
+    public ApiResponse<MentoringDetailForm> requestMentorings(
+            AuthCredential authCredential,
+            @PathVariable @NotNull Long mentoringPostId
+    ) {
+        var mentoringDetailForm = mentoringService.getMentoringDetailForm(mentoringPostId);
+        return ApiResponse.success(mentoringDetailForm);
     }
 
 }
