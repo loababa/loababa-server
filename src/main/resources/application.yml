@@ -8,6 +8,10 @@ spring:
     password: ${DATASOURCE_PASSWORD}
     driver-class-name: ${DATASOURCE_DRIVER_CLASS_NAME}
 
+  h2:
+    console:
+      enabled: true
+
   jpa:
     open-in-view: true
     show-sql: true
@@ -36,7 +40,6 @@ discord:
 
 logging:
   level:
-    org.hibernate.jdbc.bind: trace
     root: debug
 
 url:

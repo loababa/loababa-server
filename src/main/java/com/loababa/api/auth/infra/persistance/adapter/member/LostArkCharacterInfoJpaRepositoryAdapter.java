@@ -2,7 +2,7 @@ package com.loababa.api.auth.infra.persistance.adapter.member;
 
 import com.loababa.api.auth.domain.impl.model.LossamLostArkCharacterInfo;
 import com.loababa.api.auth.domain.impl.repository.LostArkCharacterInfoWriter;
-import com.loababa.api.auth.infra.persistance.entity.LossamLostArkCharacterInfoJpaRepository;
+import com.loababa.api.auth.infra.persistance.repository.LossamLostArkCharacterInfoJpaRepository;
 import com.loababa.api.auth.infra.persistance.entity.LostArkCharacterInfoEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
