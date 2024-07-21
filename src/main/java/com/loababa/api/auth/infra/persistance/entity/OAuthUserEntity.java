@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(
         name = "oauth_users",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"oauth_id", "oauth_platform"})
+        uniqueConstraints = @UniqueConstraint(columnNames = {"o_auth_id", "o_auth_platform"})
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
