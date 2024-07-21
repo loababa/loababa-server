@@ -21,17 +21,17 @@ public class MentoringPostEntity {
     private Long id;
 
     @Column(nullable = false, length = 200)
-    private String description;
+    private String title;
 
     @Column(nullable = false, length = 500)
-    private String selfIntroduce;
+    private String contents;
 
     @Column(nullable = false, unique = true)
     private Long memberId;
 
-    public MentoringPostEntity(String description, String selfIntroduce, Long memberId) {
-        this.description = description;
-        this.selfIntroduce = selfIntroduce;
+    public MentoringPostEntity(String title, String contents, Long memberId) {
+        this.title = title;
+        this.contents = contents;
         this.memberId = memberId;
     }
 }

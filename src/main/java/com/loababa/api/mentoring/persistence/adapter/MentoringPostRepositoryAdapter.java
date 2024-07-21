@@ -3,6 +3,7 @@ package com.loababa.api.mentoring.persistence.adapter;
 
 import com.loababa.api.auth.domain.impl.model.MentoringPost;
 import com.loababa.api.auth.infra.persistance.repository.MemberJpaRepository;
+import com.loababa.api.mentoring.domain.impl.model.MentoringDetailForm;
 import com.loababa.api.mentoring.domain.impl.model.MentoringPostListForms;
 import com.loababa.api.mentoring.domain.impl.repository.MentoringPostReader;
 import com.loababa.api.mentoring.domain.impl.repository.MentoringPostWriter;
@@ -10,6 +11,7 @@ import com.loababa.api.mentoring.persistence.entity.MentoringPostEntity;
 import com.loababa.api.mentoring.persistence.entity.MentoringPostTopicEntity;
 import com.loababa.api.mentoring.persistence.repository.MentoringPostJpaRepository;
 import com.loababa.api.mentoring.persistence.repository.MentoringPostTopicEntityJpaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -68,11 +70,21 @@ public class MentoringPostRepositoryAdapter implements MentoringPostWriter, Ment
 
                             return new MentoringPostListForms.MentoringPostListForm(
                                     postEntity.getMemberId(),
-                                    postEntity.getSelfIntroduce(),
+                                    postEntity.getContents(),
                                     topicList
                             );
                         })
                         .toList()
+        );
+    }
+
+    @Override
+    public MentoringDetailForm readMentoringDetailForm(Long mentoringPostId) {
+        var mentoringPostEntity = mentoringPostJpaRepository.findById(mentoringPostId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 멘토링 포스트 ID가 존재 하지 않습니다."));
+        return new MentoringDetailForm(
+                mentoringPostEntity.getTitle(),
+                mentoringPostEntity.getContents()
         );
     }
 }

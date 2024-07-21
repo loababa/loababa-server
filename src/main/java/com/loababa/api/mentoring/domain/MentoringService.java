@@ -2,6 +2,7 @@ package com.loababa.api.mentoring.domain;
 
 import com.loababa.api.auth.domain.impl.model.LossamBasicInfos;
 import com.loababa.api.auth.domain.impl.repository.MemberReader;
+import com.loababa.api.mentoring.domain.impl.model.MentoringDetailForm;
 import com.loababa.api.mentoring.domain.impl.model.MentoringListForms;
 import com.loababa.api.mentoring.domain.impl.model.MentoringPostListForms;
 import com.loababa.api.mentoring.domain.impl.repository.MentoringPostReader;
@@ -48,5 +49,9 @@ public class MentoringService {
                 })
                 .toList();
         return new MentoringListForms(mentoringListForms);
+    }
+
+    public MentoringDetailForm getMentoringDetailForm(Long mentoringPostId) {
+        return mentoringPostReader.readMentoringDetailForm(mentoringPostId);
     }
 }
