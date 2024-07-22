@@ -1,4 +1,4 @@
-package com.loababa.api.auth.domain.impl.model;
+package com.loababa.api.mentoring.domain.impl.model;
 
 import org.instancio.Instancio;
 
@@ -9,8 +9,8 @@ public class MentoringPostFixtures {
 
     public static MentoringPost newMentoringPost() {
         return Instancio.of(MentoringPost.class)
-                .generate(field(MentoringPost::description), gen -> gen.string().minLength(1).maxLength(200))
-                .generate(field(MentoringPost::selfIntroduce), gen -> gen.string().minLength(1).maxLength(500))
+                .generate(field(MentoringPost::title), gen -> gen.string().minLength(1).maxLength(200))
+                .generate(field(MentoringPost::contents), gen -> gen.string().minLength(1).maxLength(500))
                 .set(
                         field(MentoringPost::topics),
                         Instancio.ofList(String.class)

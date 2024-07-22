@@ -4,8 +4,10 @@ import com.loababa.api.auth.domain.impl.model.LossamBasicInfos;
 import com.loababa.api.auth.domain.impl.repository.MemberReader;
 import com.loababa.api.mentoring.domain.impl.model.MentoringDetailForm;
 import com.loababa.api.mentoring.domain.impl.model.MentoringListForms;
+import com.loababa.api.mentoring.domain.impl.model.MentoringPost;
 import com.loababa.api.mentoring.domain.impl.model.MentoringPostListForms;
 import com.loababa.api.mentoring.domain.impl.repository.MentoringPostReader;
+import com.loababa.api.mentoring.domain.impl.repository.MentoringPostWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,12 @@ import java.util.stream.Collectors;
 public class MentoringService {
 
     private final MentoringPostReader mentoringPostReader;
+    private final MentoringPostWriter mentoringPostWriter;
     private final MemberReader memberReader;
+
+    public void registerMentoringPost(Long memberId, MentoringPost mentoringPost) {
+        mentoringPostWriter.save(mentoringPost, memberId);
+    }
 
     public MentoringListForms getAllMentoringListForms() {
         // Lossam 정보 가져오기
@@ -54,4 +61,5 @@ public class MentoringService {
     public MentoringDetailForm getMentoringDetailForm(Long mentoringPostId) {
         return mentoringPostReader.readMentoringDetailForm(mentoringPostId);
     }
+
 }

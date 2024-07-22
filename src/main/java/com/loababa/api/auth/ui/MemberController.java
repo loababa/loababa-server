@@ -43,15 +43,14 @@ public class MemberController {
             AuthCredential authCredential,
             @Schema(description = "로쌤 회원 가입 가능 key")
             @RequestParam @NotBlank String key,
-            @Schema(description = "로쌤 회원 가입 상세정보 저장")
+            @Schema(description = "로쌤 회원 가입 상세정보")
             @RequestBody @Valid LossamSignUpReq lossamSignUpReq
     ) {
         AuthToken authToken = memberService.signupLossam(
                 key,
                 authCredential.oauthUserId(),
                 lossamSignUpReq.toLossamProfile(),
-                lossamSignUpReq.toLossamLostArkCharacter(),
-                lossamSignUpReq.toLossamMentoringPost()
+                lossamSignUpReq.toLossamLostArkCharacter()
         );
         return ApiResponse.success(authToken);
     }

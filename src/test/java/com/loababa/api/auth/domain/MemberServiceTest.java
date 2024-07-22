@@ -21,7 +21,6 @@ import org.mockito.Mock;
 import static com.loababa.api.auth.domain.impl.model.AuthTokenFixtures.newAuthToken;
 import static com.loababa.api.auth.domain.impl.model.LossamLostArkCharacterInfoFixtures.newLossamLostArkCharacterInfo;
 import static com.loababa.api.auth.domain.impl.model.MemberProfileFixtures.newLossamProfile;
-import static com.loababa.api.auth.domain.impl.model.MentoringPostFixtures.newMentoringPost;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -106,7 +105,6 @@ class MemberServiceTest extends MockTestBase {
         Long oauthId = 1L;
         var lossamProfile = newLossamProfile();
         var lossamLostArkCharacterInfo = newLossamLostArkCharacterInfo();
-        var mentoringPost = newMentoringPost();
 
         Long memberId = 1L;
         given(memberWriter.save(lossamProfile, oauthId)).willReturn(memberId);
@@ -115,12 +113,12 @@ class MemberServiceTest extends MockTestBase {
         given(jwtManager.generate(authCredential)).willReturn(newAuthToken());
 
         // when
-        memberService.signupLossam(key, oauthId, lossamProfile, lossamLostArkCharacterInfo, mentoringPost);
+        memberService.signupLossam(key, oauthId, lossamProfile, lossamLostArkCharacterInfo);
 
         // then
         then(lossamSignUpKeyValidator).should(times(1)).validate(key);
         then(lostArkCharacterInfoWriter).should(times(1)).save(lossamLostArkCharacterInfo, memberId);
-        then(mentoringPostWriter).should(times(1)).save(mentoringPost, memberId);
+
     }
 
 }

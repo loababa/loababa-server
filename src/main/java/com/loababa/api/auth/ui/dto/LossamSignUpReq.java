@@ -2,7 +2,6 @@ package com.loababa.api.auth.ui.dto;
 
 import com.loababa.api.auth.domain.impl.model.LossamLostArkCharacterInfo;
 import com.loababa.api.auth.domain.impl.model.MemberProfile;
-import com.loababa.api.auth.domain.impl.model.MentoringPost;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,18 +23,7 @@ public record LossamSignUpReq(
 
         @NotNull(message = "레벨을 입력해주세요.")
         @Min(value = 1, message = "레벨은 최소 1부터 가능합니다.")
-        int highestLevel,
-
-        @NotBlank(message = "로쌤 한줄소개는 공백일 수 없습니다.")
-        @Length(min = 1, max = 200, message = "로쌤 한줄소개는 1자 이상, 최대 200자까지 가능합니다.")
-        String description,
-
-        @Length(min = 1, max = 500, message = "로쌤 한줄소개는 1자 이상, 최대 700자까지 가능합니다.")
-        String selfIntroduce,
-
-        @Size(min = 1, max = 6)
-        List<@NotBlank(message = "대화 가능한 주제는 공백일 수 없습니다.")
-        @Length(max = 6, message = "대화 가능한 주제는 최대 6글자까지 가능합니다.") String> topics
+        int highestLevel
 ) {
 
     public MemberProfile toLossamProfile() {
@@ -44,10 +32,6 @@ public record LossamSignUpReq(
 
     public LossamLostArkCharacterInfo toLossamLostArkCharacter() {
         return new LossamLostArkCharacterInfo(highestLevel, classEngravings);
-    }
-
-    public MentoringPost toLossamMentoringPost() {
-        return new MentoringPost(description, selfIntroduce, topics);
     }
 
 }
