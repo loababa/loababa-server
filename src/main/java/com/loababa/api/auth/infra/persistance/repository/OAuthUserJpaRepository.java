@@ -1,7 +1,7 @@
 package com.loababa.api.auth.infra.persistance.repository;
 
 
-import com.loababa.api.auth.domain.impl.model.OAuthPlatform;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
 import com.loababa.api.auth.infra.persistance.entity.OAuthUserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

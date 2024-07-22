@@ -8,9 +8,9 @@ public final class AuthTokenRefreshRequestFixtures {
     private AuthTokenRefreshRequestFixtures() {
     }
 
-    public static AuthTokenRefreshRequest newAuthTokenRefreshRequest() {
-        return Instancio.of(AuthTokenRefreshRequest.class)
-                .generate(field(AuthTokenRefreshRequest::refreshToken), gen -> gen.string().prefix("Bearer "))
+    public static AuthTokenRefreshReq newAuthTokenRefreshRequest() {
+        return Instancio.of(AuthTokenRefreshReq.class)
+                .generate(field(AuthTokenRefreshReq::refreshToken), gen -> gen.string().prefix("Bearer "))
                 .create();
     }
 

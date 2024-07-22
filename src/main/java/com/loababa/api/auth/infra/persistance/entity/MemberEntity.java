@@ -1,6 +1,6 @@
 package com.loababa.api.auth.infra.persistance.entity;
 
-import com.loababa.api.auth.domain.impl.model.MemberType;
+import com.loababa.api.auth.domain.member.impl.model.MemberType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

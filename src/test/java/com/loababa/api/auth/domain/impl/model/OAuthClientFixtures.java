@@ -1,6 +1,9 @@
 package com.loababa.api.auth.domain.impl.model;
 
-import com.loababa.api.auth.domain.impl.OAuthClient;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthToken;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUserInfo;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthClient;
 
 import static org.mockito.Mockito.mock;
 

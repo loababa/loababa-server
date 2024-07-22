@@ -1,6 +1,6 @@
 package com.loababa.api.auth.ui;
 
-import com.loababa.api.auth.domain.MemberService;
+import com.loababa.api.auth.domain.member.MemberService;
 import com.loababa.api.common.ControllerTestBase;
 import com.loababa.api.common.model.ApiResponse;
 import org.junit.jupiter.api.Test;

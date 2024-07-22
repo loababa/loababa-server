@@ -1,15 +1,16 @@
 package com.loababa.api.auth.domain;
 
-import com.loababa.api.auth.domain.impl.JWTManager;
-import com.loababa.api.auth.domain.impl.model.LossamSignUpKey;
-import com.loababa.api.auth.domain.impl.model.LossamSignUpKeyGenerator;
-import com.loababa.api.auth.domain.impl.model.LossamSignUpKeyValidator;
-import com.loababa.api.auth.domain.impl.model.LossamSignUpURLGenerator;
-import com.loababa.api.auth.domain.impl.repository.LostArkCharacterInfoWriter;
-import com.loababa.api.auth.domain.impl.repository.MemberReader;
-import com.loababa.api.auth.domain.impl.repository.MemberWriter;
+import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
+import com.loababa.api.auth.domain.member.MemberService;
+import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKey;
+import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyGenerator;
+import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyValidator;
+import com.loababa.api.auth.domain.member.impl.model.LossamSignUpURLGenerator;
+import com.loababa.api.auth.domain.member.impl.repository.LostArkCharacterInfoWriter;
+import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
+import com.loababa.api.auth.domain.member.impl.repository.MemberWriter;
 import com.loababa.api.auth.exception.DuplicatedNicknameException;
-import com.loababa.api.auth.ui.AuthCredential;
+import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.MockTestBase;
 import com.loababa.api.common.service.impl.MessageSender;
 import com.loababa.api.mentoring.domain.impl.repository.MentoringPostWriter;

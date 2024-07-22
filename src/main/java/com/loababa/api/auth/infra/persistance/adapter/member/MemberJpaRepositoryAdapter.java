@@ -1,9 +1,9 @@
 package com.loababa.api.auth.infra.persistance.adapter.member;
 
-import com.loababa.api.auth.domain.impl.model.LossamBasicInfos;
-import com.loababa.api.auth.domain.impl.model.MemberProfile;
-import com.loababa.api.auth.domain.impl.repository.MemberReader;
-import com.loababa.api.auth.domain.impl.repository.MemberWriter;
+import com.loababa.api.auth.domain.member.impl.model.LossamBasicInfos;
+import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
+import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
+import com.loababa.api.auth.domain.member.impl.repository.MemberWriter;
 import com.loababa.api.auth.infra.persistance.dto.LossamBasicInfoDto;
 import com.loababa.api.auth.infra.persistance.entity.MemberEntity;
 import com.loababa.api.auth.infra.persistance.repository.MemberJpaRepository;

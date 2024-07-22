@@ -1,7 +1,8 @@
 package com.loababa.api.auth.infra.persistance.adapter;
 
-import com.loababa.api.auth.domain.impl.model.RefreshToken;
+import com.loababa.api.auth.domain.auth.impl.model.token.RefreshToken;
 import com.loababa.api.auth.domain.impl.model.RefreshTokenFixtures;
+import com.loababa.api.auth.infra.persistance.adapter.auth.RefreshTokenCacheAdapter;
 import com.loababa.api.common.MockTestBase;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
