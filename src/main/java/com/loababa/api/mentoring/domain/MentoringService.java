@@ -1,7 +1,7 @@
 package com.loababa.api.mentoring.domain;
 
-import com.loababa.api.auth.domain.impl.model.LossamBasicInfos;
-import com.loababa.api.auth.domain.impl.repository.MemberReader;
+import com.loababa.api.auth.domain.member.impl.model.LossamBasicInfos;
+import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.mentoring.domain.impl.model.MentoringDetailForm;
 import com.loababa.api.mentoring.domain.impl.model.MentoringListForms;
 import com.loababa.api.mentoring.domain.impl.model.MentoringPost;

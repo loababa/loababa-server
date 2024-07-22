@@ -1,16 +1,16 @@
 package com.loababa.api.auth.ui;
 
-import com.loababa.api.auth.domain.AuthService;
-import com.loababa.api.auth.domain.OAuthService;
-import com.loababa.api.auth.domain.impl.model.AccessToken;
+import com.loababa.api.auth.domain.auth.AuthService;
+import com.loababa.api.auth.domain.auth.OAuthService;
+import com.loababa.api.auth.domain.auth.impl.model.token.AccessToken;
 import com.loababa.api.auth.domain.impl.model.AccessTokenFixtures;
-import com.loababa.api.auth.domain.impl.model.AuthToken;
+import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
 import com.loababa.api.auth.domain.impl.model.AuthTokenFixtures;
-import com.loababa.api.auth.domain.impl.model.OAuthCredential;
-import com.loababa.api.auth.domain.impl.model.OAuthPlatform;
-import com.loababa.api.auth.domain.impl.model.RefreshToken;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthCredential;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
+import com.loababa.api.auth.domain.auth.impl.model.token.RefreshToken;
 import com.loababa.api.auth.domain.impl.model.RefreshTokenFixtures;
-import com.loababa.api.auth.ui.dto.AuthTokenRefreshRequest;
+import com.loababa.api.auth.ui.dto.AuthTokenRefreshReq;
 import com.loababa.api.auth.ui.dto.AuthTokenRefreshRequestFixtures;
 import com.loababa.api.common.ControllerTestBase;
 import com.loababa.api.common.model.ApiResponse;
@@ -95,16 +95,16 @@ class AuthControllerTest extends ControllerTestBase {
     @Test
     void 토큰_재발급_요청을_할_수_있다() throws Exception {
         // given
-        AuthTokenRefreshRequest authTokenRefreshRequest = AuthTokenRefreshRequestFixtures.newAuthTokenRefreshRequest();
+        AuthTokenRefreshReq authTokenRefreshReq = AuthTokenRefreshRequestFixtures.newAuthTokenRefreshRequest();
 
         AuthToken authToken = AuthTokenFixtures.newAuthToken();
-        given(authService.refreshAuthToken(new RefreshToken(authTokenRefreshRequest.refreshToken())))
+        given(authService.refreshAuthToken(new RefreshToken(authTokenRefreshReq.refreshToken())))
                 .willReturn(authToken);
 
         // when
         ResultActions resultActions = mvc.perform(post("/api/v1/auth/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(authTokenRefreshRequest)));
+                .content(om.writeValueAsString(authTokenRefreshReq)));
 
         // then
         resultActions.andExpect(status().isOk())

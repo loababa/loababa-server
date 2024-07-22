@@ -1,9 +1,9 @@
 package com.loababa.api.auth.infra.client.kakao;
 
-import com.loababa.api.auth.domain.impl.OAuthClient;
-import com.loababa.api.auth.domain.impl.model.OAuthPlatform;
-import com.loababa.api.auth.domain.impl.model.OAuthToken;
-import com.loababa.api.auth.domain.impl.model.OAuthUserInfo;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthClient;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthToken;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUserInfo;
 import com.loababa.api.common.config.WebConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-import static com.loababa.api.auth.domain.impl.model.JWTProperties.TOKEN_PREFIX;
+import static com.loababa.api.auth.domain.auth.impl.model.token.JWTProperties.TOKEN_PREFIX;
 import static com.loababa.api.auth.exception.AuthClientExceptionInfo.KAKAO_COMMUNICATION_FAIL;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;

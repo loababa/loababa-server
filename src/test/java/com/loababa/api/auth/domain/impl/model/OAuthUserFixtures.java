@@ -1,5 +1,7 @@
 package com.loababa.api.auth.domain.impl.model;
 
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUser;
 import org.instancio.Instancio;
 
 import java.util.List;

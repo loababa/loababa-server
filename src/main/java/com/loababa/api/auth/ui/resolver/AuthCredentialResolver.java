@@ -1,8 +1,8 @@
 package com.loababa.api.auth.ui.resolver;
 
-import com.loababa.api.auth.domain.impl.JWTManager;
+import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
 import com.loababa.api.auth.exception.InvalidTokenException;
-import com.loababa.api.auth.ui.AuthCredential;
+import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.exception.ServerExceptionInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -12,7 +12,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import static com.loababa.api.auth.domain.impl.model.JWTProperties.TOKEN_PREFIX;
+import static com.loababa.api.auth.domain.auth.impl.model.token.JWTProperties.TOKEN_PREFIX;
 import static com.loababa.api.auth.exception.AuthClientExceptionInfo.INVALID_TOKEN;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 

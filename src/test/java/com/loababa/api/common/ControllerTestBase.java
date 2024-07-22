@@ -1,7 +1,7 @@
 package com.loababa.api.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.loababa.api.auth.domain.impl.JWTManager;
+import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
 import com.loababa.api.common.service.impl.MessageSender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;

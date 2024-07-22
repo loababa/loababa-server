@@ -1,5 +1,6 @@
 package com.loababa.api.auth.domain.impl.model;
 
+import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
 import org.instancio.Instancio;
 
 import static org.instancio.Select.field;

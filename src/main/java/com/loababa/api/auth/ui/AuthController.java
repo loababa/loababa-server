@@ -1,12 +1,12 @@
 package com.loababa.api.auth.ui;
 
-import com.loababa.api.auth.domain.AuthService;
-import com.loababa.api.auth.domain.OAuthService;
-import com.loababa.api.auth.domain.impl.model.AuthToken;
-import com.loababa.api.auth.domain.impl.model.OAuthCredential;
-import com.loababa.api.auth.domain.impl.model.OAuthPlatform;
-import com.loababa.api.auth.domain.impl.model.RefreshToken;
-import com.loababa.api.auth.ui.dto.AuthTokenRefreshRequest;
+import com.loababa.api.auth.domain.auth.AuthService;
+import com.loababa.api.auth.domain.auth.OAuthService;
+import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthCredential;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
+import com.loababa.api.auth.domain.auth.impl.model.token.RefreshToken;
+import com.loababa.api.auth.ui.dto.AuthTokenRefreshReq;
 import com.loababa.api.common.model.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -48,9 +48,9 @@ public class AuthController {
     @PostMapping("/api/v1/auth/refresh")
     public ApiResponse<AuthToken> requestTokenRefresh(
             @Schema(description = "토큰 재발급 요청 Body")
-            @RequestBody @Valid AuthTokenRefreshRequest authTokenRefreshRequest
+            @RequestBody @Valid AuthTokenRefreshReq authTokenRefreshReq
     ) {
-        RefreshToken refreshToken = new RefreshToken(authTokenRefreshRequest.refreshToken());
+        RefreshToken refreshToken = new RefreshToken(authTokenRefreshReq.refreshToken());
         AuthToken authToken = authService.refreshAuthToken(refreshToken);
         return ApiResponse.success(authToken);
     }

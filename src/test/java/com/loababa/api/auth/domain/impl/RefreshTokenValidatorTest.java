@@ -1,9 +1,10 @@
 package com.loababa.api.auth.domain.impl;
 
-import com.loababa.api.auth.domain.impl.model.RefreshToken;
+import com.loababa.api.auth.domain.auth.impl.model.token.RefreshToken;
+import com.loababa.api.auth.domain.auth.impl.model.token.RefreshTokenValidator;
 import com.loababa.api.auth.domain.impl.model.RefreshTokenFixtures;
-import com.loababa.api.auth.domain.impl.repository.RefreshTokenReader;
-import com.loababa.api.auth.domain.impl.repository.RefreshTokenWriter;
+import com.loababa.api.auth.domain.auth.impl.repository.RefreshTokenReader;
+import com.loababa.api.auth.domain.auth.impl.repository.RefreshTokenWriter;
 import com.loababa.api.auth.exception.InvalidTokenException;
 import com.loababa.api.common.MockTestBase;
 import org.junit.jupiter.api.Nested;

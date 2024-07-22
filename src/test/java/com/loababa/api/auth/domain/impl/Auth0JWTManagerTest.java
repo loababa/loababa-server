@@ -1,11 +1,12 @@
 package com.loababa.api.auth.domain.impl;
 
-import com.loababa.api.auth.domain.impl.model.AccessToken;
-import com.loababa.api.auth.domain.impl.model.AuthToken;
-import com.loababa.api.auth.domain.impl.model.RefreshToken;
-import com.loababa.api.auth.domain.impl.model.JWTProperties;
-import com.loababa.api.auth.domain.impl.repository.RefreshTokenWriter;
-import com.loababa.api.auth.ui.AuthCredential;
+import com.loababa.api.auth.domain.auth.impl.model.token.AccessToken;
+import com.loababa.api.auth.domain.auth.impl.model.token.Auth0JWTManager;
+import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
+import com.loababa.api.auth.domain.auth.impl.model.token.RefreshToken;
+import com.loababa.api.auth.domain.auth.impl.model.token.JWTProperties;
+import com.loababa.api.auth.domain.auth.impl.repository.RefreshTokenWriter;
+import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.MockTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

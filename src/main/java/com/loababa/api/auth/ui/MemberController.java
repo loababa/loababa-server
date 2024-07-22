@@ -1,9 +1,10 @@
 package com.loababa.api.auth.ui;
 
-import com.loababa.api.auth.domain.MemberService;
-import com.loababa.api.auth.domain.impl.model.AuthToken;
+import com.loababa.api.auth.domain.member.MemberService;
+import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
 import com.loababa.api.auth.ui.dto.LossamSignUpReq;
 import com.loababa.api.common.model.ApiResponse;
+import com.loababa.api.common.model.AuthCredential;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

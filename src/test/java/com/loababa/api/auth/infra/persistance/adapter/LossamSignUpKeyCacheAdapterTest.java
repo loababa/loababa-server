@@ -1,6 +1,7 @@
 package com.loababa.api.auth.infra.persistance.adapter;
 
-import com.loababa.api.auth.domain.impl.model.LossamSignUpKey;
+import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKey;
+import com.loababa.api.auth.infra.persistance.adapter.member.LossamSignUpKeyCacheAdapter;
 import com.loababa.api.common.MockTestBase;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -1,7 +1,7 @@
 package com.loababa.api.auth.ui.dto;
 
-import com.loababa.api.auth.domain.impl.model.LossamLostArkCharacterInfo;
-import com.loababa.api.auth.domain.impl.model.MemberProfile;
+import com.loababa.api.auth.domain.member.impl.model.LossamLostArkCharacterInfo;
+import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

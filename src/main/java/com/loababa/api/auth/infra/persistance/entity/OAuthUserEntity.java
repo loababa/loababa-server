@@ -1,8 +1,8 @@
 package com.loababa.api.auth.infra.persistance.entity;
 
 
-import com.loababa.api.auth.domain.impl.model.OAuthPlatform;
-import com.loababa.api.auth.domain.impl.model.OAuthUser;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

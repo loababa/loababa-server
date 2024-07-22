@@ -1,6 +1,6 @@
 package com.loababa.api.mentoring.ui;
 
-import com.loababa.api.auth.ui.AuthCredential;
+import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.model.ApiResponse;
 import com.loababa.api.mentoring.domain.MentoringService;
 import com.loababa.api.mentoring.domain.impl.model.MentoringDetailForm;

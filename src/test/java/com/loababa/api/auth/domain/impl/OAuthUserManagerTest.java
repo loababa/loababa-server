@@ -1,9 +1,10 @@
 package com.loababa.api.auth.domain.impl;
 
-import com.loababa.api.auth.domain.impl.model.OAuthPlatform;
-import com.loababa.api.auth.domain.impl.model.OAuthUser;
-import com.loababa.api.auth.domain.impl.repository.OAuthUserReader;
-import com.loababa.api.auth.domain.impl.repository.OAuthUserWriter;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUser;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUserManager;
+import com.loababa.api.auth.domain.auth.impl.repository.OAuthUserReader;
+import com.loababa.api.auth.domain.auth.impl.repository.OAuthUserWriter;
 import com.loababa.api.common.MockTestBase;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;

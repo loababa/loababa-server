@@ -1,6 +1,6 @@
 package com.loababa.api.auth.infra.persistance.dto;
 
-import com.loababa.api.auth.domain.impl.model.LossamBasicInfos;
+import com.loababa.api.auth.domain.member.impl.model.LossamBasicInfos;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
