@@ -1,18 +1,17 @@
-package com.loababa.api.auth.domain;
+package com.loababa.api.auth.domain.auth;
 
-import com.loababa.api.auth.domain.auth.OAuthService;
 import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthClientProvider;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUserManager;
 import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
-import com.loababa.api.auth.domain.impl.model.OAuthClientFixtures;
+import com.loababa.api.auth.domain.auth.model.oauth.OAuthClientFixtures;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthCredential;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthToken;
-import com.loababa.api.auth.domain.impl.model.OAuthTokenFixtures;
+import com.loababa.api.auth.domain.auth.model.oauth.OAuthTokenFixtures;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUser;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUserInfo;
-import com.loababa.api.auth.domain.impl.model.OAuthUserInfoFixtures;
+import com.loababa.api.auth.domain.auth.model.oauth.OAuthUserInfoFixtures;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.MockTestBase;
@@ -22,8 +21,8 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import static com.loababa.api.auth.domain.impl.model.AccessTokenFixtures.newAccessToken;
-import static com.loababa.api.auth.domain.impl.model.RefreshTokenFixtures.newRefreshToken;
+import static com.loababa.api.auth.domain.auth.model.token.AccessTokenFixtures.newAccessToken;
+import static com.loababa.api.auth.domain.auth.model.token.RefreshTokenFixtures.newRefreshToken;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;

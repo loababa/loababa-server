@@ -1,6 +1,5 @@
-package com.loababa.api.auth.domain.impl.model;
+package com.loababa.api.auth.domain.member.impl.model;
 
-import com.loababa.api.auth.domain.member.impl.model.LossamLostArkCharacterInfo;
 import org.instancio.Instancio;
 
 import static org.instancio.Select.allStrings;

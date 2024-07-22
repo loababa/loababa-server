@@ -1,8 +1,7 @@
-package com.loababa.api.auth.infra.persistance.adapter;
+package com.loababa.api.auth.infra.persistance.adapter.auth;
 
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUser;
-import com.loababa.api.auth.domain.impl.model.OAuthUserFixtures;
-import com.loababa.api.auth.infra.persistance.adapter.auth.OAuthUserJpaRepositoryAdapter;
+import com.loababa.api.auth.domain.auth.model.oauth.OAuthUserFixtures;
 import com.loababa.api.auth.infra.persistance.entity.OAuthUserEntity;
 import com.loababa.api.auth.infra.persistance.repository.OAuthUserJpaRepository;
 import com.loababa.api.common.MockTestBase;

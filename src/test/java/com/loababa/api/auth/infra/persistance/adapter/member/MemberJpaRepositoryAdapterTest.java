@@ -1,6 +1,5 @@
-package com.loababa.api.auth.infra.persistance.adapter;
+package com.loababa.api.auth.infra.persistance.adapter.member;
 
-import com.loababa.api.auth.infra.persistance.adapter.member.MemberJpaRepositoryAdapter;
 import com.loababa.api.common.MockTestBase;
 import com.loababa.api.auth.infra.persistance.repository.MemberJpaRepository;
 import org.junit.jupiter.api.Nested;

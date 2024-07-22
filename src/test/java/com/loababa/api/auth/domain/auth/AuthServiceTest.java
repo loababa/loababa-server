@@ -1,11 +1,10 @@
-package com.loababa.api.auth.domain;
+package com.loababa.api.auth.domain.auth;
 
-import com.loababa.api.auth.domain.auth.AuthService;
 import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
 import com.loababa.api.auth.domain.auth.impl.model.token.RefreshTokenValidator;
 import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
-import com.loababa.api.auth.domain.impl.model.AuthTokenFixtures;
-import com.loababa.api.auth.domain.impl.model.RefreshTokenFixtures;
+import com.loababa.api.auth.domain.auth.model.token.AuthTokenFixtures;
+import com.loababa.api.auth.domain.auth.model.token.RefreshTokenFixtures;
 import com.loababa.api.auth.domain.auth.impl.repository.RefreshTokenWriter;
 import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.MockTestBase;
