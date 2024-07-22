@@ -7,7 +7,6 @@ import com.loababa.api.auth.domain.impl.model.LossamSignUpKeyGenerator;
 import com.loababa.api.auth.domain.impl.model.LossamSignUpKeyValidator;
 import com.loababa.api.auth.domain.impl.model.LossamSignUpURLGenerator;
 import com.loababa.api.auth.domain.impl.model.MemberProfile;
-import com.loababa.api.auth.domain.impl.model.MentoringPost;
 import com.loababa.api.auth.domain.impl.repository.LostArkCharacterInfoWriter;
 import com.loababa.api.auth.domain.impl.repository.MemberReader;
 import com.loababa.api.auth.domain.impl.repository.MemberWriter;
@@ -56,14 +55,12 @@ public class MemberService {
             final String key,
             final Long oauthId,
             final MemberProfile memberProfile,
-            final LossamLostArkCharacterInfo lossamLostArkCharacterInfo,
-            final MentoringPost mentoringPost
+            final LossamLostArkCharacterInfo lossamLostArkCharacterInfo
     ) {
         lossamSignUpKeyValidator.validate(key);
 
         final Long memberId = memberWriter.save(memberProfile, oauthId);
         lostArkCharacterInfoWriter.save(lossamLostArkCharacterInfo, memberId);
-        mentoringPostWriter.save(mentoringPost, memberId);
 
         return jwtManager.generate(
                 new AuthCredential(oauthId, memberId)

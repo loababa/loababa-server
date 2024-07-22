@@ -1,7 +1,7 @@
 package com.loababa.api.mentoring.persistence.adapter;
 
 
-import com.loababa.api.auth.domain.impl.model.MentoringPost;
+import com.loababa.api.mentoring.domain.impl.model.MentoringPost;
 import com.loababa.api.auth.infra.persistance.repository.MemberJpaRepository;
 import com.loababa.api.mentoring.domain.impl.model.MentoringDetailForm;
 import com.loababa.api.mentoring.domain.impl.model.MentoringPostListForms;
@@ -30,7 +30,7 @@ public class MentoringPostRepositoryAdapter implements MentoringPostWriter, Ment
 
     @Override
     public void save(MentoringPost mentoringPost, Long memberId) {
-        final var mentoringPostEntity = new MentoringPostEntity(mentoringPost.description(), mentoringPost.selfIntroduce(), memberId);
+        final var mentoringPostEntity = new MentoringPostEntity(mentoringPost.title(), mentoringPost.contents(), memberId);
         final Long mentoringPostId = mentoringPostJpaRepository.save(mentoringPostEntity)
                 .getId();
 

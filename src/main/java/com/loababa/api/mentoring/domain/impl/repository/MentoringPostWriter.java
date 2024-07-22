@@ -1,6 +1,6 @@
 package com.loababa.api.mentoring.domain.impl.repository;
 
-import com.loababa.api.auth.domain.impl.model.MentoringPost;
+import com.loababa.api.mentoring.domain.impl.model.MentoringPost;
 
 public interface MentoringPostWriter {
 
