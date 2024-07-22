@@ -1,4 +1,4 @@
-package com.loababa.api.auth.domain.impl.model;
+package com.loababa.api.auth.domain.auth.model.oauth;
 
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUser;

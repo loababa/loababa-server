@@ -1,8 +1,7 @@
-package com.loababa.api.auth.domain.impl;
+package com.loababa.api.auth.domain.auth.model.token;
 
 import com.loababa.api.auth.domain.auth.impl.model.token.RefreshToken;
 import com.loababa.api.auth.domain.auth.impl.model.token.RefreshTokenValidator;
-import com.loababa.api.auth.domain.impl.model.RefreshTokenFixtures;
 import com.loababa.api.auth.domain.auth.impl.repository.RefreshTokenReader;
 import com.loababa.api.auth.domain.auth.impl.repository.RefreshTokenWriter;
 import com.loababa.api.auth.exception.InvalidTokenException;

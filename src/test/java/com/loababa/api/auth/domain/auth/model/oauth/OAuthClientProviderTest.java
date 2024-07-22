@@ -1,8 +1,7 @@
-package com.loababa.api.auth.domain.impl;
+package com.loababa.api.auth.domain.auth.model.oauth;
 
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthClient;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthClientProvider;
-import com.loababa.api.auth.domain.impl.model.OAuthClientFixtures;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
 import com.loababa.api.common.MockTestBase;
 import org.junit.jupiter.api.BeforeEach;

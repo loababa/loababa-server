@@ -1,7 +1,5 @@
-package com.loababa.api.auth.domain.impl;
+package com.loababa.api.auth.domain.member.impl.model;
 
-import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKey;
-import com.loababa.api.auth.domain.member.impl.model.LossamSignUpURLGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.loababa.api.auth.domain.impl;
+package com.loababa.api.auth.domain.auth.model.token;
 
 import com.loababa.api.auth.domain.auth.impl.model.token.AccessToken;
 import com.loababa.api.auth.domain.auth.impl.model.token.Auth0JWTManager;

@@ -1,4 +1,4 @@
-package com.loababa.api.auth.domain.impl.model;
+package com.loababa.api.auth.domain.auth.model.token;
 
 import com.loababa.api.auth.domain.auth.impl.model.token.RefreshToken;
 

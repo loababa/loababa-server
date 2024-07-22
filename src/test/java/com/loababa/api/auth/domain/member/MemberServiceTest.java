@@ -1,7 +1,6 @@
-package com.loababa.api.auth.domain;
+package com.loababa.api.auth.domain.member;
 
 import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
-import com.loababa.api.auth.domain.member.MemberService;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKey;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyGenerator;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyValidator;
@@ -19,9 +18,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import static com.loababa.api.auth.domain.impl.model.AuthTokenFixtures.newAuthToken;
-import static com.loababa.api.auth.domain.impl.model.LossamLostArkCharacterInfoFixtures.newLossamLostArkCharacterInfo;
-import static com.loababa.api.auth.domain.impl.model.MemberProfileFixtures.newLossamProfile;
+import static com.loababa.api.auth.domain.auth.model.token.AuthTokenFixtures.newAuthToken;
+import static com.loababa.api.auth.domain.member.impl.model.LossamLostArkCharacterInfoFixtures.newLossamLostArkCharacterInfo;
+import static com.loababa.api.auth.domain.member.impl.model.MemberProfileFixtures.newLossamProfile;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;

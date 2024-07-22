@@ -1,8 +1,6 @@
-package com.loababa.api.auth.domain.impl.model;
+package com.loababa.api.auth.domain.member.impl.model;
 
 
-import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
-import com.loababa.api.auth.domain.member.impl.model.MemberType;
 import org.instancio.Instancio;
 
 import static org.instancio.Select.field;
