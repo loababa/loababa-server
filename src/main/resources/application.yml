@@ -44,3 +44,10 @@ logging:
 
 url:
   lossam-sign-up: ${URL_LOSSAM_SIGN_UP}
+
+aws:
+  iam:
+    access-key: ${AWS_IAM_ACCESS_KEY}
+    secret-key: ${AWS_IAM_SECRET_KEY}
+  cloudfront:
+    domain: ${AWS_CLOUDFRONT_DOMAIN_NAME}
