@@ -17,37 +17,37 @@ import software.amazon.awssdk.services.s3.S3Client;
 })
 public class AwsConfig {
 
-    private static final Region REGION = Region.AP_NORTHEAST_2;
+    public static final Region REGION = Region.AP_NORTHEAST_2;
 
     @ConfigurationProperties("aws.iam")
     public record AwsIAMProperties(
             String accessKey,
             String secretKey
     ) {
-        @Bean
-        public AwsCredentials awsCredentials() {
-            return AwsBasicCredentials.builder()
-                    .accessKeyId(accessKey)
-                    .secretAccessKey(secretKey)
-                    .build();
-        }
+
+    }
+
+    @Bean
+    public AwsCredentials awsCredentials(AwsIAMProperties awsIAMProperties) {
+        return AwsBasicCredentials.builder()
+                .accessKeyId(awsIAMProperties.accessKey)
+                .secretAccessKey(awsIAMProperties.secretKey)
+                .build();
+    }
+
+    @Bean
+    public S3Client s3Client(AwsCredentials awsCredentials) {
+        return S3Client.builder()
+                .region(REGION)
+                .credentialsProvider(() -> awsCredentials)
+                .build();
     }
 
     @ConfigurationProperties("aws.s3")
     public record AwsS3Properties(
-            String publicBucketPrefix
+            String publicBucketPrefix,
+            String bucketName
     ) {
-        public AwsS3Properties {
-            publicBucketPrefix = "/public";
-        }
-
-        @Bean
-        public S3Client s3Client(AwsCredentials awsCredentials) {
-            return S3Client.builder()
-                    .region(REGION)
-                    .credentialsProvider(() -> awsCredentials)
-                    .build();
-        }
 
     }
 
