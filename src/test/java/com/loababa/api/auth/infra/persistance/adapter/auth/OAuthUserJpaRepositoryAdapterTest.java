@@ -29,7 +29,7 @@ class OAuthUserJpaRepositoryAdapterTest extends MockTestBase {
     private OAuthUserJpaRepository oAuthUserJpaRepository;
 
     @ParameterizedTest
-    @MethodSource("com.loababa.api.auth.domain.impl.model.OAuthUserFixtures#newOAuthUsers")
+    @MethodSource("com.loababa.api.auth.domain.auth.model.oauth.OAuthUserFixtures#newOAuthUsers")
     void OAuthUser를_저장할_수_있다(OAuthUser oAuthUser) {
         // given
         var oAuthUserEntity = new OAuthUserEntity(
