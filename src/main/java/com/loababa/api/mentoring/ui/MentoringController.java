@@ -1,13 +1,12 @@
 package com.loababa.api.mentoring.ui;
 
-import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.model.ApiResponse;
+import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.mentoring.domain.MentoringService;
 import com.loababa.api.mentoring.domain.impl.model.MentoringDetailForm;
 import com.loababa.api.mentoring.domain.impl.model.MentoringListForms;
 import com.loababa.api.mentoring.ui.dto.MentoringPostRegistrationReq;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -29,7 +28,6 @@ public class MentoringController {
     @PostMapping("/api/mentorings")
     public ApiResponse<Void> requestMentoring(
             AuthCredential credential,
-            @Schema(description = "로쌤 멘토링 포스트")
             @RequestBody @Valid MentoringPostRegistrationReq mentoringPostRegistrationReq
     ) {
         mentoringService.registerMentoringPost(

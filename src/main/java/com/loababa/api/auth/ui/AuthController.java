@@ -47,7 +47,6 @@ public class AuthController {
 
     @PostMapping("/api/v1/auth/refresh")
     public ApiResponse<AuthToken> requestTokenRefresh(
-            @Schema(description = "토큰 재발급 요청 Body")
             @RequestBody @Valid AuthTokenRefreshReq authTokenRefreshReq
     ) {
         RefreshToken refreshToken = new RefreshToken(authTokenRefreshReq.refreshToken());

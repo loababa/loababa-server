@@ -44,7 +44,6 @@ public class MemberController {
             AuthCredential authCredential,
             @Schema(description = "로쌤 회원 가입 가능 key")
             @RequestParam @NotBlank String key,
-            @Schema(description = "로쌤 회원 가입 상세정보")
             @RequestBody @Valid LossamSignUpReq lossamSignUpReq
     ) {
         AuthToken authToken = memberService.signupLossam(
