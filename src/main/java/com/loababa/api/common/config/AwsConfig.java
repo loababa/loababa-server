@@ -35,10 +35,10 @@ public class AwsConfig {
 
     @ConfigurationProperties("aws.s3")
     public record AwsS3Properties(
-            String publicPrefix
+            String publicBucketPrefix
     ) {
         public AwsS3Properties {
-            publicPrefix = "/public";
+            publicBucketPrefix = "/public";
         }
 
         @Bean
