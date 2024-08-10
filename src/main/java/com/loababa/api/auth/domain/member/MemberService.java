@@ -14,7 +14,7 @@ import com.loababa.api.auth.exception.DuplicatedNicknameException;
 import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.exception.ServerExceptionInfo;
 import com.loababa.api.common.service.impl.MessageSender;
-import com.loababa.api.mentoring.domain.impl.repository.MentoringPostWriter;
+import com.loababa.api.consulting.domain.impl.repository.ConsultingPostWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class MemberService {
 
     private final MemberReader memberReader;
     private final MemberWriter memberWriter;
-    private final MentoringPostWriter mentoringPostWriter;
+    private final ConsultingPostWriter consultingPostWriter;
     private final LostArkCharacterInfoWriter lostArkCharacterInfoWriter;
 
     public void generateLossamSignupURL() {
