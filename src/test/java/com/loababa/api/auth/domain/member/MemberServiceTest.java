@@ -12,7 +12,7 @@ import com.loababa.api.auth.exception.DuplicatedNicknameException;
 import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.MockTestBase;
 import com.loababa.api.common.service.impl.MessageSender;
-import com.loababa.api.mentoring.domain.impl.repository.MentoringPostWriter;
+import com.loababa.api.consulting.domain.impl.repository.ConsultingPostWriter;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -48,7 +48,7 @@ class MemberServiceTest extends MockTestBase {
     @Mock
     private MemberWriter memberWriter;
     @Mock
-    private MentoringPostWriter mentoringPostWriter;
+    private ConsultingPostWriter consultingPostWriter;
     @Mock
     private LostArkCharacterInfoWriter lostArkCharacterInfoWriter;
 
