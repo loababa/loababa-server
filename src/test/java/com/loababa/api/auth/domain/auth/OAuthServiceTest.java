@@ -67,9 +67,9 @@ class OAuthServiceTest extends MockTestBase {
         Long memberId = Instancio.create(Long.class);
         given(memberReader.getMemberIdByOAuthUserId(oAuthUserId)).willReturn(memberId);
 
-        var authCredential = new MemberCredential(oAuthUserId, memberId);
+        var memberCredential = new MemberCredential(oAuthUserId, memberId);
         var expectedAuthToken = new AuthToken(newAccessToken(), newRefreshToken());
-        given(jwtManager.generate(authCredential)).willReturn(expectedAuthToken);
+        given(jwtManager.generate(memberCredential)).willReturn(expectedAuthToken);
 
 
         // when

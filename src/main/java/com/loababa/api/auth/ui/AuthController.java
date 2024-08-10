@@ -33,9 +33,9 @@ public class AuthController {
     @Operation(description = "소셜 로그인")
     @GetMapping("/api/v1/oauth/{platform}")
     public ApiResponse<AuthToken> requestAuthentication(
-            @Schema(description = "OAuth 플랫폼", allowableValues = {"kakao"})
+            @Schema(description = "OAuth 플랫폼", allowableValues = {"kakao", "google"})
             @PathVariable
-            @Valid @NotBlank @Pattern(regexp = "^(kakao)$") String platform,
+            @Valid @NotBlank @Pattern(regexp = "^(kakao|google)$") String platform,
             @Schema(description = "OAuth 토큰을 받기 위한 인가 코드")
             @RequestParam
             @Valid @NotBlank String code

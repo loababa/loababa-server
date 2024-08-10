@@ -2,6 +2,7 @@ package com.loababa.api.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
+import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.common.service.impl.MessageSender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -26,6 +27,8 @@ public abstract class ControllerTestBase {
     private MessageSender messageSender;
     @MockBean
     private JWTManager jwtManager;
+    @MockBean
+    private MemberReader memberReader;
 
     @BeforeEach
     void setUp(WebApplicationContext context) {
