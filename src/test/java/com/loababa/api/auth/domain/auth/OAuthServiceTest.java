@@ -13,7 +13,7 @@ import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUser;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUserInfo;
 import com.loababa.api.auth.domain.auth.model.oauth.OAuthUserInfoFixtures;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
-import com.loababa.api.common.model.AuthCredential;
+import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.common.MockTestBase;
 import org.instancio.Instancio;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -61,13 +61,13 @@ class OAuthServiceTest extends MockTestBase {
                 .willReturn(oAuthUserInfo);
 
         OAuthUser oAuthUser = new OAuthUser(oAuthPlatform, oAuthUserInfo.id());
-        Long oAuthUserId = Instancio.create(Long.class);;
+        Long oAuthUserId = Instancio.create(Long.class);
         given(oAuthUserManager.saveOAuthUserIfNotExists(oAuthUser)).willReturn(oAuthUserId);
 
         Long memberId = Instancio.create(Long.class);
         given(memberReader.getMemberIdByOAuthUserId(oAuthUserId)).willReturn(memberId);
 
-        var authCredential = new AuthCredential(oAuthUserId, memberId);
+        var authCredential = new MemberCredential(oAuthUserId, memberId);
         var expectedAuthToken = new AuthToken(newAccessToken(), newRefreshToken());
         given(jwtManager.generate(authCredential)).willReturn(expectedAuthToken);
 

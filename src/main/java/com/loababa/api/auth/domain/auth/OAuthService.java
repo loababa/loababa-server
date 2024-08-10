@@ -7,7 +7,7 @@ import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthCredential;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUser;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
-import com.loababa.api.common.model.AuthCredential;
+import com.loababa.api.common.model.MemberCredential;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class OAuthService {
         Long memberId = memberReader.getMemberIdByOAuthUserId(oAuthUserId);
 
         return jwtManager.generate(
-                new AuthCredential(oAuthUserId, memberId)
+                new MemberCredential(oAuthUserId, memberId)
         );
     }
 

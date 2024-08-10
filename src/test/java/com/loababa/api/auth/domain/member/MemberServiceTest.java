@@ -9,10 +9,9 @@ import com.loababa.api.auth.domain.member.impl.repository.LostArkCharacterInfoWr
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.auth.domain.member.impl.repository.MemberWriter;
 import com.loababa.api.auth.exception.DuplicatedNicknameException;
-import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.MockTestBase;
+import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.common.service.impl.MessageSender;
-import com.loababa.api.consulting.domain.impl.repository.ConsultingPostWriter;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -47,8 +46,6 @@ class MemberServiceTest extends MockTestBase {
     private MemberReader memberReader;
     @Mock
     private MemberWriter memberWriter;
-    @Mock
-    private ConsultingPostWriter consultingPostWriter;
     @Mock
     private LostArkCharacterInfoWriter lostArkCharacterInfoWriter;
 
@@ -109,8 +106,8 @@ class MemberServiceTest extends MockTestBase {
         Long memberId = 1L;
         given(memberWriter.save(lossamProfile, oauthId)).willReturn(memberId);
 
-        AuthCredential authCredential = new AuthCredential(oauthId, memberId);
-        given(jwtManager.generate(authCredential)).willReturn(newAuthToken());
+        MemberCredential memberCredential = new MemberCredential(oauthId, memberId);
+        given(jwtManager.generate(memberCredential)).willReturn(newAuthToken());
 
         // when
         memberService.signupLossam(key, oauthId, lossamProfile, lossamLostArkCharacterInfo);

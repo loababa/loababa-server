@@ -9,7 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.loababa.api.auth.domain.auth.impl.repository.RefreshTokenWriter;
 import com.loababa.api.auth.exception.AuthClientExceptionInfo;
 import com.loababa.api.auth.exception.InvalidTokenException;
-import com.loababa.api.common.model.AuthCredential;
+import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.common.exception.ServerExceptionInfo;
 import org.springframework.stereotype.Component;
 
@@ -37,44 +37,44 @@ public class Auth0JWTManager implements JWTManager {
     }
 
     @Override
-    public AuthToken generate(AuthCredential authCredential) {
+    public AuthToken generate(MemberCredential memberCredential) {
         Instant now = Instant.now();
-        AccessToken accessToken = generateAccessToken(authCredential, now);
-        RefreshToken refreshToken = generateRefreshToken(authCredential, now);
+        AccessToken accessToken = generateAccessToken(memberCredential, now);
+        RefreshToken refreshToken = generateRefreshToken(memberCredential, now);
 
         AuthToken authToken = new AuthToken(accessToken, refreshToken);
         refreshTokenWriter.save(authToken.refreshToken());
         return authToken;
     }
 
-    private AccessToken generateAccessToken(AuthCredential authCredential, Instant now) {
+    private AccessToken generateAccessToken(MemberCredential memberCredential, Instant now) {
         return new AccessToken(
-                createToken(authCredential, now, jwtProperties.accessTokenExpirationTimeInSec())
+                createToken(memberCredential, now, jwtProperties.accessTokenExpirationTimeInSec())
         );
     }
 
-    private RefreshToken generateRefreshToken(AuthCredential authCredential, Instant now) {
+    private RefreshToken generateRefreshToken(MemberCredential memberCredential, Instant now) {
         return new RefreshToken(
-                createToken(authCredential, now, jwtProperties.refreshTokenExpirationTimeInSec())
+                createToken(memberCredential, now, jwtProperties.refreshTokenExpirationTimeInSec())
         );
     }
 
-    private String createToken(AuthCredential authCredential, Instant now, int expirationTime) {
+    private String createToken(MemberCredential memberCredential, Instant now, int expirationTime) {
         return JWT.create()
                 .withIssuedAt(now)
                 .withExpiresAt(now.plusSeconds(expirationTime))
-                .withClaim(OAUTH_USER_ID, authCredential.oauthUserId())
-                .withClaim(MEMBER_ID, authCredential.memberId())
+                .withClaim(OAUTH_USER_ID, memberCredential.oauthUserId())
+                .withClaim(MEMBER_ID, memberCredential.memberId())
                 .sign(algorithm);
     }
 
     @Override
-    public AuthCredential extractClaims(String token) {
+    public MemberCredential extractClaims(String token) {
         DecodedJWT decodedJWT = verify(token);
 
         Long memberId = decodedJWT.getClaim(MEMBER_ID).asLong();
         Long oauthId = decodedJWT.getClaim(OAUTH_USER_ID).asLong();
-        return new AuthCredential(oauthId, memberId);
+        return new MemberCredential(oauthId, memberId);
     }
 
     @Override

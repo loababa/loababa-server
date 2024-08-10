@@ -1,13 +1,12 @@
 package com.loababa.api.auth.domain.auth;
 
+import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
 import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
 import com.loababa.api.auth.domain.auth.impl.model.token.RefreshTokenValidator;
-import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
 import com.loababa.api.auth.domain.auth.model.token.AuthTokenFixtures;
 import com.loababa.api.auth.domain.auth.model.token.RefreshTokenFixtures;
-import com.loababa.api.auth.domain.auth.impl.repository.RefreshTokenWriter;
-import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.MockTestBase;
+import com.loababa.api.common.model.MemberCredential;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,8 +23,6 @@ class AuthServiceTest extends MockTestBase {
     @Mock
     private RefreshTokenValidator refreshTokenValidator;
     @Mock
-    private RefreshTokenWriter refreshTokenWriter;
-    @Mock
     private JWTManager jwtManager;
 
     @Test
@@ -33,7 +30,7 @@ class AuthServiceTest extends MockTestBase {
         // given
         var refreshToken = RefreshTokenFixtures.newRefreshToken();
 
-        var authCredential = new AuthCredential(1L, 1L);
+        var authCredential = new MemberCredential(1L, 1L);
         var expectedAuthToken = AuthTokenFixtures.newAuthToken();
 
         given(jwtManager.extractClaims(refreshToken.value())).willReturn(authCredential);

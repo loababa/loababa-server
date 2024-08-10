@@ -1,7 +1,7 @@
 package com.loababa.api.auth.domain.member;
 
-import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
 import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
+import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
 import com.loababa.api.auth.domain.member.impl.model.LossamLostArkCharacterInfo;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyGenerator;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyValidator;
@@ -11,10 +11,9 @@ import com.loababa.api.auth.domain.member.impl.repository.LostArkCharacterInfoWr
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.auth.domain.member.impl.repository.MemberWriter;
 import com.loababa.api.auth.exception.DuplicatedNicknameException;
-import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.exception.ServerExceptionInfo;
+import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.common.service.impl.MessageSender;
-import com.loababa.api.consulting.domain.impl.repository.ConsultingPostWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,6 @@ public class MemberService {
 
     private final MemberReader memberReader;
     private final MemberWriter memberWriter;
-    private final ConsultingPostWriter consultingPostWriter;
     private final LostArkCharacterInfoWriter lostArkCharacterInfoWriter;
 
     public void generateLossamSignupURL() {
@@ -63,7 +61,7 @@ public class MemberService {
         lostArkCharacterInfoWriter.save(lossamLostArkCharacterInfo, memberId);
 
         return jwtManager.generate(
-                new AuthCredential(oauthId, memberId)
+                new MemberCredential(oauthId, memberId)
         );
     }
 

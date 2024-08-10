@@ -1,9 +1,11 @@
 package com.loababa.api.common.ui;
 
 import com.loababa.api.common.constant.AwsS3Folder;
-import com.loababa.api.common.model.AuthCredential;
+import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.common.service.AwsS3Service;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +22,10 @@ public class AwsController {
 
     private final AwsS3Service awsS3Service;
 
+    @Operation(description = "S3 Presigned URL 생성", security = @SecurityRequirement(name = "Authorization"))
     @GetMapping("/api/v1/{category}/presigned-url")
     public String requestPresignedURL(
-            AuthCredential authCredential,
+            MemberCredential memberCredential,
             @Schema(allowableValues = {"profile-images"},
                     description = "업로드할 파일의 카테고리")
             @PathVariable String category,

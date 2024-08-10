@@ -1,13 +1,14 @@
 package com.loababa.api.consulting.ui;
 
-import com.loababa.api.common.model.AuthCredential;
 import com.loababa.api.common.model.ApiResponse;
+import com.loababa.api.common.model.LossamCredential;
+import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.consulting.domain.ConsultingService;
 import com.loababa.api.consulting.domain.impl.model.ConsultingDetailForm;
 import com.loababa.api.consulting.domain.impl.model.ConsultingListForms;
 import com.loababa.api.consulting.ui.dto.ConsultingRegistrationReq;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -25,11 +26,10 @@ public class ConsultingController {
 
     private final ConsultingService consultingService;
 
-    @Operation(description = "멘토링 포스트 등록")
+    @Operation(description = "멘토링 포스트 등록", security = @SecurityRequirement(name = "Authorization"))
     @PostMapping("/api/consulting")
     public ApiResponse<Void> requestConsultingRegistration(
-            AuthCredential credential,
-            @Schema(description = "로쌤 멘토링 포스트")
+            LossamCredential credential,
             @RequestBody @Valid ConsultingRegistrationReq consultingRegistrationReq
     ) {
         consultingService.registerConsulting(
@@ -42,17 +42,15 @@ public class ConsultingController {
 
     @Operation(description = "멘토링 리스트 불러오기")
     @GetMapping("/api/consulting")
-    public ApiResponse<ConsultingListForms> requestConsultingList(
-            AuthCredential authCredential
-    ) {
+    public ApiResponse<ConsultingListForms> requestConsultingList() {
         ConsultingListForms allConsultingListForms = consultingService.getAllConsultingListForms();
         return ApiResponse.success(allConsultingListForms);
     }
 
-    @Operation(description = "멘토링 상세 불러오기")
-    @GetMapping("/api/consulting/{consultingPostId}")
+    @Operation(description = "멘토링 포스팅 상세 불러오기")
+    @GetMapping("/api/consulting/posts/{consultingPostId}")
     public ApiResponse<ConsultingDetailForm> requestConsultingDetail(
-            AuthCredential authCredential,
+            MemberCredential memberCredential,
             @PathVariable @NotNull Long consultingPostId
     ) {
         var consultingDetailForm = consultingService.getConsultingDetailForm(consultingPostId);

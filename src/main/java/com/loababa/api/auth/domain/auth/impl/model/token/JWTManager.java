@@ -2,13 +2,13 @@ package com.loababa.api.auth.domain.auth.impl.model.token;
 
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.loababa.api.common.model.AuthCredential;
+import com.loababa.api.common.model.MemberCredential;
 
 public interface JWTManager {
 
-    AuthToken generate(AuthCredential authCredential);
+    AuthToken generate(MemberCredential memberCredential);
 
-    AuthCredential extractClaims(String token);
+    MemberCredential extractClaims(String token);
 
     DecodedJWT verify(String token);
 

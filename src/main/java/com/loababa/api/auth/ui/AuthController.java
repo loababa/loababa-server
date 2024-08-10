@@ -2,9 +2,9 @@ package com.loababa.api.auth.ui;
 
 import com.loababa.api.auth.domain.auth.AuthService;
 import com.loababa.api.auth.domain.auth.OAuthService;
-import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthCredential;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
+import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
 import com.loababa.api.auth.domain.auth.impl.model.token.RefreshToken;
 import com.loababa.api.auth.ui.dto.AuthTokenRefreshReq;
 import com.loababa.api.common.model.ApiResponse;
@@ -33,9 +33,9 @@ public class AuthController {
     @Operation(description = "소셜 로그인")
     @GetMapping("/api/v1/oauth/{platform}")
     public ApiResponse<AuthToken> requestAuthentication(
-            @Schema(description = "OAuth 플랫폼")
+            @Schema(description = "OAuth 플랫폼", allowableValues = {"kakao"})
             @PathVariable
-            @Valid @NotBlank @Pattern(regexp = "^(kakao|google)$") String platform,
+            @Valid @NotBlank @Pattern(regexp = "^(kakao)$") String platform,
             @Schema(description = "OAuth 토큰을 받기 위한 인가 코드")
             @RequestParam
             @Valid @NotBlank String code
@@ -45,6 +45,7 @@ public class AuthController {
         return ApiResponse.success(authToken);
     }
 
+    @Operation(description = "토큰 재발급")
     @PostMapping("/api/v1/auth/refresh")
     public ApiResponse<AuthToken> requestTokenRefresh(
             @RequestBody @Valid AuthTokenRefreshReq authTokenRefreshReq
