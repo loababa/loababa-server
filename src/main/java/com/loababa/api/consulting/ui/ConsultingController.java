@@ -27,7 +27,7 @@ public class ConsultingController {
     private final ConsultingService consultingService;
 
     @Operation(description = "멘토링 포스트 등록", security = @SecurityRequirement(name = "Authorization"))
-    @PostMapping("/api/consulting")
+    @PostMapping("/api/v1/consulting")
     public ApiResponse<Void> requestConsultingRegistration(
             LossamCredential credential,
             @RequestBody @Valid ConsultingRegistrationReq consultingRegistrationReq
@@ -41,14 +41,14 @@ public class ConsultingController {
     }
 
     @Operation(description = "멘토링 리스트 불러오기")
-    @GetMapping("/api/consulting")
+    @GetMapping("/api/v1/consulting")
     public ApiResponse<ConsultingListForms> requestConsultingList() {
         ConsultingListForms allConsultingListForms = consultingService.getAllConsultingListForms();
         return ApiResponse.success(allConsultingListForms);
     }
 
     @Operation(description = "멘토링 포스팅 상세 불러오기")
-    @GetMapping("/api/consulting/posts/{consultingPostId}")
+    @GetMapping("/api/v1/consulting/posts/{consultingPostId}")
     public ApiResponse<ConsultingDetailForm> requestConsultingDetail(
             MemberCredential memberCredential,
             @PathVariable @NotNull Long consultingPostId
