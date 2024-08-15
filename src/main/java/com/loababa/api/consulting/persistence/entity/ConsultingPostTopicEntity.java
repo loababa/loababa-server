@@ -24,7 +24,7 @@ public class ConsultingPostTopicEntity {
     @Column(nullable = false, length = 6)
     private String topic;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long consultingPostId;
 
     public ConsultingPostTopicEntity(String topic, Long consultingPostId) {
