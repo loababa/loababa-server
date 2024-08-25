@@ -1,11 +1,16 @@
 package com.loababa.api.common.config;
 
 import com.loababa.api.auth.exception.ExternalCommunicationException;
+import com.loababa.api.auth.ui.resolver.LossamCredentialResolver;
+import com.loababa.api.auth.ui.resolver.MemberCredentialResolver;
 import com.loababa.api.common.exception.ClientExceptionInfo;
 import com.loababa.api.common.exception.ServerExceptionInfo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,10 +18,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Configuration
-public class WebConfig {
+@RequiredArgsConstructor
+public class WebConfig implements WebMvcConfigurer {
+
+    private final MemberCredentialResolver memberCredentialResolver;
+    private final LossamCredentialResolver lossamCredentialResolver;
 
     private static final String COMMUNICATION_ERROR_SERVER_MESSAGE = """
             외부 통신 통신 오류
@@ -57,4 +67,9 @@ public class WebConfig {
         }
     }
 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(memberCredentialResolver);
+        resolvers.add(lossamCredentialResolver);
+    }
 }
