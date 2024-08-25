@@ -37,6 +37,8 @@ jwt:
 discord:
   lossam-signup-webhook-url: ${DISCORD_LOSSAM_SIGNUP_WEBHOOK_URL}
   error-notification-webhook-url: ${DISCORD_ERROR_NOTIFICATION_WEBHOOK_URL}
+  consulting-notification-webhook-url: ${DISCORD_CONSULTING_NOTIFICATION_WEBHOOK_URL}
+
 
 logging:
   level:

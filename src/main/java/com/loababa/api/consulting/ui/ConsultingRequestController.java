@@ -3,16 +3,21 @@ package com.loababa.api.consulting.ui;
 import com.loababa.api.common.model.ApiResponse;
 import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.consulting.domain.ConsultingRequestService;
-import com.loababa.api.consulting.domain.impl.model.LossamSchedule;
-import com.loababa.api.consulting.ui.dto.ConsultingScheduleRes;
+import com.loababa.api.consulting.domain.impl.model.ConsultingReservationForm;
+import com.loababa.api.consulting.domain.impl.model.ReservationSchedule;
+import com.loababa.api.consulting.ui.dto.ConsultingReservationReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.constraints.NotBlank;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Consulting", description = "상담 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class ConsultingRequestController {
@@ -21,15 +26,32 @@ public class ConsultingRequestController {
 
     @Operation(description = "로쌤 상담 시간 가져오기", security = @SecurityRequirement(name = "Authorization"))
     @GetMapping("/api/v1/consulting/schedules")
-    public ApiResponse<ConsultingScheduleRes> requestConsultingSchedule(
+    public ApiResponse<ReservationSchedule> requestConsultingSchedule(
             MemberCredential memberCredential,
-            @NotBlank
-            @RequestParam Long lossamId
+            @RequestParam long lossamId
     ) {
-        LossamSchedule lossamSchedules = consultingRequestService.getLossamSchedules(lossamId);
-        return ApiResponse.success(
-                new ConsultingScheduleRes(lossamSchedules.schedule())
+        ReservationSchedule lossamSchedules = consultingRequestService.getLossamSchedules(lossamId);
+        return ApiResponse.success(lossamSchedules);
+    }
+
+    @Operation(description = "상담 요청하기", security = @SecurityRequirement(name = "Authorization"))
+    @PostMapping("/api/v1/consulting/reservation")
+    public ApiResponse<Void> requestConsulting(
+            MemberCredential memberCredential,
+            @Valid @RequestBody ConsultingReservationReq request
+    ) {
+        consultingRequestService.reserveConsulting(
+                new ConsultingReservationForm(
+                        request.characterDetails(),
+                        request.inquiryDetails(),
+                        request.experience(),
+                        request.contactNumber(),
+                        request.reservationDateTimes(),
+                        request.lossamId(),
+                        memberCredential.memberId()
+                )
         );
+        return ApiResponse.success();
     }
 
 }

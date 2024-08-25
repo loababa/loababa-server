@@ -6,4 +6,6 @@ public interface MessageSender {
 
     void sendErrorNotification(String message);
 
+    void sendConsultingNotification(String contactNumber);
+
 }

@@ -6,6 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface ConsultingScheduleReader {
 
-    LossamSchedule readLossamSchedule(Long lossamId);
+    LossamSchedule readLossamSchedule(long lossamId);
 
 }

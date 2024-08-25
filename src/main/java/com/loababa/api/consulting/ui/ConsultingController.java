@@ -47,7 +47,7 @@ public class ConsultingController {
         return ApiResponse.success(allConsultingListForms);
     }
 
-    @Operation(description = "멘토링 포스팅 상세 불러오기")
+    @Operation(description = "멘토링 포스팅 상세 불러오기", security = @SecurityRequirement(name = "Authorization"))
     @GetMapping("/api/v1/consulting/posts/{consultingPostId}")
     public ApiResponse<ConsultingDetailForm> requestConsultingDetail(
             MemberCredential memberCredential,
