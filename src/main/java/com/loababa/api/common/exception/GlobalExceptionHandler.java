@@ -13,6 +13,7 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 
 import static org.springframework.http.HttpStatus.BAD_GATEWAY;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Slf4j
 @RestControllerAdvice
@@ -67,6 +68,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(LoababaBadRequestException.class)
     public ApiResponse<Void> handleLoababaBadRequestException(LoababaBadRequestException e) {
+        log.debug(e.getMessage(), e);
+        return ApiResponse.fail(e.getClientCode(), e.getClientMessage());
+    }
+
+    @ResponseStatus(UNAUTHORIZED)
+    @ExceptionHandler(loababaUnauthorizedException.class)
+    public ApiResponse<Void> handleLoababaForbiddenException(loababaUnauthorizedException e) {
         log.debug(e.getMessage(), e);
         return ApiResponse.fail(e.getClientCode(), e.getClientMessage());
     }

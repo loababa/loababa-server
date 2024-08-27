@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AuthClientExceptionInfo implements ClientExceptionInfo {
     // AUTHENTICATION
-    LOGIN_REQUIRED("계속하려면 로그인 해야 합니다."),
+    LOGIN_REQUIRED("서비스를 이용하려면 로그인이 필요합니다."),
 
     // TOKEN
     INVALID_TOKEN("인증 정보가 잘못되었습니다. 로그인 후 다시 시도해 주세요."),
