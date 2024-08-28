@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,33 +35,35 @@ public class ReservationSlotAssembler {
         for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
             TimeRange timeRange = lossamSchedule.getTimeRange(date.getDayOfWeek());
             if (timeRange == null) {
-                reservationSchedule.put(date, newDayOffSchedule());
+                reservationSchedule.add(newDayOffSchedule(date));
                 continue;
             }
-            LocalDateTime lossamAvailableStartTime = LocalDateTime.of(date, timeRange.start());
-            LocalDateTime lossamAvailableEndTime = LocalDateTime.of(date, timeRange.end());
+            LocalTime lossamAvailableStartTime = timeRange.start();
+            LocalTime lossamAvailableEndTime = timeRange.end();
 
-            List<ReservationSlot> reservationSlots = assembleDailyReservationSlots(lossamId, lossamAvailableStartTime, lossamAvailableEndTime);
-            reservationSchedule.put(date, new DaySchedule(reservationSlots));
+            List<ReservationSlot> reservationSlots = assembleDailyReservationSlots(lossamId, date, lossamAvailableStartTime, lossamAvailableEndTime);
+            reservationSchedule.add(new DaySchedule(date, reservationSlots));
         }
         return reservationSchedule;
     }
 
     private List<ReservationSlot> assembleDailyReservationSlots(
             long lossamId,
-            LocalDateTime lossamAvailableStartTime,
-            LocalDateTime lossamAvailableEndTime
+            LocalDate targetDate,
+            LocalTime lossamAvailableStartTime,
+            LocalTime lossamAvailableEndTime
     ) {
         List<ReservationSlot> reservationSlots = new ArrayList<>();
-        LocalDateTime slotStartTime = LocalDateTime.from(lossamAvailableStartTime);
-        LocalDateTime slotEndTime = slotStartTime.plus(RESERVATION_SLOT_INTERVAL);
 
-        while (slotEndTime.isBefore(lossamAvailableEndTime)) {
-            boolean isAvailableSlot = slotAvailabilityChecker.isAvailableSlot(lossamId, slotStartTime, slotEndTime);
-            reservationSlots.add(new ReservationSlot(slotStartTime, slotEndTime, isAvailableSlot));
+        for (LocalTime time = lossamAvailableStartTime; time.isBefore(lossamAvailableEndTime); time = time.plus(RESERVATION_SLOT_INTERVAL)) {
+            boolean isAvailableSlot = slotAvailabilityChecker.isAvailableSlot(
+                    lossamId,
+                    LocalDateTime.of(targetDate, lossamAvailableStartTime),
+                    LocalDateTime.of(targetDate, lossamAvailableEndTime)
+            );
 
-            slotStartTime = LocalDateTime.from(slotEndTime);
-            slotEndTime = slotEndTime.plus(RESERVATION_SLOT_INTERVAL);
+            TimeRange timeRange = new TimeRange(time, time.plus(RESERVATION_SLOT_INTERVAL));
+            reservationSlots.add(new ReservationSlot(timeRange, isAvailableSlot));
         }
         return reservationSlots;
     }
