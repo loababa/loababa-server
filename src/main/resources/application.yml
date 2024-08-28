@@ -56,3 +56,5 @@ aws:
   s3:
     bucket-name: ${AWS_S3_BUCKET_NAME}
     public-bucket-prefix: ${AWS_PUBLIC_BUCKET_PREFIX}
+
+domain: www.loababa.com

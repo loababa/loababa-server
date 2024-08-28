@@ -5,11 +5,12 @@ import com.loababa.api.auth.ui.resolver.LossamCredentialResolver;
 import com.loababa.api.auth.ui.resolver.MemberCredentialResolver;
 import com.loababa.api.common.exception.ClientExceptionInfo;
 import com.loababa.api.common.exception.ServerExceptionInfo;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.BufferedReader;
@@ -22,11 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Configuration
-@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
-
-    private final MemberCredentialResolver memberCredentialResolver;
-    private final LossamCredentialResolver lossamCredentialResolver;
 
     private static final String COMMUNICATION_ERROR_SERVER_MESSAGE = """
             외부 통신 통신 오류
@@ -37,6 +34,20 @@ public class WebConfig implements WebMvcConfigurer {
             response body: {3}
             ---
             """;
+
+    private final MemberCredentialResolver memberCredentialResolver;
+    private final LossamCredentialResolver lossamCredentialResolver;
+    private final String domain;
+
+    public WebConfig(
+            MemberCredentialResolver memberCredentialResolver,
+            LossamCredentialResolver lossamCredentialResolver,
+            @Value("domain") String domain
+    ) {
+        this.memberCredentialResolver = memberCredentialResolver;
+        this.lossamCredentialResolver = lossamCredentialResolver;
+        this.domain = domain;
+    }
 
     @Bean
     public RestClient restClient() {
@@ -72,4 +83,13 @@ public class WebConfig implements WebMvcConfigurer {
         resolvers.add(memberCredentialResolver);
         resolvers.add(lossamCredentialResolver);
     }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:5173", domain)
+                .allowedMethods("*")
+                .allowCredentials(true);
+    }
+
 }
