@@ -1,5 +1,7 @@
 package com.loababa.api.common.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -11,6 +13,9 @@ import static io.swagger.v3.oas.models.security.SecurityScheme.In.HEADER;
 import static io.swagger.v3.oas.models.security.SecurityScheme.Type.HTTP;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+@OpenAPIDefinition(servers = {
+        @Server(url = "/", description = "Default Server URL")
+})
 @Configuration
 public class SwaggerConfig {
 
