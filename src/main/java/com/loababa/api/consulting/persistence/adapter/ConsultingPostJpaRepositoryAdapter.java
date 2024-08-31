@@ -39,18 +39,18 @@ public class ConsultingPostJpaRepositoryAdapter implements ConsultingPostWriter,
 
     @Override
     public ConsultingPostListForms getAllConsultingPostListForm(List<Long> allLossamId) {
-        // 1. 멘토링 포스트 엔티티를 가져옵니다.
+        // 1. 상담 포스트 엔티티를 가져옵니다.
         List<ConsultingPostEntity> consultingPostEntities = consultingPostJpaRepository.findAllByMemberIdIn(allLossamId);
 
-        // 2. 멘토링 포스트 ID 목록 추출합니다.
+        // 2. 상담 포스트 ID 목록 추출합니다.
         List<Long> consultingPostIds = consultingPostEntities.stream()
                 .map(ConsultingPostEntity::getId)
                 .toList();
 
-        // 3. 멘토링 포스트 토픽 엔티티를 가져옵니다.
+        // 3. 상담 포스트 토픽 엔티티를 가져옵니다.
         List<ConsultingPostTopicEntity> topics = consultingPostTopicEntityJpaRepository.findAllByConsultingPostIdIn(consultingPostIds);
 
-        // 4. 멘토링 포스트 ID를 키로 하는 맵을 생성합니다.
+        // 4. 상담 포스트 ID를 키로 하는 맵을 생성합니다.
         Map<Long, List<String>> topicsMappedPostId = topics.stream()
                 .collect(
                         Collectors.groupingBy(
@@ -78,7 +78,7 @@ public class ConsultingPostJpaRepositoryAdapter implements ConsultingPostWriter,
     @Override
     public ConsultingDetailForm readConsultingDetailForm(Long consultingPostId) {
         var consultingPostEntity = consultingPostJpaRepository.findById(consultingPostId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 멘토링 포스트 ID가 존재 하지 않습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("해당 상담 포스트 ID가 존재 하지 않습니다."));
         return new ConsultingDetailForm(
                 consultingPostEntity.getTitle(),
                 consultingPostEntity.getContents()
