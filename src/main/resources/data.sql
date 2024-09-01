@@ -1,20 +1,20 @@
 INSERT INTO members (nickname, member_type, profile_image_url, o_auth_user_id)
-VALUES ('LOSSAM1', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 1),
-       ('LOSSAM2', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 2),
-       ('LOSSAM3', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 3),
-       ('LOSSAM4', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 4),
-       ('LOSSAM5', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 5),
-       ('LOSSAM6', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 6),
-       ('LOSSAM7', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 7),
-       ('LOSSAM8', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 8),
-       ('LOSSAM9', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 9),
-       ('LOSSAM10', 'LOSSAM', 'https://example.com/LOSSAM.jpg', 10),
+VALUES ('LOSSAM1', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 1),
+       ('LOSSAM2', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 2),
+       ('LOSSAM3', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 3),
+       ('LOSSAM4', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 4),
+       ('LOSSAM5', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 5),
+       ('LOSSAM6', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 6),
+       ('LOSSAM7', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 7),
+       ('LOSSAM8', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 8),
+       ('LOSSAM9', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 9),
+       ('LOSSAM10', 'LOSSAM', 'https://d190tt1cphrs09.cloudfront.net/profile-images/lossam.png', 10),
 
-       ('MOKOKO1', 'MOKOKO', 'https://example.com/MOKOKO.jpg', 11),
-       ('MOKOKO2', 'MOKOKO', 'https://example.com/MOKOKO.jpg', 12),
-       ('MOKOKO3', 'MOKOKO', 'https://example.com/MOKOKO.jpg', 13),
-       ('MOKOKO4', 'MOKOKO', 'https://example.com/MOKOKO.jpg', 14),
-       ('MOKOKO5', 'MOKOKO', 'https://example.com/MOKOKO.jpg', 15);
+       ('MOKOKO1', 'MOKOKO', 'https://d190tt1cphrs09.cloudfront.net/profile-images/mokoko.png', 11),
+       ('MOKOKO2', 'MOKOKO', 'https://d190tt1cphrs09.cloudfront.net/profile-images/mokoko.png', 12),
+       ('MOKOKO3', 'MOKOKO', 'https://d190tt1cphrs09.cloudfront.net/profile-images/mokoko.png', 13),
+       ('MOKOKO4', 'MOKOKO', 'https://d190tt1cphrs09.cloudfront.net/profile-images/mokoko.png', 14),
+       ('MOKOKO5', 'MOKOKO', 'https://d190tt1cphrs09.cloudfront.net/profile-images/mokoko.png', 15);
 
 INSERT INTO lost_ark_character_infos (highest_level, class_engravings, member_id)
 VALUES ('1427', 'class1, class2', 1),
