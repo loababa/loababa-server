@@ -67,7 +67,7 @@ public class ConsultingPostJpaRepositoryAdapter implements ConsultingPostWriter,
 
                             return new ConsultingPostListForms.ConsultingPostListForm(
                                     postEntity.getMemberId(),
-                                    postEntity.getContents(),
+                                    postEntity.getTitle(),
                                     topicList
                             );
                         })
