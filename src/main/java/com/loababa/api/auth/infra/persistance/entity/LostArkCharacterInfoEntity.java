@@ -1,5 +1,6 @@
 package com.loababa.api.auth.infra.persistance.entity;
 
+import com.loababa.api.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "lost_ark_character_infos")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LostArkCharacterInfoEntity {
+public class LostArkCharacterInfoEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

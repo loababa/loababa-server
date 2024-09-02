@@ -1,6 +1,7 @@
 package com.loababa.api.consulting.persistence.entity;
 
 
+import com.loababa.api.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "consulting_post_topics")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ConsultingPostTopicEntity {
+public class ConsultingPostTopicEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

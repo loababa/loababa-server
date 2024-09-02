@@ -1,5 +1,6 @@
 package com.loababa.api.consulting.persistence.entity;
 
+import com.loababa.api.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "consulting_reservation_datetimes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReservationDateTimeEntity {
+public class ReservationDateTimeEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

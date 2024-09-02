@@ -2,8 +2,10 @@ package com.loababa.api.consulting.ui;
 
 import com.loababa.api.common.model.ApiResponse;
 import com.loababa.api.common.model.MemberCredential;
-import com.loababa.api.consulting.domain.ConsultingRequestService;
+import com.loababa.api.consulting.constant.ConsultingStatus;
+import com.loababa.api.consulting.domain.ConsultingReservationService;
 import com.loababa.api.consulting.domain.impl.model.ConsultingReservationForm;
+import com.loababa.api.consulting.domain.impl.model.ConsultingReservations;
 import com.loababa.api.consulting.domain.impl.model.DaySchedule;
 import com.loababa.api.consulting.domain.impl.model.ReservationSchedule;
 import com.loababa.api.consulting.ui.dto.ConsultingReservationReq;
@@ -24,12 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "Consulting", description = "상담 관련 API")
+@Tag(name = "Consulting", description = "상담 예약 관련 API")
 @RestController
 @RequiredArgsConstructor
-public class ConsultingRequestController {
+public class ConsultingReservationController {
 
-    private final ConsultingRequestService consultingRequestService;
+    private final ConsultingReservationService consultingReservationService;
 
     @Operation(description = "로쌤 상담 시간 가져오기", security = @SecurityRequirement(name = "Authorization"))
     @ApiResponses(value = {
@@ -47,17 +49,17 @@ public class ConsultingRequestController {
             MemberCredential memberCredential,
             @RequestParam long lossamId
     ) {
-        ReservationSchedule lossamSchedules = consultingRequestService.getLossamSchedules(lossamId);
+        ReservationSchedule lossamSchedules = consultingReservationService.getLossamSchedules(lossamId);
         return ApiResponse.success(lossamSchedules.value());
     }
 
     @Operation(description = "상담 요청하기", security = @SecurityRequirement(name = "Authorization"))
-    @PostMapping("/api/v1/consulting/reservation")
+    @PostMapping("/api/v1/consulting/reservations")
     public ApiResponse<Void> requestConsulting(
             MemberCredential memberCredential,
             @Valid @RequestBody ConsultingReservationReq request
     ) {
-        consultingRequestService.reserveConsulting(
+        consultingReservationService.reserveConsulting(
                 new ConsultingReservationForm(
                         request.characterDetails(),
                         request.inquiryDetails(),
@@ -69,6 +71,21 @@ public class ConsultingRequestController {
                 )
         );
         return ApiResponse.success();
+    }
+
+    @Operation(description = "나의 상담 예약 불러오기", security = @SecurityRequirement(name = "Authorization"))
+    @GetMapping("/api/v1/consulting/reservations/my")
+    public ApiResponse<ConsultingReservations> requestMyConsulting(
+            MemberCredential memberCredential,
+            @Schema(allowableValues = {"pending", "confirmed", "past"},
+                    description = "불러올 상담 상태")
+            @RequestParam String status
+    ) {
+        ConsultingReservations myConsultingReservations = consultingReservationService.getMyConsulting(
+                memberCredential.memberId(),
+                ConsultingStatus.from(status)
+        );
+        return ApiResponse.success(myConsultingReservations);
     }
 
 }

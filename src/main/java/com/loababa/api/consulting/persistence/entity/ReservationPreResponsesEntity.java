@@ -1,5 +1,6 @@
 package com.loababa.api.consulting.persistence.entity;
 
+import com.loababa.api.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "reservation_pre_responses")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReservationPreResponsesEntity {
+public class ReservationPreResponsesEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +31,7 @@ public class ReservationPreResponsesEntity {
     @Column(nullable = false)
     private String experience;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 11)
     private String contactNumber;
 
     @Column(nullable = false)
