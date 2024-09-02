@@ -73,8 +73,8 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(UNAUTHORIZED)
-    @ExceptionHandler(loababaUnauthorizedException.class)
-    public ApiResponse<Void> handleLoababaForbiddenException(loababaUnauthorizedException e) {
+    @ExceptionHandler(LoababaUnauthorizedException.class)
+    public ApiResponse<Void> handleLoababaForbiddenException(LoababaUnauthorizedException e) {
         log.debug(e.getMessage(), e);
         return ApiResponse.fail(e.getClientCode(), e.getClientMessage());
     }

@@ -34,7 +34,7 @@ public class MemberCredentialResolver implements HandlerMethodArgumentResolver {
         if (authorizationHeader == null) {
             throw new InvalidTokenException(
                     LOGIN_REQUIRED,
-                    new ServerExceptionInfo("토큰이 존재하지 습니다.")
+                    new ServerExceptionInfo("토큰이 존재하지 않습니다.")
             );
         }
         if (!authorizationHeader.startsWith(TOKEN_PREFIX)) {
