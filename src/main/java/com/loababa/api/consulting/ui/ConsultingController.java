@@ -4,7 +4,7 @@ import com.loababa.api.common.model.ApiResponse;
 import com.loababa.api.common.model.LossamCredential;
 import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.consulting.domain.ConsultingService;
-import com.loababa.api.consulting.domain.impl.model.ConsultingDetailForm;
+import com.loababa.api.consulting.domain.impl.model.ConsultingPostDetailForm;
 import com.loababa.api.consulting.domain.impl.model.ConsultingListForms;
 import com.loababa.api.consulting.ui.dto.ConsultingRegistrationReq;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,7 +41,7 @@ public class ConsultingController {
     }
 
     @Operation(description = "전체 상담 리스트 불러오기")
-    @GetMapping("/api/v1/consulting")
+    @GetMapping("/api/v1/consulting/posts")
     public ApiResponse<ConsultingListForms> requestConsultingList() {
         ConsultingListForms allConsultingListForms = consultingService.getAllConsultingListForms();
         return ApiResponse.success(allConsultingListForms);
@@ -49,7 +49,7 @@ public class ConsultingController {
 
     @Operation(description = "특정 상담 포스팅 상세 불러오기", security = @SecurityRequirement(name = "Authorization"))
     @GetMapping("/api/v1/consulting/posts/{consultingPostId}")
-    public ApiResponse<ConsultingDetailForm> requestConsultingDetail(
+    public ApiResponse<ConsultingPostDetailForm> requestConsultingDetail(
             MemberCredential memberCredential,
             @PathVariable @NotNull Long consultingPostId
     ) {

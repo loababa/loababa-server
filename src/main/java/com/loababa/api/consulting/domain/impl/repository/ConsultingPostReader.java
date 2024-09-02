@@ -1,6 +1,6 @@
 package com.loababa.api.consulting.domain.impl.repository;
 
-import com.loababa.api.consulting.domain.impl.model.ConsultingDetailForm;
+import com.loababa.api.consulting.domain.impl.model.ConsultingPostDetailForm;
 import com.loababa.api.consulting.domain.impl.model.ConsultingPostListForms;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +13,6 @@ public interface ConsultingPostReader {
 
     ConsultingPostListForms getAllConsultingPostListForm(List<Long> allLossamId);
 
-    ConsultingDetailForm readConsultingDetailForm(Long consultingPostId);
+    ConsultingPostDetailForm readConsultingDetailForm(Long consultingPostId);
 
 }

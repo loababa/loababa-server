@@ -6,7 +6,7 @@ import com.loababa.api.consulting.domain.impl.model.ConsultingListForms;
 import com.loababa.api.consulting.domain.impl.model.ConsultingPost;
 import com.loababa.api.consulting.domain.impl.model.ConsultingRegister;
 import com.loababa.api.consulting.domain.impl.model.LossamSchedule;
-import com.loababa.api.consulting.domain.impl.model.ConsultingDetailForm;
+import com.loababa.api.consulting.domain.impl.model.ConsultingPostDetailForm;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingPostReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class ConsultingService {
         return new ConsultingListForms(consultingListForms);
     }
 
-    public ConsultingDetailForm getConsultingDetailForm(Long consultingPostId) {
+    public ConsultingPostDetailForm getConsultingDetailForm(Long consultingPostId) {
         return consultingPostReader.readConsultingDetailForm(consultingPostId);
     }
 

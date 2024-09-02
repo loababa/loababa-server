@@ -1,8 +1,8 @@
 package com.loababa.api.consulting.persistence.adapter;
 
 
-import com.loababa.api.consulting.domain.impl.model.ConsultingDetailForm;
 import com.loababa.api.consulting.domain.impl.model.ConsultingPost;
+import com.loababa.api.consulting.domain.impl.model.ConsultingPostDetailForm;
 import com.loababa.api.consulting.domain.impl.model.ConsultingPostListForms;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingPostReader;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingPostWriter;
@@ -64,7 +64,6 @@ public class ConsultingPostJpaRepositoryAdapter implements ConsultingPostWriter,
                 consultingPostEntities.stream()
                         .map(postEntity -> {
                             List<String> topicList = topicsMappedPostId.getOrDefault(postEntity.getId(), List.of());
-
                             return new ConsultingPostListForms.ConsultingPostListForm(
                                     postEntity.getMemberId(),
                                     postEntity.getTitle(),
@@ -76,12 +75,19 @@ public class ConsultingPostJpaRepositoryAdapter implements ConsultingPostWriter,
     }
 
     @Override
-    public ConsultingDetailForm readConsultingDetailForm(Long consultingPostId) {
+    public ConsultingPostDetailForm readConsultingDetailForm(Long consultingPostId) {
         var consultingPostEntity = consultingPostJpaRepository.findById(consultingPostId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 상담 포스트 ID가 존재 하지 않습니다."));
-        return new ConsultingDetailForm(
+
+        var consultingPostTopicEntities
+                = consultingPostTopicEntityJpaRepository.findByConsultingPostId(consultingPostId);
+
+        return new ConsultingPostDetailForm(
                 consultingPostEntity.getTitle(),
-                consultingPostEntity.getContents()
+                consultingPostEntity.getContents(),
+                consultingPostTopicEntities.stream()
+                        .map(ConsultingPostTopicEntity::getTopic)
+                        .toList()
         );
     }
 }

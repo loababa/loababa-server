@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ConsultingPostTopicEntityJpaRepository extends JpaRepository<ConsultingPostTopicEntity, Long> {
 
+    List<ConsultingPostTopicEntity> findByConsultingPostId(Long consultingPostId);
+
     List<ConsultingPostTopicEntity> findAllByConsultingPostIdIn(List<Long> consultingPostIds);
 
 }
