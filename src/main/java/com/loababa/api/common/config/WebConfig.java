@@ -38,16 +38,19 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final MemberCredentialResolver memberCredentialResolver;
     private final LossamCredentialResolver lossamCredentialResolver;
-    private final String domain;
+    private final String frontDomain;
+    private final String backDomain;
 
     public WebConfig(
             MemberCredentialResolver memberCredentialResolver,
             LossamCredentialResolver lossamCredentialResolver,
-            @Value("domain") String domain
+            @Value("${domain.front}") String frontDomain,
+            @Value("${domain.back}") String backDomain
     ) {
         this.memberCredentialResolver = memberCredentialResolver;
         this.lossamCredentialResolver = lossamCredentialResolver;
-        this.domain = domain;
+        this.frontDomain = frontDomain;
+        this.backDomain = backDomain;
     }
 
     @Bean
@@ -88,7 +91,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", domain)
+                .allowedOrigins(
+                        "http://localhost:5173",
+                        "https://" + frontDomain,
+                        "https://" + backDomain
+                )
                 .allowedMethods(
                         HttpMethod.OPTIONS.name(),
                         HttpMethod.GET.name(),
@@ -100,5 +107,4 @@ public class WebConfig implements WebMvcConfigurer {
                 )
                 .allowCredentials(true);
     }
-
 }
