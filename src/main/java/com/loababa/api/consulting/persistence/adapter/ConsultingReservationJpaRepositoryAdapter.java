@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.loababa.api.auth.domain.member.impl.model.MemberType.LOSSAM;
+import static com.loababa.api.auth.domain.member.impl.model.MemberType.MOKOKO;
 
 @Component
 @RequiredArgsConstructor
@@ -56,7 +57,7 @@ public class ConsultingReservationJpaRepositoryAdapter implements ConsultingRese
                 .collect(Collectors.toSet());
         var reservationDateTime = mapReservationIdsToDateTimes(mokokoReservationIds);
 
-        return buildLossamConsultingReservations(consultingStatus, mokokoReservations, new HashMap<>(), reservationDateTime, LOSSAM);
+        return buildLossamConsultingReservations(consultingStatus, mokokoReservations, new HashMap<>(), reservationDateTime, MOKOKO);
     }
 
     private Map<Long, List<ReservationDateTimeEntity>> mapReservationIdsToDateTimes(Set<Long> lossamReservationIds) {

@@ -1,6 +1,8 @@
 package com.loababa.api.consulting.persistence.entity;
 
 import com.loababa.api.common.model.BaseEntity;
+import com.loababa.api.consulting.domain.impl.model.DateTimeRange;
+import com.loababa.api.consulting.domain.impl.model.ReservationDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,10 +39,19 @@ public class ReservationDateTimeEntity extends BaseEntity {
     private Long reservationId;
 
     @Builder
-    private ReservationDateTimeEntity(LocalDateTime startDateTime, LocalDateTime endDateTime, Long reservationId) {
+    private ReservationDateTimeEntity(Long id, LocalDateTime startDateTime, LocalDateTime endDateTime, Long reservationId) {
+        this.id = id;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.reservationId = reservationId;
     }
+
+    public ReservationDateTime toReservationDateTime() {
+        return new ReservationDateTime(
+                id,
+                new DateTimeRange(startDateTime, endDateTime)
+        );
+    }
+
 
 }

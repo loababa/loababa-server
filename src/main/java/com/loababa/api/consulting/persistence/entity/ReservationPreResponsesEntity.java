@@ -1,6 +1,7 @@
 package com.loababa.api.consulting.persistence.entity;
 
 import com.loababa.api.common.model.BaseEntity;
+import com.loababa.api.consulting.domain.impl.model.ReservationPreResponses;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ public class ReservationPreResponsesEntity extends BaseEntity {
     @Column(nullable = false)
     private long memberId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private long reservationId;
 
     @Builder
@@ -49,4 +50,15 @@ public class ReservationPreResponsesEntity extends BaseEntity {
         this.memberId = memberId;
         this.reservationId = reservationId;
     }
+
+    public ReservationPreResponses toReservationPreResponses() {
+        return new ReservationPreResponses(
+                id,
+                characterDetails,
+                inquiryDetails,
+                experience,
+                contactNumber
+        );
+    }
+
 }

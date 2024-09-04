@@ -4,7 +4,6 @@ import com.loababa.api.common.model.ApiResponse;
 import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.consulting.constant.ConsultingStatus;
 import com.loababa.api.consulting.domain.ConsultingReservationService;
-import com.loababa.api.consulting.domain.impl.model.ConsultingReservationForm;
 import com.loababa.api.consulting.domain.impl.model.ConsultingReservations;
 import com.loababa.api.consulting.domain.impl.model.DaySchedule;
 import com.loababa.api.consulting.domain.impl.model.ReservationSchedule;
@@ -19,7 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,22 +52,14 @@ public class ConsultingReservationController {
         return ApiResponse.success(lossamSchedules.value());
     }
 
-    @Operation(description = "상담 요청하기", security = @SecurityRequirement(name = "Authorization"))
-    @PostMapping("/api/v1/consulting/reservations")
-    public ApiResponse<Void> requestConsulting(
+    @Operation(description = "상담 요청(생성) 및 수정", security = @SecurityRequirement(name = "Authorization"))
+    @PutMapping("/api/v1/consulting/reservations")
+    public ApiResponse<Void> requestConsultingReservation(
             MemberCredential memberCredential,
             @Valid @RequestBody ConsultingReservationReq request
     ) {
-        consultingReservationService.reserveConsulting(
-                new ConsultingReservationForm(
-                        request.characterDetails(),
-                        request.inquiryDetails(),
-                        request.experience(),
-                        request.contactNumber(),
-                        request.reservationDateTimes(),
-                        request.lossamId(),
-                        memberCredential.memberId()
-                )
+        consultingReservationService.upsertConsulting(
+                request.toReservation(memberCredential.memberId())
         );
         return ApiResponse.success();
     }

@@ -41,8 +41,10 @@ public class ReservationEntity extends BaseEntity {
     private boolean isDeleted = false;
 
     @Builder
-    private ReservationEntity(long lossamId, long mokokoId) {
+    private ReservationEntity(Long id, long lossamId, long mokokoId, boolean isDeleted) {
+        this.id = id;
         this.lossamId = lossamId;
         this.mokokoId = mokokoId;
+        this.isDeleted = isDeleted;
     }
 }

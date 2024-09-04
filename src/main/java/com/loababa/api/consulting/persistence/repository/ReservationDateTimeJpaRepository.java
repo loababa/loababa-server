@@ -10,4 +10,5 @@ public interface ReservationDateTimeJpaRepository extends JpaRepository<Reservat
 
     List<ReservationDateTimeEntity> findByReservationIdIn(Collection<Long> reservationId);
 
+    List<ReservationDateTimeEntity> findByReservationId(Long reservationId);
 }

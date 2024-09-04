@@ -3,9 +3,10 @@ package com.loababa.api.consulting.domain;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.consulting.constant.ConsultingStatus;
 import com.loababa.api.consulting.domain.impl.ReservationSlotAssembler;
-import com.loababa.api.consulting.domain.impl.model.ConsultingReservationForm;
+import com.loababa.api.consulting.domain.impl.ReservationUpsertValidator;
 import com.loababa.api.consulting.domain.impl.model.ConsultingReservations;
 import com.loababa.api.consulting.domain.impl.model.LossamSchedule;
+import com.loababa.api.consulting.domain.impl.model.Reservation;
 import com.loababa.api.consulting.domain.impl.model.ReservationSchedule;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingReservationReader;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingScheduleReader;
@@ -27,6 +28,7 @@ public class ConsultingReservationService {
     private final ConsultingScheduleReader consultingScheduleReader;
     private final ReservationWriter consultingReservationWriter;
     private final ConsultingReservationReader consultingReservationReader;
+    private final ReservationUpsertValidator reservationUpsertValidator;
 
     public ReservationSchedule getLossamSchedules(long lossamId) {
         LossamSchedule lossamSchedule = consultingScheduleReader.readLossamSchedule(lossamId);
@@ -35,8 +37,9 @@ public class ConsultingReservationService {
         return reservationSlotAssembler.assembleReservationSchedule(lossamId, startDate, endDate, lossamSchedule);
     }
 
-    public void reserveConsulting(ConsultingReservationForm consultingReservationForm) {
-        consultingReservationWriter.save(consultingReservationForm);
+    public void upsertConsulting(Reservation reservation) {
+        reservationUpsertValidator.validate(reservation);
+        consultingReservationWriter.upsert(reservation);
     }
 
     public ConsultingReservations getMyConsulting(Long memberId, ConsultingStatus consultingStatus) {

@@ -10,4 +10,6 @@ public interface ReservationPreResponsesJpaRepository extends JpaRepository<Rese
 
     List<ReservationPreResponsesEntity> findByReservationIdIn(Collection<Long> reservationId);
 
+    ReservationPreResponsesEntity findByReservationId(Long reservationId);
+
 }
