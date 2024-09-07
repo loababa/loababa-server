@@ -8,7 +8,6 @@ import com.loababa.api.consulting.domain.impl.model.ConsultingReservations;
 import com.loababa.api.consulting.domain.impl.model.LossamSchedule;
 import com.loababa.api.consulting.domain.impl.model.Reservation;
 import com.loababa.api.consulting.domain.impl.model.ReservationSchedule;
-import com.loababa.api.consulting.domain.impl.repository.ConsultingReservationReader;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingScheduleReader;
 import com.loababa.api.consulting.domain.impl.repository.ReservationReader;
 import com.loababa.api.consulting.domain.impl.repository.ReservationWriter;
@@ -28,7 +27,6 @@ public class ConsultingReservationService {
     private final ReservationUpsertValidator reservationUpsertValidator;
 
     private final ReservationReader reservationReader;
-    private final ConsultingReservationReader consultingReservationReader;
     private final ConsultingScheduleReader consultingScheduleReader;
     private final MemberReader memberReader;
 
@@ -47,8 +45,8 @@ public class ConsultingReservationService {
     public ConsultingReservations getMyConsulting(Long memberId, ConsultingStatus consultingStatus) {
         var memberType = memberReader.readMemberType(memberId);
         return switch (memberType) {
-            case LOSSAM -> consultingReservationReader.readLossamConsultingReservations(memberId, consultingStatus);
-            case MOKOKO -> consultingReservationReader.readMokokoConsultingReservations(memberId, consultingStatus);
+            case LOSSAM -> reservationReader.readLossamConsultingReservations(memberId, consultingStatus);
+            case MOKOKO -> reservationReader.readMokokoConsultingReservations(memberId, consultingStatus);
         };
     }
 
