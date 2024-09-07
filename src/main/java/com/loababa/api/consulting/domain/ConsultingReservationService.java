@@ -10,6 +10,7 @@ import com.loababa.api.consulting.domain.impl.model.Reservation;
 import com.loababa.api.consulting.domain.impl.model.ReservationSchedule;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingReservationReader;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingScheduleReader;
+import com.loababa.api.consulting.domain.impl.repository.ReservationReader;
 import com.loababa.api.consulting.domain.impl.repository.ReservationWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,12 +24,13 @@ import static com.loababa.api.consulting.constant.TimePolicy.RESERVATION_AVAILAB
 public class ConsultingReservationService {
 
     private final ReservationSlotAssembler reservationSlotAssembler;
-
-    private final MemberReader memberReader;
-    private final ConsultingScheduleReader consultingScheduleReader;
     private final ReservationWriter consultingReservationWriter;
-    private final ConsultingReservationReader consultingReservationReader;
     private final ReservationUpsertValidator reservationUpsertValidator;
+
+    private final ReservationReader reservationReader;
+    private final ConsultingReservationReader consultingReservationReader;
+    private final ConsultingScheduleReader consultingScheduleReader;
+    private final MemberReader memberReader;
 
     public ReservationSchedule getLossamSchedules(long lossamId) {
         LossamSchedule lossamSchedule = consultingScheduleReader.readLossamSchedule(lossamId);
@@ -50,4 +52,7 @@ public class ConsultingReservationService {
         };
     }
 
+    public Reservation getReservation(Long reservationId) {
+        return reservationReader.read(reservationId);
+    }
 }

@@ -6,6 +6,7 @@ import com.loababa.api.consulting.constant.ConsultingStatus;
 import com.loababa.api.consulting.domain.ConsultingReservationService;
 import com.loababa.api.consulting.domain.impl.model.ConsultingReservations;
 import com.loababa.api.consulting.domain.impl.model.DaySchedule;
+import com.loababa.api.consulting.domain.impl.model.Reservation;
 import com.loababa.api.consulting.domain.impl.model.ReservationSchedule;
 import com.loababa.api.consulting.ui.dto.ConsultingReservationReq;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,8 +17,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,6 +80,16 @@ public class ConsultingReservationController {
                 ConsultingStatus.from(status)
         );
         return ApiResponse.success(myConsultingReservations);
+    }
+
+    @Operation(description = "상담 예약 상세 보기", security = @SecurityRequirement(name = "Authorization"))
+    @GetMapping("/api/v1/consulting/reservations/{reservationId}")
+    public ApiResponse<Reservation> approveReservation(
+            MemberCredential memberCredential,
+            @PathVariable @NotNull Long reservationId
+    ) {
+        Reservation reservation = consultingReservationService.getReservation(reservationId);
+        return ApiResponse.success(reservation);
     }
 
 }
