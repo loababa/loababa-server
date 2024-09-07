@@ -10,11 +10,11 @@ public record ReservationDateTime(
         DateTimeRange dateTimeRange
 ) {
 
-    public LocalDateTime getStartTime() {
+    public LocalDateTime startTime() {
         return dateTimeRange().start();
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalDateTime endTime() {
         return dateTimeRange().end();
     }
 
