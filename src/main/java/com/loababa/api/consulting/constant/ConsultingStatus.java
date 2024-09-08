@@ -9,6 +9,7 @@ public enum ConsultingStatus {
     PENDING("대기"),
     CONFIRMED("확정"),
     PAST("지난"),
+    CANCELLED("취소")
     ;
 
     private final String description;

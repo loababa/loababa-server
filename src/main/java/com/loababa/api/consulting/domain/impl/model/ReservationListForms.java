@@ -5,15 +5,15 @@ import org.springframework.lang.Nullable;
 
 import java.util.List;
 
-public record ConsultingReservations(
-        List<ConsultingReservation> consultingReservations,
+public record ReservationListForms(
+        List<ReservationListForm> reservationListForms,
         MemberType memberType
 ) {
-    public static ConsultingReservations from(List<ConsultingReservation> consultingReservations, MemberType memberType) {
-        return new ConsultingReservations(consultingReservations, memberType);
+    public static ReservationListForms from(List<ReservationListForm> reservationListForms, MemberType memberType) {
+        return new ReservationListForms(reservationListForms, memberType);
     }
 
-    public record ConsultingReservation(
+    public record ReservationListForm(
             Long id,
             long lossamId,
             long mokokoId,

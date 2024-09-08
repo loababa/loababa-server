@@ -4,7 +4,7 @@ import com.loababa.api.auth.domain.member.impl.model.MemberType;
 import com.loababa.api.common.exception.LoababaBadRequestException;
 import com.loababa.api.common.exception.ServerExceptionInfo;
 import com.loababa.api.consulting.constant.ConsultingStatus;
-import com.loababa.api.consulting.domain.impl.model.ConsultingReservations;
+import com.loababa.api.consulting.domain.impl.model.ReservationListForms;
 import com.loababa.api.consulting.domain.impl.model.DateTimeRange;
 import com.loababa.api.consulting.domain.impl.model.Reservation;
 import com.loababa.api.consulting.domain.impl.model.ReservationDateTime;
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 import static com.loababa.api.auth.domain.member.impl.model.MemberType.LOSSAM;
 import static com.loababa.api.auth.domain.member.impl.model.MemberType.MOKOKO;
+import static com.loababa.api.consulting.constant.ConsultingStatus.PENDING;
 import static com.loababa.api.consulting.exception.ReservationClientExceptionInfo.NOT_FOUND_RESERVATION;
 
 @Component
@@ -105,7 +106,7 @@ public class ReservationJpaRepositoryAdapter implements ReservationReader, Reser
     }
 
     @Override
-    public ConsultingReservations readLossamConsultingReservations(
+    public ReservationListForms readLossamReservations(
             Long lossamId,
             ConsultingStatus consultingStatus
     ) {
@@ -117,11 +118,11 @@ public class ReservationJpaRepositoryAdapter implements ReservationReader, Reser
                 .collect(Collectors.toSet());
         var reservationDateTime = mapReservationIdsToDateTimes(lossamReservationIds);
         var reservationPreResponses = mapReservationIdsToPreResponses(lossamReservationIds);
-        return buildLossamConsultingReservations(consultingStatus, lossamReservations, reservationPreResponses, reservationDateTime, LOSSAM);
+        return buildReservations(consultingStatus, lossamReservations, reservationPreResponses, reservationDateTime, LOSSAM);
     }
 
     @Override
-    public ConsultingReservations readMokokoConsultingReservations(Long mokokoId, ConsultingStatus consultingStatus) {
+    public ReservationListForms readMokokoReservations(Long mokokoId, ConsultingStatus consultingStatus) {
         var mokokoReservations =
                 reservationJpaRepository.findAllByMokokoIdAndConsultingStatus(mokokoId, consultingStatus);
         var mokokoReservationIds = mokokoReservations.stream()
@@ -129,7 +130,7 @@ public class ReservationJpaRepositoryAdapter implements ReservationReader, Reser
                 .collect(Collectors.toSet());
         var reservationDateTime = mapReservationIdsToDateTimes(mokokoReservationIds);
 
-        return buildLossamConsultingReservations(consultingStatus, mokokoReservations, new HashMap<>(), reservationDateTime, MOKOKO);
+        return buildReservations(consultingStatus, mokokoReservations, new HashMap<>(), reservationDateTime, MOKOKO);
     }
 
     private Map<Long, List<ReservationDateTimeEntity>> mapReservationIdsToDateTimes(Set<Long> lossamReservationIds) {
@@ -151,53 +152,33 @@ public class ReservationJpaRepositoryAdapter implements ReservationReader, Reser
                 ));
     }
 
-    private ConsultingReservations buildLossamConsultingReservations(
+    private ReservationListForms buildReservations(
             ConsultingStatus consultingStatus,
             List<ReservationEntity> reservations,
             Map<Long, String> reservationPreResponses,
             Map<Long, List<ReservationDateTimeEntity>> reservationDateTime,
             MemberType memberType
     ) {
-        return switch (consultingStatus) {
-            case PENDING -> ConsultingReservations.from(
-                    reservations.stream()
-                            .map(reservation -> {
-                                String inquiryDetails = reservationPreResponses.getOrDefault(reservation.getId(), null);
-                                var dateTimeRanges = reservationDateTime.get(reservation.getId()).stream()
-                                        .map(dateTime -> new DateTimeRange(
-                                                dateTime.getStartDateTime(),
-                                                dateTime.getEndDateTime()
-                                        ))
-                                        .toList();
-                                return new ConsultingReservations.ConsultingReservation(
-                                        reservation.getId(),
-                                        reservation.getLossamId(),
-                                        reservation.getMokokoId(),
-                                        inquiryDetails,
-                                        dateTimeRanges
-                                );
-                            }).toList(),
-                    memberType
-            );
-            case CONFIRMED, PAST -> ConsultingReservations.from(
-                    reservations.stream()
-                            .map(reservation -> {
-                                String inquiryDetails = reservationPreResponses.getOrDefault(reservation.getId(), null);
-                                var dateTimeRanges = reservationDateTime.get(reservation.getId()).stream()
-                                        .filter(ReservationDateTimeEntity::isConfirmed)
-                                        .map(dateTime -> new DateTimeRange(dateTime.getStartDateTime(), dateTime.getEndDateTime()))
-                                        .toList();
-                                return new ConsultingReservations.ConsultingReservation(
-                                        reservation.getId(),
-                                        reservation.getLossamId(),
-                                        reservation.getMokokoId(),
-                                        inquiryDetails,
-                                        dateTimeRanges
-                                );
-                            }).toList(),
-                    memberType
-            );
-        };
-    }
+        List<ReservationListForms.ReservationListForm> reservationListForms = reservations.stream()
+                .map(reservation -> {
+                    String inquiryDetails = reservationPreResponses.getOrDefault(reservation.getId(), null);
+                    var dateTimeRanges = reservationDateTime.get(reservation.getId()).stream()
+                            // PENDING 일 경우 모든 예약 시간을 보여주고, CONFIRMED, PAST의 경우에는 확정된 예약만 보여준다.
+                            .filter(dateTime -> consultingStatus == PENDING || dateTime.isConfirmed())
+                            .map(dateTime -> new DateTimeRange(dateTime.getStartDateTime(), dateTime.getEndDateTime()))
+                            .toList();
+                    return new ReservationListForms.ReservationListForm(
+                            reservation.getId(),
+                            reservation.getLossamId(),
+                            reservation.getMokokoId(),
+                            inquiryDetails,
+                            dateTimeRanges
+                    );
+                }).toList();
 
+        return ReservationListForms.from(
+                reservationListForms,
+                memberType
+        );
+    }
 }

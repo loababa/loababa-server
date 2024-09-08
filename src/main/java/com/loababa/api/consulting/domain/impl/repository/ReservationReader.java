@@ -1,7 +1,7 @@
 package com.loababa.api.consulting.domain.impl.repository;
 
 import com.loababa.api.consulting.constant.ConsultingStatus;
-import com.loababa.api.consulting.domain.impl.model.ConsultingReservations;
+import com.loababa.api.consulting.domain.impl.model.ReservationListForms;
 import com.loababa.api.consulting.domain.impl.model.Reservation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +14,8 @@ public interface ReservationReader {
 
     Reservation read(Long reservationId);
 
-    ConsultingReservations readLossamConsultingReservations(Long memberId, ConsultingStatus consultingStatus);
+    ReservationListForms readLossamReservations(Long memberId, ConsultingStatus consultingStatus);
 
-    ConsultingReservations readMokokoConsultingReservations(Long memberId, ConsultingStatus consultingStatus);
+    ReservationListForms readMokokoReservations(Long memberId, ConsultingStatus consultingStatus);
 
 }

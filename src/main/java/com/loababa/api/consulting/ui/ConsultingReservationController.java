@@ -4,7 +4,7 @@ import com.loababa.api.common.model.ApiResponse;
 import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.consulting.constant.ConsultingStatus;
 import com.loababa.api.consulting.domain.ConsultingReservationService;
-import com.loababa.api.consulting.domain.impl.model.ConsultingReservations;
+import com.loababa.api.consulting.domain.impl.model.ReservationListForms;
 import com.loababa.api.consulting.domain.impl.model.DaySchedule;
 import com.loababa.api.consulting.domain.impl.model.Reservation;
 import com.loababa.api.consulting.domain.impl.model.ReservationSchedule;
@@ -69,17 +69,17 @@ public class ConsultingReservationController {
 
     @Operation(description = "나의 상담 예약 불러오기", security = @SecurityRequirement(name = "Authorization"))
     @GetMapping("/api/v1/consulting/reservations/my")
-    public ApiResponse<ConsultingReservations> requestMyConsulting(
+    public ApiResponse<ReservationListForms> requestMyConsulting(
             MemberCredential memberCredential,
             @Schema(allowableValues = {"pending", "confirmed", "past"},
                     description = "불러올 상담 상태")
             @RequestParam String status
     ) {
-        ConsultingReservations myConsultingReservations = consultingReservationService.getMyConsulting(
+        ReservationListForms myReservationListForms = consultingReservationService.getMyConsulting(
                 memberCredential.memberId(),
                 ConsultingStatus.from(status)
         );
-        return ApiResponse.success(myConsultingReservations);
+        return ApiResponse.success(myReservationListForms);
     }
 
     @Operation(description = "상담 예약 상세 보기", security = @SecurityRequirement(name = "Authorization"))
