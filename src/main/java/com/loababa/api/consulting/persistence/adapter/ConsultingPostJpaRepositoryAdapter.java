@@ -13,6 +13,7 @@ import com.loababa.api.consulting.persistence.repository.ConsultingPostTopicEnti
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class ConsultingPostJpaRepositoryAdapter implements ConsultingPostWriter,
     private final ConsultingPostJpaRepository consultingPostJpaRepository;
     private final ConsultingPostTopicEntityJpaRepository consultingPostTopicEntityJpaRepository;
 
+    @Transactional
     @Override
     public void save(Long memberId, ConsultingPost consultingPost) {
         final var consultingPostEntity = new ConsultingPostEntity(consultingPost.title(), consultingPost.contents(), memberId);
@@ -37,6 +39,7 @@ public class ConsultingPostJpaRepositoryAdapter implements ConsultingPostWriter,
         consultingPostTopicEntityJpaRepository.saveAll(consultingPostTopicEntities);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ConsultingPostListForms getAllConsultingPostListForm(List<Long> allLossamId) {
         // 1. 상담 포스트 엔티티를 가져옵니다.
@@ -74,6 +77,7 @@ public class ConsultingPostJpaRepositoryAdapter implements ConsultingPostWriter,
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ConsultingPostDetailForm readConsultingDetailForm(Long consultingPostId) {
         var consultingPostEntity = consultingPostJpaRepository.findById(consultingPostId)

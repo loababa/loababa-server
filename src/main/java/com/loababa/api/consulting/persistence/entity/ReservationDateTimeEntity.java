@@ -53,5 +53,8 @@ public class ReservationDateTimeEntity extends BaseEntity {
         );
     }
 
+    public void approved() {
+        this.isConfirmed = true;
+    }
 
 }

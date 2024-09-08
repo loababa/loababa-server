@@ -1,14 +1,16 @@
 package com.loababa.api.consulting.ui;
 
 import com.loababa.api.common.model.ApiResponse;
+import com.loababa.api.common.model.LossamCredential;
 import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.consulting.constant.ConsultingStatus;
 import com.loababa.api.consulting.domain.ConsultingReservationService;
-import com.loababa.api.consulting.domain.impl.model.ReservationListForms;
 import com.loababa.api.consulting.domain.impl.model.DaySchedule;
 import com.loababa.api.consulting.domain.impl.model.Reservation;
+import com.loababa.api.consulting.domain.impl.model.ReservationListForms;
 import com.loababa.api.consulting.domain.impl.model.ReservationSchedule;
 import com.loababa.api.consulting.ui.dto.ConsultingReservationReq;
+import com.loababa.api.consulting.ui.dto.ReservationApproveReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -20,6 +22,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -90,6 +93,31 @@ public class ConsultingReservationController {
     ) {
         Reservation reservation = consultingReservationService.getReservation(reservationId);
         return ApiResponse.success(reservation);
+    }
+
+    @Operation(description = "상담 확정 하기", security = @SecurityRequirement(name = "Authorization"))
+    @PatchMapping("/api/v1/consulting/reservations/{reservationId}/approve")
+    public ApiResponse<Void> approveReservation(
+            LossamCredential lossamCredential,
+            @PathVariable @NotNull Long reservationId,
+            @RequestBody ReservationApproveReq reservationApproveReq
+    ) {
+        consultingReservationService.approveReservation(
+                reservationId,
+                lossamCredential.lossamId(),
+                reservationApproveReq.dateTimeId()
+        );
+        return ApiResponse.success();
+    }
+
+    @Operation(description = "상담 거절 하기", security = @SecurityRequirement(name = "Authorization"))
+    @PatchMapping("/api/v1/consulting/reservations/{reservationId}/reject")
+    public ApiResponse<Void> rejectReservation(
+            LossamCredential lossamCredential,
+            @PathVariable @NotNull Long reservationId
+    ) {
+        consultingReservationService.rejectReservation(reservationId, lossamCredential.lossamId());
+        return ApiResponse.success();
     }
 
 }

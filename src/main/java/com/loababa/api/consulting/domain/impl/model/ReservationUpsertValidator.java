@@ -1,19 +1,19 @@
-package com.loababa.api.consulting.domain.impl;
+package com.loababa.api.consulting.domain.impl.model;
 
 import com.loababa.api.common.exception.LoababaBadRequestException;
 import com.loababa.api.common.exception.LoababaForbiddenException;
 import com.loababa.api.common.exception.ServerExceptionInfo;
-import com.loababa.api.consulting.domain.impl.model.Reservation;
-import com.loababa.api.consulting.domain.impl.model.ReservationDateTime;
-import com.loababa.api.consulting.domain.impl.model.ReservationPreResponses;
 import com.loababa.api.consulting.domain.impl.repository.ReservationReader;
 import com.loababa.api.consulting.exception.ReservationClientExceptionInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.loababa.api.common.exception.CommonClientExceptionInfo.BAD_REQUEST;
 
 @Component
 @RequiredArgsConstructor
@@ -21,14 +21,18 @@ public class ReservationUpsertValidator {
 
     private final ReservationReader reservationReader;
 
+    @Transactional(readOnly = true)
     public void validate(Reservation reservation) {
-        if (isUpdateRequest(reservation.reservationId())) {
+        if (!(reservation.isNew() || reservation.isExisting())) {
+            throw new LoababaBadRequestException(
+                    BAD_REQUEST,
+                    new ServerExceptionInfo("Upsert 검증 실패, Reservation: " + reservation)
+            );
+        }
+
+        if (reservation.isExisting()) {
             validateUpdate(reservation);
         }
-    }
-
-    private boolean isUpdateRequest(Long reservationId) {
-        return reservationId != null;
     }
 
     private void validateUpdate(Reservation reservationUpdateForm) {

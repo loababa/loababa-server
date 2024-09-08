@@ -33,7 +33,7 @@ public class ConsultingController {
             @RequestBody @Valid ConsultingRegistrationReq consultingRegistrationReq
     ) {
         consultingService.registerConsulting(
-                credential.memberId(),
+                credential.lossamId(),
                 consultingRegistrationReq.toLossamConsultingPost(),
                 consultingRegistrationReq.toLossamSchedule()
         );

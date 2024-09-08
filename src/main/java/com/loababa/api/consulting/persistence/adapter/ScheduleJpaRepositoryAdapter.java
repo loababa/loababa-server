@@ -4,13 +4,14 @@ import com.loababa.api.common.exception.LoababaBadRequestException;
 import com.loababa.api.common.exception.ServerExceptionInfo;
 import com.loababa.api.consulting.domain.impl.model.LossamSchedule;
 import com.loababa.api.consulting.domain.impl.model.TimeRange;
-import com.loababa.api.consulting.domain.impl.repository.ConsultingScheduleReader;
+import com.loababa.api.consulting.domain.impl.repository.ScheduleReader;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingScheduleWriter;
 import com.loababa.api.consulting.exception.ConsultingClientExceptionInfo;
 import com.loababa.api.consulting.persistence.entity.ConsultingScheduleEntity;
 import com.loababa.api.consulting.persistence.repository.ConsultingScheduleJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -19,10 +20,11 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ConsultingScheduleJpaRepositoryAdapter implements ConsultingScheduleWriter, ConsultingScheduleReader {
+public class ScheduleJpaRepositoryAdapter implements ConsultingScheduleWriter, ScheduleReader {
 
     private final ConsultingScheduleJpaRepository consultingScheduleJpaRepository;
 
+    @Transactional
     @Override
     public void save(Long lossamId, LossamSchedule lossamSchedule) {
         var consultingScheduleEntities = new ArrayList<ConsultingScheduleEntity>();
@@ -39,6 +41,7 @@ public class ConsultingScheduleJpaRepositoryAdapter implements ConsultingSchedul
         consultingScheduleJpaRepository.saveAll(consultingScheduleEntities);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public LossamSchedule readLossamSchedule(long lossamId) {
         var consultingScheduleEntities = consultingScheduleJpaRepository.findAllByMemberId(lossamId);

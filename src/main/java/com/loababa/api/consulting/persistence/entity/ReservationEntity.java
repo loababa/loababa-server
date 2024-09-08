@@ -15,6 +15,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLRestriction;
 
+import static com.loababa.api.consulting.constant.ConsultingStatus.CANCELLED;
+import static com.loababa.api.consulting.constant.ConsultingStatus.CONFIRMED;
 import static com.loababa.api.consulting.constant.ConsultingStatus.PENDING;
 
 @Entity
@@ -46,5 +48,13 @@ public class ReservationEntity extends BaseEntity {
         this.lossamId = lossamId;
         this.mokokoId = mokokoId;
         this.isDeleted = isDeleted;
+    }
+
+    public void approved() {
+        consultingStatus = CONFIRMED;
+    }
+
+    public void rejected() {
+        consultingStatus = CANCELLED;
     }
 }

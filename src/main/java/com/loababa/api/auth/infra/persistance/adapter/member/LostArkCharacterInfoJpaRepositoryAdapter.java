@@ -6,6 +6,7 @@ import com.loababa.api.auth.infra.persistance.repository.LossamLostArkCharacterI
 import com.loababa.api.auth.infra.persistance.entity.LostArkCharacterInfoEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -13,6 +14,7 @@ public class LostArkCharacterInfoJpaRepositoryAdapter implements LostArkCharacte
 
     private final LossamLostArkCharacterInfoJpaRepository lossamLostArkCharacterInfoJpaRepository;
 
+    @Transactional
     @Override
     public void save(LossamLostArkCharacterInfo lossamLostArkCharacterInfo, Long memberId) {
         String classEngravings = String.join(", ", lossamLostArkCharacterInfo.classEngravings());

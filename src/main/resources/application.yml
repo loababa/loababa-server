@@ -2,6 +2,9 @@ spring:
   application:
     name: loababa
 
+  aop:
+    proxy-target-class: true
+
   datasource:
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USERNAME}
@@ -60,3 +63,5 @@ aws:
 domain:
   front: www.loababa.com
   back: api.loababa.com
+
+

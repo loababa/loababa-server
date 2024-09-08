@@ -27,7 +27,7 @@ public class ConsultingService {
 
     public ConsultingListForms getAllConsultingListForms() {
         // Lossam 정보 가져오기
-        var allLossamInfo = memberReader.findAllLossamInfo();
+        var allLossamInfo = memberReader.getAllLossamInfo();
 
         // Consulting 정보 가져오기
         var allLossamId = allLossamInfo.getAllLossamId();

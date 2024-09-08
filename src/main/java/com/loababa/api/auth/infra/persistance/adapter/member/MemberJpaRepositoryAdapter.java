@@ -13,6 +13,7 @@ import com.loababa.api.common.exception.LoababaBadRequestException;
 import com.loababa.api.common.exception.ServerExceptionInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,16 +23,19 @@ public class MemberJpaRepositoryAdapter implements MemberReader, MemberWriter {
 
     private final MemberJpaRepository memberJpaRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public boolean existNickname(String nickname) {
         return memberJpaRepository.existsByNickname(nickname);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Long getMemberIdByOAuthUserId(Long oAuthUserId) {
         return memberJpaRepository.findIdByOAuthUserId(oAuthUserId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MemberType readMemberType(Long memberId) {
         return memberJpaRepository.findById(memberId)
@@ -44,8 +48,9 @@ public class MemberJpaRepositoryAdapter implements MemberReader, MemberWriter {
                 .getMemberType();
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public LossamBasicInfos findAllLossamInfo() {
+    public LossamBasicInfos getAllLossamInfo() {
         List<LossamBasicInfoDto> allLossamInfo = memberJpaRepository.findAllLossamInfo();
         return new LossamBasicInfos(
                 allLossamInfo.stream()
@@ -54,6 +59,7 @@ public class MemberJpaRepositoryAdapter implements MemberReader, MemberWriter {
         );
     }
 
+    @Transactional
     @Override
     public Long save(MemberProfile memberProfile, Long oauthId) {
         var memberEntity = MemberEntity.builder()

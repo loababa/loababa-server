@@ -5,7 +5,7 @@ import org.springframework.lang.Nullable;
 
 import java.util.List;
 
-public record ReservationListForms(
+public record ReservationListForms( // TODO 이거 굳이 하나 더 만들기 보단 Reservation 으로 쓰는 게 나을 것 같음
         List<ReservationListForm> reservationListForms,
         MemberType memberType
 ) {

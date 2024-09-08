@@ -1,13 +1,11 @@
 package com.loababa.api.consulting.persistence.adapter;
 
 import com.loababa.api.auth.domain.member.impl.model.MemberType;
-import com.loababa.api.common.exception.LoababaBadRequestException;
-import com.loababa.api.common.exception.ServerExceptionInfo;
 import com.loababa.api.consulting.constant.ConsultingStatus;
-import com.loababa.api.consulting.domain.impl.model.ReservationListForms;
 import com.loababa.api.consulting.domain.impl.model.DateTimeRange;
 import com.loababa.api.consulting.domain.impl.model.Reservation;
 import com.loababa.api.consulting.domain.impl.model.ReservationDateTime;
+import com.loababa.api.consulting.domain.impl.model.ReservationListForms;
 import com.loababa.api.consulting.domain.impl.model.ReservationPreResponses;
 import com.loababa.api.consulting.domain.impl.repository.ReservationReader;
 import com.loababa.api.consulting.domain.impl.repository.ReservationWriter;
@@ -19,6 +17,7 @@ import com.loababa.api.consulting.persistence.repository.ReservationJpaRepositor
 import com.loababa.api.consulting.persistence.repository.ReservationPreResponsesJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import java.util.stream.Collectors;
 import static com.loababa.api.auth.domain.member.impl.model.MemberType.LOSSAM;
 import static com.loababa.api.auth.domain.member.impl.model.MemberType.MOKOKO;
 import static com.loababa.api.consulting.constant.ConsultingStatus.PENDING;
-import static com.loababa.api.consulting.exception.ReservationClientExceptionInfo.NOT_FOUND_RESERVATION;
 
 @Component
 @RequiredArgsConstructor
@@ -40,6 +38,7 @@ public class ReservationJpaRepositoryAdapter implements ReservationReader, Reser
     private final ReservationPreResponsesJpaRepository reservationPreResponsesJpaRepository;
     private final ReservationDateTimeJpaRepository reservationDateTimeJpaRepository;
 
+    @Transactional
     @Override
     public void upsert(Reservation reservation) {
         ReservationEntity reservationEntity = reservationJpaRepository.save(
@@ -75,18 +74,34 @@ public class ReservationJpaRepositoryAdapter implements ReservationReader, Reser
         );
     }
 
+    @Transactional
+    @Override
+    public void approve(Long reservationId, Long dateTimeId) {
+        ReservationEntity reservationEntity = reservationJpaRepository.getReservationEntityById(reservationId);
+        reservationEntity.approved();
+
+        ReservationDateTimeEntity dateTimeEntity =
+                reservationDateTimeJpaRepository.getReservationDateTimeEntityById(dateTimeId);
+        dateTimeEntity.approved();
+    }
+
+    @Transactional
+    @Override
+    public void reject(Long reservationId) {
+        ReservationEntity reservationEntity = reservationJpaRepository.getReservationEntityById(reservationId);
+        reservationEntity.rejected();
+    }
+
+    @Transactional(readOnly = true)
     @Override
     public boolean existsReservation(long lossamId, LocalDateTime slotStartTime, LocalDateTime slotEndTime) {
         return reservationJpaRepository.existsReservation(lossamId, slotStartTime, slotEndTime);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Reservation read(Long reservationId) {
-        ReservationEntity reservationEntity = reservationJpaRepository.findById(reservationId)
-                .orElseThrow(() -> new LoababaBadRequestException(
-                        NOT_FOUND_RESERVATION,
-                        new ServerExceptionInfo("존재 하지 않는 Reservation id: " + reservationId)
-                ));
+        ReservationEntity reservationEntity = reservationJpaRepository.getReservationEntityById(reservationId);
 
         var reservationDateTimeEntities
                 = reservationDateTimeJpaRepository.findByReservationId(reservationId);
@@ -105,6 +120,7 @@ public class ReservationJpaRepositoryAdapter implements ReservationReader, Reser
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ReservationListForms readLossamReservations(
             Long lossamId,
@@ -121,6 +137,7 @@ public class ReservationJpaRepositoryAdapter implements ReservationReader, Reser
         return buildReservations(consultingStatus, lossamReservations, reservationPreResponses, reservationDateTime, LOSSAM);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ReservationListForms readMokokoReservations(Long mokokoId, ConsultingStatus consultingStatus) {
         var mokokoReservations =
