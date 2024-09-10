@@ -2,18 +2,11 @@ spring:
   application:
     name: loababa
 
-  aop:
-    proxy-target-class: true
-
   datasource:
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
     driver-class-name: ${DATASOURCE_DRIVER_CLASS_NAME}
-
-  h2:
-    console:
-      enabled: true
 
   jpa:
     open-in-view: true
@@ -42,11 +35,6 @@ discord:
   error-notification-webhook-url: ${DISCORD_ERROR_NOTIFICATION_WEBHOOK_URL}
   consulting-notification-webhook-url: ${DISCORD_CONSULTING_NOTIFICATION_WEBHOOK_URL}
 
-
-logging:
-  level:
-    root: debug
-
 url:
   lossam-sign-up: ${URL_LOSSAM_SIGN_UP}
 
@@ -61,7 +49,7 @@ aws:
     public-bucket-prefix: ${AWS_PUBLIC_BUCKET_PREFIX}
 
 domain:
-  front: www.loababa.com
-  back: api.loababa.com
+  front: ${DOMAIN_FRONT}
+  back: ${DOMAIN_BACK}
 
 
