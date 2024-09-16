@@ -38,10 +38,14 @@ public class AuthController {
             @Valid @NotBlank @Pattern(regexp = "^(kakao|google)$") String platform,
             @Schema(description = "OAuth 토큰을 받기 위한 인가 코드")
             @RequestParam
-            @Valid @NotBlank String code
+            @Valid @NotBlank String code,
+            @RequestParam
+            @Valid @NotBlank String redirectUri
     ) {
         OAuthPlatform oAuthPlatform = OAuthPlatform.from(platform);
-        var authToken = oAuthService.authenticate(new OAuthCredential(oAuthPlatform, code));
+        var authToken = oAuthService.authenticate(
+                new OAuthCredential(oAuthPlatform, code, redirectUri)
+        );
         return ApiResponse.success(authToken);
     }
 

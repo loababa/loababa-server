@@ -1,20 +1,20 @@
 package com.loababa.api.auth.domain.auth;
 
-import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthClientProvider;
-import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUserManager;
-import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
-import com.loababa.api.auth.domain.auth.model.oauth.OAuthClientFixtures;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthCredential;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthPlatform;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthToken;
-import com.loababa.api.auth.domain.auth.model.oauth.OAuthTokenFixtures;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUser;
 import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUserInfo;
+import com.loababa.api.auth.domain.auth.impl.model.oauth.OAuthUserManager;
+import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
+import com.loababa.api.auth.domain.auth.impl.model.token.JWTManager;
+import com.loababa.api.auth.domain.auth.model.oauth.OAuthClientFixtures;
+import com.loababa.api.auth.domain.auth.model.oauth.OAuthTokenFixtures;
 import com.loababa.api.auth.domain.auth.model.oauth.OAuthUserInfoFixtures;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
-import com.loababa.api.common.model.MemberCredential;
 import com.loababa.api.common.MockTestBase;
+import com.loababa.api.common.model.MemberCredential;
 import org.instancio.Instancio;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -46,14 +46,14 @@ class OAuthServiceTest extends MockTestBase {
     @EnumSource(OAuthPlatform.class)
     void OAuth_인증을_통해_자체_인증_토큰_발급할_수_있다(OAuthPlatform oAuthPlatform) {
         // given
-        OAuthCredential oAuthCredential = new OAuthCredential(oAuthPlatform, "code");
+        OAuthCredential oAuthCredential = new OAuthCredential(oAuthPlatform, "code", "redirectUri");
 
         var oAuthClient = OAuthClientFixtures.mockOAuthClient();
         given(oAuthClientProvider.getOAuthClient(oAuthPlatform))
                 .willReturn(oAuthClient);
 
         OAuthToken oAuthToken = OAuthTokenFixtures.newOAuthToken();
-        given(oAuthClient.fetchOAuthToken(oAuthCredential.code()))
+        given(oAuthClient.fetchOAuthToken(oAuthCredential.code(), oAuthCredential.redirectUri()))
                 .willReturn(oAuthToken);
 
         OAuthUserInfo oAuthUserInfo = OAuthUserInfoFixtures.newOAuthUserInfo();

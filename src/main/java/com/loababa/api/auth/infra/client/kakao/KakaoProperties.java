@@ -7,12 +7,11 @@ import org.springframework.util.MultiValueMap;
 @ConfigurationProperties("oauth.kakao")
 public record KakaoProperties(
         String clientId,
-        String redirectUri,
         String clientSecret,
         String responseType
 ) {
 
-    public MultiValueMap<String, String> toKakaoTokenRequestBody(String code) {
+    public MultiValueMap<String, String> toKakaoTokenRequestBody(String code, String redirectUri) {
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("grant_type", "authorization_code");
         requestBody.add("client_id", clientId);

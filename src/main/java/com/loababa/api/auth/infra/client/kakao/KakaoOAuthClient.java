@@ -25,8 +25,8 @@ public class KakaoOAuthClient implements OAuthClient {
     private final KakaoProperties kakaoProperties;
 
     @Override
-    public OAuthToken fetchOAuthToken(String code) {
-        MultiValueMap<String, String> kakaoTokenRequestBody = kakaoProperties.toKakaoTokenRequestBody(code);
+    public OAuthToken fetchOAuthToken(String code, String redirectUri) {
+        MultiValueMap<String, String> kakaoTokenRequestBody = kakaoProperties.toKakaoTokenRequestBody(code, redirectUri);
 
         KakaoOAuthToken kakaoOAuthToken = restClient
                 .post()

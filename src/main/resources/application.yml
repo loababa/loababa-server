@@ -20,7 +20,6 @@ spring:
 oauth:
   kakao:
     client-id: ${OAUTH_KAKAO_CLIENT_ID}
-    redirect-uri: ${OAUTH_KAKAO_REDIRECT_URI}
     client-secret: ${OAUTH_KAKAO_SECRET}
     response-type: ${OAUTH_KAKAO_RESPONSE_TYPE}
 

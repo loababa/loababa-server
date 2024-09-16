@@ -16,7 +16,7 @@ public class OAuthClientFixtures {
     public static OAuthClient fakeOAuthClient(OAuthPlatform platform) {
         return new OAuthClient() {
             @Override
-            public OAuthToken fetchOAuthToken(String code) {
+            public OAuthToken fetchOAuthToken(String code, String redirectUri) {
                 return OAuthTokenFixtures.newOAuthToken();
             }
 
@@ -27,6 +27,7 @@ public class OAuthClientFixtures {
 
             @Override
             public void invalidateOAuthToken(String accessToken) {
+                // OAuth Token 무효화
             }
 
             @Override

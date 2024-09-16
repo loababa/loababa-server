@@ -46,19 +46,21 @@ class AuthControllerTest extends ControllerTestBase {
         void 정상요청(String platform) throws Exception {
             // given
             String code = "OAuth 토큰 인가 코드";
+            String redirectUri = "OAuth 리다이렉트 URI";
             AccessToken accessToken = AccessTokenFixtures.newAccessToken();
             RefreshToken refreshToken = RefreshTokenFixtures.newRefreshToken();
             AuthToken authToken = new AuthToken(accessToken, refreshToken);
 
             OAuthPlatform oAuthPlatform = OAuthPlatform.from(platform);
             given(oAuthService.authenticate(
-                    new OAuthCredential(oAuthPlatform, code)
+                    new OAuthCredential(oAuthPlatform, code, redirectUri)
             )).willReturn(authToken);
 
             // when
             ResultActions resultActions = mvc.perform(
                     get("/api/v1/oauth/{platform}", platform)
                             .queryParam("code", code)
+                            .queryParam("redirectUri", redirectUri)
             );
 
             // then
@@ -78,12 +80,14 @@ class AuthControllerTest extends ControllerTestBase {
         void 지원하지_않은_플랫폼을_입력했을_때() throws Exception {
             // given
             String code = "OAuth 토큰 인가 코드";
+            String redirectUri = "OAuth 리다이렉트 URI";
             String platform = "notSupportedPlatform";
 
             // when
             ResultActions resultActions = mvc.perform(
                     get("/api/v1/oauth/{platform}", platform)
                             .queryParam("code", code)
+                            .queryParam("redirectUri", redirectUri)
             );
 
             // then
