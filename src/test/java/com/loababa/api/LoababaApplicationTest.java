@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(value = "classpath:secret/.env")
+@TestPropertySource(value = "classpath:secret/test.env")
 class LoababaApplicationTest {
 
     @Test
