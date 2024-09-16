@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- LOG_PATH 변수 정의 -->
-    <property name="FILE_LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%thread] %-5level %logger{36} - %msg%n"/>
-
     <!-- 기본 설정 파일 포함 -->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
@@ -27,7 +24,7 @@
                 <maxFileSize>50MB</maxFileSize>
                 <!-- 최대 보관 기간 설정: 30일 -->
                 <maxHistory>30</maxHistory>
-                <!-- 총 로그 파일 크기 제한: 1GB -->
+                <!-- 모든 로그의 파일 총 크기 제한: 1GB -->
                 <totalSizeCap>1GB</totalSizeCap>
             </rollingPolicy>
         </appender>
