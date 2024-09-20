@@ -6,6 +6,7 @@ import com.loababa.api.auth.domain.member.impl.model.LossamLostArkCharacterInfo;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyGenerator;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyValidator;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpURLGenerator;
+import com.loababa.api.auth.domain.member.impl.model.Member;
 import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
 import com.loababa.api.auth.domain.member.impl.repository.LostArkCharacterInfoWriter;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
@@ -63,6 +64,10 @@ public class MemberService {
         return jwtManager.generate(
                 new MemberCredential(oauthId, memberId)
         );
+    }
+
+    public Member getMember(Long memberId) {
+        return memberReader.read(memberId);
     }
 
 }

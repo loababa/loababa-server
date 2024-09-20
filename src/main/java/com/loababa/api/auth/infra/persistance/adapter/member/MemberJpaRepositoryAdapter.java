@@ -1,16 +1,14 @@
 package com.loababa.api.auth.infra.persistance.adapter.member;
 
 import com.loababa.api.auth.domain.member.impl.model.LossamBasicInfos;
+import com.loababa.api.auth.domain.member.impl.model.Member;
 import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
 import com.loababa.api.auth.domain.member.impl.model.MemberType;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.auth.domain.member.impl.repository.MemberWriter;
-import com.loababa.api.auth.exception.MemberClientExceptionInfo;
 import com.loababa.api.auth.infra.persistance.dto.LossamBasicInfoDto;
 import com.loababa.api.auth.infra.persistance.entity.MemberEntity;
 import com.loababa.api.auth.infra.persistance.repository.MemberJpaRepository;
-import com.loababa.api.common.exception.LoababaBadRequestException;
-import com.loababa.api.common.exception.ServerExceptionInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,14 +36,8 @@ public class MemberJpaRepositoryAdapter implements MemberReader, MemberWriter {
     @Transactional(readOnly = true)
     @Override
     public MemberType readMemberType(Long memberId) {
-        return memberJpaRepository.findById(memberId)
-                .orElseThrow(() ->
-                        new LoababaBadRequestException(
-                                MemberClientExceptionInfo.MEMBER_NOT_FOUND,
-                                new ServerExceptionInfo("존재하지 않는 memberId: " + memberId)
-                        )
-                )
-                .getMemberType();
+        MemberEntity memberEntity = memberJpaRepository.getMemberEntityById(memberId);
+        return memberEntity.getMemberType();
     }
 
     @Transactional(readOnly = true)
@@ -59,16 +51,19 @@ public class MemberJpaRepositoryAdapter implements MemberReader, MemberWriter {
         );
     }
 
+    @Override
+    public Member read(Long memberId) {
+        MemberEntity entity = memberJpaRepository.getMemberEntityById(memberId);
+        return entity.toMember();
+    }
+
     @Transactional
     @Override
     public Long save(MemberProfile memberProfile, Long oauthId) {
         var memberEntity = MemberEntity.builder()
                 .nickname(memberProfile.nickname())
                 .memberType(memberProfile.memberType())
-                .profileImageUrl(
-                        memberProfile.profileImageURL()
-                                .value()
-                )
+                .profileImageUrl(memberProfile.profileImageUrl())
                 .oAuthUserId(oauthId)
                 .build();
         return memberJpaRepository.save(memberEntity)

@@ -12,20 +12,12 @@ import software.amazon.awssdk.services.s3.S3Client;
 @Configuration
 @EnableConfigurationProperties({
         AwsConfig.AwsIAMProperties.class,
-        AwsConfig.AwsCloudFrontProperties.class,
-        AwsConfig.AwsS3Properties.class
 })
 public class AwsConfig {
 
     public static final Region REGION = Region.AP_NORTHEAST_2;
-
-    @ConfigurationProperties("aws.iam")
-    public record AwsIAMProperties(
-            String accessKey,
-            String secretKey
-    ) {
-
-    }
+    public static final String AWS_S3_BUCKET_NAME = "loababa";
+    public static final String AWS_PUBLIC_BUCKET_PREFIX = "public";
 
     @Bean
     public AwsCredentials awsCredentials(AwsIAMProperties awsIAMProperties) {
@@ -43,17 +35,10 @@ public class AwsConfig {
                 .build();
     }
 
-    @ConfigurationProperties("aws.s3")
-    public record AwsS3Properties(
-            String publicBucketPrefix,
-            String bucketName
-    ) {
-
-    }
-
-    @ConfigurationProperties("aws.cloudfront")
-    public record AwsCloudFrontProperties(
-            String domain
+    @ConfigurationProperties("aws.iam")
+    public record AwsIAMProperties(
+            String accessKey,
+            String secretKey
     ) {
 
     }

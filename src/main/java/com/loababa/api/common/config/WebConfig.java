@@ -5,7 +5,6 @@ import com.loababa.api.auth.ui.resolver.LossamCredentialResolver;
 import com.loababa.api.auth.ui.resolver.MemberCredentialResolver;
 import com.loababa.api.common.exception.ClientExceptionInfo;
 import com.loababa.api.common.exception.ServerExceptionInfo;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,6 +25,10 @@ import java.util.stream.Collectors;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    public static final String FRONT_DOMAIN = "www.loababa.com";
+    public static final String BACK_DOMAIN = "api.loababa.com";
+    public static final String CDN_DOMAIN = "cdn.loababa.com";
+
     private static final String COMMUNICATION_ERROR_SERVER_MESSAGE = """
             외부 통신 통신 오류
             request header: {0}
@@ -38,24 +41,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final MemberCredentialResolver memberCredentialResolver;
     private final LossamCredentialResolver lossamCredentialResolver;
-    private final String frontDomain;
-    private final String backDomain;
 
     public WebConfig(
             MemberCredentialResolver memberCredentialResolver,
-            LossamCredentialResolver lossamCredentialResolver,
-            @Value("${domain.front}") String frontDomain,
-            @Value("${domain.back}") String backDomain
+            LossamCredentialResolver lossamCredentialResolver
     ) {
         this.memberCredentialResolver = memberCredentialResolver;
         this.lossamCredentialResolver = lossamCredentialResolver;
-        this.frontDomain = frontDomain;
-        this.backDomain = backDomain;
-    }
-
-    @Bean
-    public RestClient restClient() {
-        return RestClient.create();
     }
 
     public static RestClient.ResponseSpec.ErrorHandler getCommonExternalCommunicationExceptionHandler(ClientExceptionInfo clientExceptionInfo, String requestBody) {
@@ -82,6 +74,11 @@ public class WebConfig implements WebMvcConfigurer {
         }
     }
 
+    @Bean
+    public RestClient restClient() {
+        return RestClient.create();
+    }
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(memberCredentialResolver);
@@ -93,8 +90,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:5173",
-                        "https://" + frontDomain,
-                        "https://" + backDomain
+                        "https://" + FRONT_DOMAIN,
+                        "https://" + BACK_DOMAIN
                 )
                 .allowedMethods(
                         HttpMethod.OPTIONS.name(),

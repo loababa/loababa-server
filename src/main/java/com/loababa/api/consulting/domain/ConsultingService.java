@@ -1,12 +1,12 @@
 package com.loababa.api.consulting.domain;
 
-import com.loababa.api.auth.domain.member.impl.model.LossamBasicInfos.LossamBasicInfo;
+import com.loababa.api.auth.domain.member.impl.model.LossamBasicInfo;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.consulting.domain.impl.model.ConsultingListForms;
 import com.loababa.api.consulting.domain.impl.model.ConsultingPost;
+import com.loababa.api.consulting.domain.impl.model.ConsultingPostDetailForm;
 import com.loababa.api.consulting.domain.impl.model.ConsultingRegister;
 import com.loababa.api.consulting.domain.impl.model.LossamSchedule;
-import com.loababa.api.consulting.domain.impl.model.ConsultingPostDetailForm;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingPostReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

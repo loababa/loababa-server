@@ -1,8 +1,10 @@
 package com.loababa.api.auth.ui;
 
-import com.loababa.api.auth.domain.member.MemberService;
 import com.loababa.api.auth.domain.auth.impl.model.token.AuthToken;
+import com.loababa.api.auth.domain.member.MemberService;
+import com.loababa.api.auth.domain.member.impl.model.Member;
 import com.loababa.api.auth.ui.dto.LossamSignUpReq;
+import com.loababa.api.auth.ui.dto.MemberMyResponse;
 import com.loababa.api.common.model.ApiResponse;
 import com.loababa.api.common.model.MemberCredential;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,6 +59,13 @@ public class MemberController {
                 lossamSignUpReq.toLossamLostArkCharacter()
         );
         return ApiResponse.success(authToken);
+    }
+
+    @Operation(description = "내 정보 가져오기", security = @SecurityRequirement(name = "Authorization"))
+    @GetMapping("/api/v1/members/my")
+    public ApiResponse<MemberMyResponse> requestMyInfo(MemberCredential memberCredential) {
+        Member member = memberService.getMember(memberCredential.memberId());
+        return ApiResponse.success(MemberMyResponse.from(member));
     }
 
 }

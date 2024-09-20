@@ -1,5 +1,6 @@
 package com.loababa.api.common.service;
 
+import com.loababa.api.common.config.AwsConfig;
 import com.loababa.api.common.constant.AwsS3Folder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequ
 import java.time.Duration;
 import java.util.UUID;
 
-import static com.loababa.api.common.config.AwsConfig.AwsS3Properties;
 import static com.loababa.api.common.config.AwsConfig.REGION;
 
 @Service
@@ -22,7 +22,6 @@ public class AwsS3Service {
 
     public static final Duration AWS_S3_PRESIGNED_URL_EXPIRATION_DURATION = Duration.ofMinutes(10);
 
-    private final AwsS3Properties awsS3Properties;
     private final AwsCredentials awsCredentials;
 
     public String createPresignedGetUrl(AwsS3Folder folder, String fileExtension) {
@@ -35,7 +34,7 @@ public class AwsS3Service {
             String keyName = generateKey(folder, fileExtension);
 
             GetObjectRequest objectRequest = GetObjectRequest.builder()
-                    .bucket(awsS3Properties.bucketName())
+                    .bucket(AwsConfig.AWS_S3_BUCKET_NAME)
                     .key(keyName)
                     .build();
 
@@ -52,7 +51,7 @@ public class AwsS3Service {
     }
 
     private String generateKey(AwsS3Folder folder, String fileExtension) {
-        return awsS3Properties.publicBucketPrefix() + "/" + folder + "/" + UUID.randomUUID() + "." + fileExtension;
+        return AwsConfig.AWS_PUBLIC_BUCKET_PREFIX + "/" + folder + "/" + UUID.randomUUID() + "." + fileExtension;
     }
 
 }

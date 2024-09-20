@@ -1,6 +1,6 @@
 package com.loababa.api.auth.infra.persistance.dto;
 
-import com.loababa.api.auth.domain.member.impl.model.LossamBasicInfos;
+import com.loababa.api.auth.domain.member.impl.model.LossamBasicInfo;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -23,8 +23,8 @@ public class LossamBasicInfoDto {
     }
 
 
-    public LossamBasicInfos.LossamBasicInfo toLossamBasicInfo() {
-        return new LossamBasicInfos.LossamBasicInfo(
+    public LossamBasicInfo toLossamBasicInfo() {
+        return new LossamBasicInfo(
                 id, nickname, profileImageUrl, highestLevel, getClassEngravings()
         );
     }

@@ -11,12 +11,15 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
+import static com.loababa.api.auth.domain.member.impl.model.MemberType.LOSSAM;
+
 @Schema(description = "로쌤 회원 가입 상세정보")
 public record LossamSignUpReq(
         @Length(min = 2, max = 8, message = "닉네임은 최소 2글자에서 최대 8글자까지 가능합니다.")
         @NotBlank(message = "닉네임을 입력해주세요.")
         String nickname,
 
+        @Schema(nullable = true)
         String profileImageURL,
 
         @Size(min = 2, max = 2, message = "직업 각인은 두 개만 입력 가능합니다.")
@@ -29,7 +32,7 @@ public record LossamSignUpReq(
 ) {
 
     public MemberProfile toLossamProfile() {
-        return MemberProfile.createLossamProfile(nickname, profileImageURL);
+        return new MemberProfile(nickname, profileImageURL, LOSSAM);
     }
 
     public LossamLostArkCharacterInfo toLossamLostArkCharacter() {

@@ -1,5 +1,7 @@
 package com.loababa.api.auth.infra.persistance.entity;
 
+import com.loababa.api.auth.domain.member.impl.model.Member;
+import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
 import com.loababa.api.auth.domain.member.impl.model.MemberType;
 import com.loababa.api.common.model.BaseEntity;
 import jakarta.persistence.Column;
@@ -45,4 +47,9 @@ public class MemberEntity extends BaseEntity {
         this.profileImageUrl = profileImageUrl;
         this.oAuthUserId = oAuthUserId;
     }
+
+    public Member toMember() {
+        return new Member(id, new MemberProfile(nickname, profileImageUrl, memberType));
+    }
+
 }

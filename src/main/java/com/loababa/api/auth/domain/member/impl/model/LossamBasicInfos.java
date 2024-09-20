@@ -13,14 +13,5 @@ public record LossamBasicInfos(
                 .toList();
     }
 
-    public record LossamBasicInfo(
-            Long id,
-            String nickname,
-            String profileImageUrl,
-            int highestLevel,
-            List<String> classEngravings
-    ) {
-    }
-
 }
 
