@@ -3,8 +3,8 @@ create table consulting_post_topics
     topic                   varchar(6)   not null,
     consulting_post_id      bigint       not null,
     id                      bigint auto_increment,
-    created_date_time       timestamp(6) not null,
-    last_modified_date_time timestamp(6) not null,
+    created_date_time       timestamp(6) not null default current_timestamp,
+    last_modified_date_time timestamp(6) not null default current_timestamp,
     primary key (id)
 );
 create table consulting_posts
@@ -13,8 +13,8 @@ create table consulting_posts
     member_id               bigint       not null unique,
     title                   varchar(200) not null,
     contents                varchar(500) not null,
-    created_date_time       timestamp(6) not null,
-    last_modified_date_time timestamp(6) not null,
+    created_date_time       timestamp(6) not null default current_timestamp,
+    last_modified_date_time timestamp(6) not null default current_timestamp,
     primary key (id)
 );
 create table consulting_reservation_datetimes
@@ -24,8 +24,8 @@ create table consulting_reservation_datetimes
     id                      bigint auto_increment,
     reservation_id          bigint       not null,
     start_date_time         timestamp(6) not null,
-    created_date_time       timestamp(6) not null,
-    last_modified_date_time timestamp(6) not null,
+    created_date_time       timestamp(6) not null default current_timestamp,
+    last_modified_date_time timestamp(6) not null default current_timestamp,
     primary key (id)
 );
 create table consulting_reservations
@@ -35,8 +35,8 @@ create table consulting_reservations
     is_deleted              boolean      not null,
     lossam_id               bigint       not null,
     mokoko_id               bigint       not null,
-    created_date_time       timestamp(6) not null,
-    last_modified_date_time timestamp(6) not null,
+    created_date_time       timestamp(6) not null default current_timestamp,
+    last_modified_date_time timestamp(6) not null default current_timestamp,
     primary key (id)
 );
 create table consulting_schedules
@@ -46,8 +46,8 @@ create table consulting_schedules
     id                      bigint auto_increment,
     member_id               bigint       not null,
     day_of_week             enum ('FRIDAY','MONDAY','SATURDAY','SUNDAY','THURSDAY','TUESDAY','WEDNESDAY') not null,
-    created_date_time       timestamp(6) not null,
-    last_modified_date_time timestamp(6) not null,
+    created_date_time       timestamp(6) not null default current_timestamp,
+    last_modified_date_time timestamp(6) not null default current_timestamp,
     primary key (id),
     constraint member_id_day_of_week_unique_key_index unique (member_id, day_of_week)
 );
@@ -57,8 +57,8 @@ create table lost_ark_character_infos
     id                      bigint auto_increment,
     member_id               bigint       not null unique,
     class_engravings        varchar(255) not null,
-    created_date_time       timestamp(6) not null,
-    last_modified_date_time timestamp(6) not null,
+    created_date_time       timestamp(6) not null default current_timestamp,
+    last_modified_date_time timestamp(6) not null default current_timestamp,
     primary key (id)
 );
 create table members
@@ -68,8 +68,8 @@ create table members
     nickname                varchar(255) not null unique,
     profile_image_url       varchar(255) not null,
     member_type             enum ('LOSSAM','MOKOKO') not null,
-    created_date_time       timestamp(6) not null,
-    last_modified_date_time timestamp(6) not null,
+    created_date_time       timestamp(6) not null default current_timestamp,
+    last_modified_date_time timestamp(6) not null default current_timestamp,
     primary key (id)
 );
 create table oauth_users
@@ -77,8 +77,8 @@ create table oauth_users
     id                      bigint auto_increment,
     o_auth_id               bigint       not null,
     o_auth_platform         enum ('GOOGLE','KAKAO') not null,
-    created_date_time       timestamp(6) not null,
-    last_modified_date_time timestamp(6) not null,
+    created_date_time       timestamp(6) not null default current_timestamp,
+    last_modified_date_time timestamp(6) not null default current_timestamp,
     primary key (id),
     unique (o_auth_id, o_auth_platform)
 );
@@ -91,7 +91,7 @@ create table reservation_pre_responses
     contact_number          varchar(255) not null,
     experience              varchar(255) not null,
     inquiry_details         varchar(255) not null,
-    created_date_time       timestamp(6) not null,
-    last_modified_date_time timestamp(6) not null,
+    created_date_time       timestamp(6) not null default current_timestamp,
+    last_modified_date_time timestamp(6) not null default current_timestamp,
     primary key (id)
 );

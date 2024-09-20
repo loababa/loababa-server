@@ -1,19 +1,12 @@
 package com.loababa.api.auth.domain.member.impl.model;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
 class LossamSignUpURLGeneratorTest {
 
-    private LossamSignUpURLGenerator lossamSignUpURLGenerator;
-
-    @BeforeEach
-    void setUp() {
-        String lossamSignUpURL = "lossamSignupURL?key=%s";
-        lossamSignUpURLGenerator = new LossamSignUpURLGenerator(lossamSignUpURL);
-    }
+    private final LossamSignUpURLGenerator lossamSignUpURLGenerator = new LossamSignUpURLGenerator();
 
     @Test
     void 로쌤_회원가입_URL을_생성할_수_있다() {
