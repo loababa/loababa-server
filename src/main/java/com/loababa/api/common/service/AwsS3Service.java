@@ -6,10 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
-import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
-import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 
 import java.time.Duration;
 import java.util.UUID;
@@ -30,21 +29,18 @@ public class AwsS3Service {
                 .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
                 .build()
         ) {
-
             String keyName = generateKey(folder, fileExtension);
 
-            GetObjectRequest objectRequest = GetObjectRequest.builder()
-                    .bucket(AwsConfig.AWS_S3_BUCKET_NAME)
-                    .key(keyName)
-                    .build();
-
-            GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
+            PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
                     .signatureDuration(AWS_S3_PRESIGNED_URL_EXPIRATION_DURATION)
-                    .getObjectRequest(objectRequest)
+                    .putObjectRequest(builder ->
+                            builder.bucket(AwsConfig.AWS_S3_BUCKET_NAME)
+                                    .key(keyName)
+                                    .build()
+                    )
                     .build();
 
-            PresignedGetObjectRequest presignedRequest = presigner.presignGetObject(presignRequest);
-
+            PresignedPutObjectRequest presignedRequest = presigner.presignPutObject(presignRequest);
             return presignedRequest.url()
                     .toExternalForm();
         }
