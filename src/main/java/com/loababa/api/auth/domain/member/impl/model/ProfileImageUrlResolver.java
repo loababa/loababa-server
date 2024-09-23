@@ -1,6 +1,7 @@
 package com.loababa.api.auth.domain.member.impl.model;
 
 import com.loababa.api.common.constant.AwsS3Folder;
+import com.loababa.api.common.service.impl.AwsS3UrlConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

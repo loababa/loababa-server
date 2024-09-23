@@ -1,9 +1,8 @@
-package com.loababa.api.auth.domain.member.impl.model;
+package com.loababa.api.common.service.impl;
 
 import com.loababa.api.common.constant.AwsS3Folder;
 import com.loababa.api.common.exception.LoababaBadRequestException;
 import com.loababa.api.common.exception.ServerExceptionInfo;
-import com.loababa.api.common.service.impl.CloudFrontUrlResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
