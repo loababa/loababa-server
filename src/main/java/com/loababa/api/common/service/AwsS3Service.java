@@ -23,7 +23,7 @@ public class AwsS3Service {
 
     private final AwsCredentials awsCredentials;
 
-    public String createPresignedGetUrl(AwsS3Folder folder, String fileExtension) {
+    public String createPresignedPutUrl(AwsS3Folder folder, String fileExtension) {
         try (S3Presigner presigner = S3Presigner.builder()
                 .region(REGION)
                 .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
