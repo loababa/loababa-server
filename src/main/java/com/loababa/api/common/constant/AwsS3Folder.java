@@ -3,8 +3,10 @@ package com.loababa.api.common.constant;
 import com.loababa.api.common.exception.CommonClientExceptionInfo;
 import com.loababa.api.common.exception.LoababaBadRequestException;
 import com.loababa.api.common.exception.ServerExceptionInfo;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public enum AwsS3Folder {
     PROFILE_IMAGES("profile-images"),

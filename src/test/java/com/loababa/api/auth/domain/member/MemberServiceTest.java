@@ -5,6 +5,9 @@ import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKey;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyGenerator;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyValidator;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpURLGenerator;
+import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
+import com.loababa.api.auth.domain.member.impl.model.MemberType;
+import com.loababa.api.auth.domain.member.impl.model.ProfileImageUrlResolver;
 import com.loababa.api.auth.domain.member.impl.repository.LostArkCharacterInfoWriter;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.auth.domain.member.impl.repository.MemberWriter;
@@ -19,7 +22,6 @@ import org.mockito.Mock;
 
 import static com.loababa.api.auth.domain.auth.model.token.AuthTokenFixtures.newAuthToken;
 import static com.loababa.api.auth.domain.member.impl.model.LossamLostArkCharacterInfoFixtures.newLossamLostArkCharacterInfo;
-import static com.loababa.api.auth.domain.member.impl.model.MemberProfileFixtures.newLossamProfile;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -31,23 +33,23 @@ class MemberServiceTest extends MockTestBase {
     private MemberService memberService;
 
     @Mock
-    private LossamSignUpURLGenerator lossamSignUpURLGenerator;
+    LossamSignUpURLGenerator lossamSignUpURLGenerator;
     @Mock
-    private LossamSignUpKeyGenerator lossamSignUpKeyGenerator;
+    LossamSignUpKeyGenerator lossamSignUpKeyGenerator;
     @Mock
-    private LossamSignUpKeyValidator lossamSignUpKeyValidator;
-
+    LossamSignUpKeyValidator lossamSignUpKeyValidator;
     @Mock
-    private MessageSender messageSender;
+    JWTManager jwtManager;
     @Mock
-    private JWTManager jwtManager;
-
+    MemberReader memberReader;
     @Mock
-    private MemberReader memberReader;
+    MemberWriter memberWriter;
     @Mock
-    private MemberWriter memberWriter;
+    LostArkCharacterInfoWriter lostArkCharacterInfoWriter;
     @Mock
-    private LostArkCharacterInfoWriter lostArkCharacterInfoWriter;
+    ProfileImageUrlResolver profileImageUrlResolver;
+    @Mock
+    MessageSender messageSender;
 
     @Test
     void 로쌤_회원가입_URL을_생성하고_URL을_전송할_수_있다() {
@@ -98,10 +100,16 @@ class MemberServiceTest extends MockTestBase {
     @Test
     void 로쌤_회원가입을_할_수_있다() {
         // given
-        String key = "key";
-        Long oauthId = 1L;
-        var lossamProfile = newLossamProfile();
+        var key = "key";
+        var oauthId = 1L;
+        var nickname = "nickname";
+        var providedProfileImageUrl = "s3Url/profile-images/image.png";
         var lossamLostArkCharacterInfo = newLossamLostArkCharacterInfo();
+
+        var resolvedProfileImageUrl = "cloudfrontUrl/profile-images/image.png";
+        given(profileImageUrlResolver.resolveOrDefaultProfileImageUrl(providedProfileImageUrl)).willReturn(resolvedProfileImageUrl);
+
+        var lossamProfile = new MemberProfile(nickname, resolvedProfileImageUrl, MemberType.LOSSAM);
 
         Long memberId = 1L;
         given(memberWriter.save(lossamProfile, oauthId)).willReturn(memberId);
@@ -110,12 +118,11 @@ class MemberServiceTest extends MockTestBase {
         given(jwtManager.generate(memberCredential)).willReturn(newAuthToken());
 
         // when
-        memberService.signupLossam(key, oauthId, lossamProfile, lossamLostArkCharacterInfo);
+        memberService.signupLossam(key, oauthId, nickname, providedProfileImageUrl, lossamLostArkCharacterInfo);
 
         // then
         then(lossamSignUpKeyValidator).should(times(1)).validate(key);
         then(lostArkCharacterInfoWriter).should(times(1)).save(lossamLostArkCharacterInfo, memberId);
-
     }
 
 }

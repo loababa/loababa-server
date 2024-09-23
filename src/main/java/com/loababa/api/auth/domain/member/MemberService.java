@@ -8,6 +8,7 @@ import com.loababa.api.auth.domain.member.impl.model.LossamSignUpKeyValidator;
 import com.loababa.api.auth.domain.member.impl.model.LossamSignUpURLGenerator;
 import com.loababa.api.auth.domain.member.impl.model.Member;
 import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
+import com.loababa.api.auth.domain.member.impl.model.ProfileImageUrlResolver;
 import com.loababa.api.auth.domain.member.impl.repository.LostArkCharacterInfoWriter;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.auth.domain.member.impl.repository.MemberWriter;
@@ -18,6 +19,7 @@ import com.loababa.api.common.service.impl.MessageSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static com.loababa.api.auth.domain.member.impl.model.MemberType.LOSSAM;
 import static com.loababa.api.auth.exception.MemberClientExceptionInfo.DUPLICATE_MEMBER_NICKNAME;
 
 @Service
@@ -28,12 +30,13 @@ public class MemberService {
     private final LossamSignUpKeyGenerator lossamSignUpKeyGenerator;
     private final LossamSignUpKeyValidator lossamSignUpKeyValidator;
 
-    private final MessageSender messageSender;
     private final JWTManager jwtManager;
-
     private final MemberReader memberReader;
     private final MemberWriter memberWriter;
     private final LostArkCharacterInfoWriter lostArkCharacterInfoWriter;
+    private final ProfileImageUrlResolver profileImageUrlResolver;
+
+    private final MessageSender messageSender;
 
     public void generateLossamSignupURL() {
         final var lossamSignUpKey = lossamSignUpKeyGenerator.generate();
@@ -53,12 +56,16 @@ public class MemberService {
     public AuthToken signupLossam(
             final String key,
             final Long oauthId,
-            final MemberProfile memberProfile,
+            final String nickname,
+            final String providedProfileImageUrl,
             final LossamLostArkCharacterInfo lossamLostArkCharacterInfo
     ) {
         lossamSignUpKeyValidator.validate(key);
 
-        final Long memberId = memberWriter.save(memberProfile, oauthId);
+        final String resolvedProfileImageUrl = profileImageUrlResolver.resolveOrDefaultProfileImageUrl(providedProfileImageUrl);
+        final var lossamProfile = new MemberProfile(nickname, resolvedProfileImageUrl, LOSSAM);
+
+        final Long memberId = memberWriter.save(lossamProfile, oauthId);
         lostArkCharacterInfoWriter.save(lossamLostArkCharacterInfo, memberId);
 
         return jwtManager.generate(

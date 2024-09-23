@@ -2,6 +2,7 @@ package com.loababa.api.common.exception;
 
 import com.loababa.api.common.model.ApiResponse;
 import com.loababa.api.common.service.impl.MessageSender;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -13,8 +14,10 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 
 import static org.springframework.http.HttpStatus.BAD_GATEWAY;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+@Hidden
 @Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -74,7 +77,14 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler(LoababaUnauthorizedException.class)
-    public ApiResponse<Void> handleLoababaForbiddenException(LoababaUnauthorizedException e) {
+    public ApiResponse<Void> handleLoababaUnauthorizedException(LoababaUnauthorizedException e) {
+        log.debug(e.getMessage(), e);
+        return ApiResponse.fail(e.getClientCode(), e.getClientMessage());
+    }
+
+    @ResponseStatus(CONFLICT)
+    @ExceptionHandler(LoababaConflictException.class)
+    public ApiResponse<Void> handleLoababaConflictException(LoababaConflictException e) {
         log.debug(e.getMessage(), e);
         return ApiResponse.fail(e.getClientCode(), e.getClientMessage());
     }

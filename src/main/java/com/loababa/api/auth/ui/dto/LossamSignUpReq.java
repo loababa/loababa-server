@@ -1,7 +1,6 @@
 package com.loababa.api.auth.ui.dto;
 
 import com.loababa.api.auth.domain.member.impl.model.LossamLostArkCharacterInfo;
-import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -10,8 +9,6 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
-
-import static com.loababa.api.auth.domain.member.impl.model.MemberType.LOSSAM;
 
 @Schema(description = "로쌤 회원 가입 상세정보")
 public record LossamSignUpReq(
@@ -30,10 +27,6 @@ public record LossamSignUpReq(
         @Min(value = 1, message = "레벨은 최소 1부터 가능합니다.")
         int highestLevel
 ) {
-
-    public MemberProfile toLossamProfile() {
-        return new MemberProfile(nickname, profileImageURL, LOSSAM);
-    }
 
     public LossamLostArkCharacterInfo toLossamLostArkCharacter() {
         return new LossamLostArkCharacterInfo(highestLevel, classEngravings);
