@@ -8,6 +8,7 @@ import com.loababa.api.auth.domain.member.impl.model.LossamSignUpURLGenerator;
 import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
 import com.loababa.api.auth.domain.member.impl.model.MemberType;
 import com.loababa.api.auth.domain.member.impl.model.ProfileImageUrlResolver;
+import com.loababa.api.auth.domain.member.impl.repository.LossamSignUpKeyWriter;
 import com.loababa.api.auth.domain.member.impl.repository.LostArkCharacterInfoWriter;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.auth.domain.member.impl.repository.MemberWriter;
@@ -39,6 +40,8 @@ class MemberServiceTest extends MockTestBase {
     @Mock
     LossamSignUpKeyValidator lossamSignUpKeyValidator;
     @Mock
+    LossamSignUpKeyWriter lossamSignUpKeyWriter;
+    @Mock
     JWTManager jwtManager;
     @Mock
     MemberReader memberReader;
@@ -64,6 +67,7 @@ class MemberServiceTest extends MockTestBase {
         memberService.generateLossamSignupURL();
 
         // then
+        then(lossamSignUpKeyWriter).should(times(1)).save(lossamSignUpKey);
         then(messageSender).should(times(1)).sendLossamSignupURL(lossamSignUpUrl);
     }
 

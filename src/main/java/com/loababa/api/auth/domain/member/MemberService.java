@@ -9,6 +9,7 @@ import com.loababa.api.auth.domain.member.impl.model.LossamSignUpURLGenerator;
 import com.loababa.api.auth.domain.member.impl.model.Member;
 import com.loababa.api.auth.domain.member.impl.model.MemberProfile;
 import com.loababa.api.auth.domain.member.impl.model.ProfileImageUrlResolver;
+import com.loababa.api.auth.domain.member.impl.repository.LossamSignUpKeyWriter;
 import com.loababa.api.auth.domain.member.impl.repository.LostArkCharacterInfoWriter;
 import com.loababa.api.auth.domain.member.impl.repository.MemberReader;
 import com.loababa.api.auth.domain.member.impl.repository.MemberWriter;
@@ -29,6 +30,7 @@ public class MemberService {
     private final LossamSignUpURLGenerator lossamSignUpURLGenerator;
     private final LossamSignUpKeyGenerator lossamSignUpKeyGenerator;
     private final LossamSignUpKeyValidator lossamSignUpKeyValidator;
+    private final LossamSignUpKeyWriter lossamSignUpKeyWriter;
 
     private final JWTManager jwtManager;
     private final MemberReader memberReader;
@@ -41,6 +43,7 @@ public class MemberService {
     public void generateLossamSignupURL() {
         final var lossamSignUpKey = lossamSignUpKeyGenerator.generate();
         final String lossamSignUpURL = lossamSignUpURLGenerator.generate(lossamSignUpKey);
+        lossamSignUpKeyWriter.save(lossamSignUpKey);
         messageSender.sendLossamSignupURL(lossamSignUpURL);
     }
 
