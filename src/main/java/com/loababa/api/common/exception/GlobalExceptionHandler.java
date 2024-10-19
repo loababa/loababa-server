@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResponse<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.debug(e.getMessage(), e);
+        log.info(e.getMessage(), e);
         String defaultMessage = e.getBindingResult()
                 .getAllErrors()
                 .getFirst().getDefaultMessage();
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ApiResponse<Void> handleHandlerMethodValidationException(HandlerMethodValidationException e) {
-        log.debug(e.getMessage(), e);
+        log.info(e.getMessage(), e);
         return ApiResponse.fail(
                 "VALIDATION_FAILED",
                 e.getAllValidationResults()
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ApiResponse<Void> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        log.debug(e.getMessage(), e);
+        log.info(e.getMessage(), e);
         return ApiResponse.fail("MALFORMED_JSON_REQUEST", "올바르지 않은 값입니다.");
     }
 
@@ -71,21 +71,21 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(LoababaBadRequestException.class)
     public ApiResponse<Void> handleLoababaBadRequestException(LoababaBadRequestException e) {
-        log.debug(e.getMessage(), e);
+        log.info(e.getMessage(), e);
         return ApiResponse.fail(e.getClientCode(), e.getClientMessage());
     }
 
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler(LoababaUnauthorizedException.class)
     public ApiResponse<Void> handleLoababaUnauthorizedException(LoababaUnauthorizedException e) {
-        log.debug(e.getMessage(), e);
+        log.info(e.getMessage(), e);
         return ApiResponse.fail(e.getClientCode(), e.getClientMessage());
     }
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler(LoababaConflictException.class)
     public ApiResponse<Void> handleLoababaConflictException(LoababaConflictException e) {
-        log.debug(e.getMessage(), e);
+        log.info(e.getMessage(), e);
         return ApiResponse.fail(e.getClientCode(), e.getClientMessage());
     }
 
@@ -94,7 +94,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_GATEWAY)
     @ExceptionHandler(LoababaBadGatewayException.class)
     public ApiResponse<Void> handleLoababaBadGateWayException(LoababaBadGatewayException e) {
-        log.debug(e.getMessage(), e);
+        log.info(e.getMessage(), e);
         return ApiResponse.fail(e.getClientCode(), e.getClientMessage());
     }
 
