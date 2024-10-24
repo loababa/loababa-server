@@ -9,6 +9,8 @@ import com.loababa.api.consulting.domain.impl.model.ConsultingRegister;
 import com.loababa.api.consulting.domain.impl.model.LossamSchedule;
 import com.loababa.api.consulting.domain.impl.repository.ConsultingPostReader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -21,10 +23,12 @@ public class ConsultingService {
     private final ConsultingRegister consultingRegister;
     private final MemberReader memberReader;
 
+    @CacheEvict(value = "consultingCache", key = "'consulting'")
     public void registerConsulting(Long lossamId, ConsultingPost consultingPost, LossamSchedule lossamSchedule) {
         consultingRegister.register(lossamId, consultingPost, lossamSchedule);
     }
 
+    @Cacheable(value = "consultingCache", key = "'consulting'")
     public ConsultingListForms getAllConsultingListForms() {
         // Lossam 정보 가져오기
         var allLossamInfo = memberReader.getAllLossamInfo();
