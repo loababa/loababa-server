@@ -12,50 +12,42 @@ import static com.loababa.api.common.exception.CommonClientExceptionInfo.DISCORD
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@Profile("prod")
+@Profile("default")
 @Component
-public class DiscordMessageSender implements MessageSender {
+public class SlackMessageSender implements MessageSender {
 
-    private final String lossamSignupWebhookUrl;
-    private final String errorNotificationWebhookUrl;
-    private final String consultingNotificationWebhookUrl;
+    private final String slackWebhookUrl;
     private final RestClient restClient;
 
-    public DiscordMessageSender(
-            @Value("${discord.lossam-signup-webhook-url}")
-            String lossamSignupWebhookUrl,
-            @Value("${discord.error-notification-webhook-url}")
-            String errorNotificationWebhookUrl,
-            @Value("${discord.consulting-notification-webhook-url}")
-            String consultingNotificationWebhookUrl,
+    public SlackMessageSender(
+            @Value("${slack.webhook-url}")
+            String slackWebhookUrl,
             RestClient restClient
     ) {
-        this.lossamSignupWebhookUrl = lossamSignupWebhookUrl;
-        this.errorNotificationWebhookUrl = errorNotificationWebhookUrl;
-        this.consultingNotificationWebhookUrl = consultingNotificationWebhookUrl;
+        this.slackWebhookUrl = slackWebhookUrl;
         this.restClient = restClient;
     }
 
     @Override
     public void sendLossamSignupURL(String message) {
-        send(lossamSignupWebhookUrl, message);
+        send(message);
     }
 
     @Override
     public void sendErrorNotification(String message) {
-        send(errorNotificationWebhookUrl, message);
+        send(message);
     }
 
     @Override
     public void sendConsultingNotification(String contactNumber) {
-        // 구현 예정
+        send(contactNumber);
     }
 
-    private void send(String errorNotificationWebhookUrl, String message) {
+    private void send(String message) {
         restClient.post()
-                .uri(errorNotificationWebhookUrl)
+                .uri(slackWebhookUrl)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .body(new DiscordMessage(message))
+                .body(new SlackMessage(message))
                 .retrieve()
                 .onStatus(
                         HttpStatusCode::isError,
@@ -64,8 +56,10 @@ public class DiscordMessageSender implements MessageSender {
                 .toBodilessEntity();
     }
 
-    private record DiscordMessage(
-            String content
+    private record SlackMessage(
+            String text
     ) {
+
     }
+
 }
