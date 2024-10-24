@@ -5,10 +5,12 @@ import com.loababa.api.auth.ui.resolver.LossamCredentialResolver;
 import com.loababa.api.auth.ui.resolver.MemberCredentialResolver;
 import com.loababa.api.common.exception.ClientExceptionInfo;
 import com.loababa.api.common.exception.ServerExceptionInfo;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -77,6 +79,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public RestClient restClient() {
         return RestClient.create();
+    }
+
+    @Bean
+    public FilterRegistrationBean<ShallowEtagHeaderFilter> shallowEtagHeaderFilter() {
+        FilterRegistrationBean<ShallowEtagHeaderFilter> filterRegistrationBean = new FilterRegistrationBean<>(new ShallowEtagHeaderFilter());
+        filterRegistrationBean.addUrlPatterns("/api/v1/consulting/posts");
+        return filterRegistrationBean;
     }
 
     @Override
